@@ -1,26 +1,26 @@
-name: Build and Deploy
-on: # 监听 main 分支上的 push 事件
+name: GitHub Actions Build and Deploy
+on:
   push:
     branches:
       - main
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest # 构建环境使用 ubuntu
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.1  
+        uses: actions/checkout@v2.3.1
         with:
           persist-credentials: false
-
-      - name: Install and Build # 下载依赖 打包项目
+      - name: Install and Build
         run: |
           npm install
-          npm run build
-      - name: Deploy # 将打包内容发布到 github page
-        uses: JamesIves/github-pages-deploy-action@3.5.9 # 使用别人写好的 actions
-        with:  # 自定义环境变量
-          ACCESS_TOKEN: ${{ secrets.VUE_ADMIN_TEMPLATE }}
-          BRANCH: main
+          npm run-script build
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.VISUAL_DRAG_DEMO }}
+          BRANCH: master
           FOLDER: dist
-          REPOSITORY_NAME: woai3c/woai3c.github.io # 这是我的 github page 地址
-          TARGET_FOLDER: visual-drag-demo # 打包的文件将放到静态服务器 visual-drag-demo 目录下
+          CLEAN: true
+          REPOSITORY_NAME: woai3c/woai3c.github.io
+          TARGET_FOLDER: visual-drag-demo
