@@ -129,7 +129,7 @@ export default {
                     // 后面两个参数代表鼠标移动方向
                     // currY - startY > 0 true 表示向下移动 false 表示向上移动
                     // currX - startX > 0 true 表示向右移动 false 表示向左移动
-                    eventBus.$emit('move', this.$el, currY - startY > 0, currX - startX > 0)
+                    eventBus.$emit('move', currY - startY > 0, currX - startX > 0)
                 })
             }
 
