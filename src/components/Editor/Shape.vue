@@ -221,7 +221,7 @@ export default {
     position: absolute;
 }
 .active {
-    border: 1px solid #70c0ff;
+    outline: 1px solid #70c0ff;
 }
 .shape-point {
     position: absolute;
