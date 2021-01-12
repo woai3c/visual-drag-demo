@@ -34,9 +34,6 @@ li {
 #app {
     overflow: hidden;
 }
-.el-input__inner {
-    font-family: siyuan;
-}
 .el-tabs {
     height: 100%;
 }
