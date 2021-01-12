@@ -1,8 +1,8 @@
 name: Build and Deploy
-on: # 监听 master 分支上的 push 事件
+on: # 监听 main 分支上的 push 事件
   push:
     branches:
-      - master
+      - main
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest # 构建环境使用 ubuntu
@@ -20,7 +20,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@3.5.9 # 使用别人写好的 actions
         with:  # 自定义环境变量
           ACCESS_TOKEN: ${{ secrets.VUE_ADMIN_TEMPLATE }}
-          BRANCH: master
+          BRANCH: main
           FOLDER: dist
           REPOSITORY_NAME: woai3c/woai3c.github.io # 这是我的 github page 地址
           TARGET_FOLDER: visual-drag-demo # 打包的文件将放到静态服务器 visual-drag-demo 目录下
