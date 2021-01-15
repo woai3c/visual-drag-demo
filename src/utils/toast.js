@@ -1,11 +1,11 @@
 import { Message } from 'element-ui'
 
-export default function toast(msg = '', type, duration) {
+export default function toast(message = '', type = 'error', duration = 1500) {
     const data = {
-        message: msg,
+        message,
+        type,
+        duration,
     }
 
-    if (type) data.type = type
-    if (duration) data.duration = duration
     Message(data)
 }

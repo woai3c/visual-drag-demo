@@ -97,7 +97,7 @@ const store = new Vuex.Store({
             if (curComponentZIndex < componentData.length - 1) {
                 swap(componentData, curComponentZIndex, curComponentZIndex + 1)
             } else {
-                toast('已经到顶了', 'error')
+                toast('已经到顶了')
             }
         },
 
@@ -106,7 +106,7 @@ const store = new Vuex.Store({
             if (curComponentZIndex > 0) {
                 swap(componentData, curComponentZIndex, curComponentZIndex - 1)
             } else {
-                toast('已经到底了', 'error')
+                toast('已经到底了')
             }
         },
 
@@ -115,7 +115,7 @@ const store = new Vuex.Store({
             if (curComponentZIndex < componentData.length - 1) {
                 swap(componentData, curComponentZIndex, componentData.length - 1)
             } else {
-                toast('已经到顶了', 'error')
+                toast('已经到顶了')
             }
         },
 
@@ -124,7 +124,7 @@ const store = new Vuex.Store({
             if (curComponentZIndex > 0) {
                 swap(componentData, curComponentZIndex, 0)
             } else {
-                toast('已经到底了', 'error')
+                toast('已经到底了')
             }
         },
 
