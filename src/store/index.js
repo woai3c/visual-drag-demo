@@ -39,11 +39,12 @@ const store = new Vuex.Store({
             state.curComponentZIndex = zIndex
         },
         
-        setShapeStyle({ curComponent }, { top, left, width, height }) {
+        setShapeStyle({ curComponent }, { top, left, width, height, rotate }) {
             if (top) curComponent.style.top = top
             if (left) curComponent.style.left = left
             if (width) curComponent.style.width = width
             if (height) curComponent.style.height = height
+            if (rotate) curComponent.style.rotate = rotate
         },
 
         setShapePosStyle({ curComponent }, { key, value }) {

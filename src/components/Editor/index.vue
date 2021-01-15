@@ -110,6 +110,7 @@ export default {
 .editor {
     position: relative;
     background: #fff;
+    flex-shrink: 0;
 }
 .edit {
     .component {
