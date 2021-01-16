@@ -51,6 +51,7 @@ export default {
     mounted() {
         eventBus.$on('runAnimation', () => {
             if (this.element == this.curComponent) {
+                console.log(this.curComponent)
                 runAnimation(this.$el, this.curComponent.animations)
             }
         })
