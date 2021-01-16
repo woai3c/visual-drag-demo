@@ -1,14 +1,16 @@
 <template>
     <div class="editor" id="editor" 
-        :class="{ edit: isEdit }" :style="{ width: canvasStyleData.width + 'px', height: canvasStyleData.height + 'px' }">
+        :class="{ edit: isEdit }" :style="{ width: canvasStyleData.width + 'px', height: canvasStyleData.height + 'px' }"
+        @contextmenu="handleContextMenu"
+    >
         <!--页面组件列表展示-->
         <Shape v-for="(item, index) in componentData"
             :defaultStyle="item.style"
-            :style="getShapeStyle(item.style, index)"
+            :style="getShapeStyle(item.style)"
             :key="item.id"
             :active="item === curComponent"
             :element="item"
-            :zIndex="index"
+            :index="index"
         >
             <component
                 v-if="item.component != 'v-text'"
@@ -56,7 +58,24 @@ export default {
         'canvasStyleData',
     ]),
     methods: {
-        getShapeStyle(style, index) {
+        handleContextMenu(e) {
+            e.stopPropagation()
+            e.preventDefault()
+
+            // 计算菜单相对于编辑器的位移
+            let target = e.target
+            let top = e.offsetY
+            let left = e.offsetX
+            while (!target.className.includes('editor')) {
+                left += target.offsetLeft
+                top += target.offsetTop
+                target = target.parentNode
+            }
+
+            this.$store.commit('showContexeMenu', { top, left })
+        },
+
+        getShapeStyle(style) {
             const result = { ...style }
             if (result.width) {
                 result.width += 'px'
@@ -77,14 +96,12 @@ export default {
             if (result.rotate) {
                 result.transform = 'rotate(' + result.rotate + 'deg)'
             }
-            // 按顺序添加 z-index 层级
-            result.zIndex = index
 
             return result
         },
 
         getComponentStyle(style) {
-            return getStyle(style, ['top', 'left', 'width', 'height', 'zIndex', 'rotate'])
+            return getStyle(style, ['top', 'left', 'width', 'height', 'rotate'])
         },
 
         handleInput(element, value) {

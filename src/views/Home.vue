@@ -147,16 +147,45 @@ export default {
         'canvasStyleData',
     ]),
     created() {
-        // 用保存的数据恢复画布
-        if (localStorage.getItem('canvasData')) {
-            this.$store.commit('setComponentData', this.resetID(JSON.parse(localStorage.getItem('canvasData'))))
-        }
-
-        if (localStorage.getItem('canvasStyle')) {
-            this.$store.commit('setCanvasStyle', JSON.parse(localStorage.getItem('canvasStyle')))
-        }
+        this.restore()
+        // 监听复制粘贴
+        this.listenCopyAndPaste()
     },
     methods: {
+        listenCopyAndPaste() {
+            const ctrlKey = 17, vKey = 86, cKey = 67, xKey = 88
+            let isCtrlDown = false
+
+            window.onkeydown = (e) => {
+                if (e.keyCode == ctrlKey) {
+                    isCtrlDown = true
+                } else if (isCtrlDown && e.keyCode == cKey) {
+                    this.$store.commit('copy')
+                } else if (isCtrlDown && e.keyCode == vKey) {
+                    this.$store.commit('paste')
+                } else if (isCtrlDown && e.keyCode == xKey) {
+                    this.$store.commit('cut')
+                }
+            }
+
+            window.onkeyup = (e) => {
+                if (e.keyCode == ctrlKey) {
+                    isCtrlDown = false
+                }
+            }
+        },
+
+        restore() {
+            // 用保存的数据恢复画布
+            if (localStorage.getItem('canvasData')) {
+                this.$store.commit('setComponentData', this.resetID(JSON.parse(localStorage.getItem('canvasData'))))
+            }
+
+            if (localStorage.getItem('canvasStyle')) {
+                this.$store.commit('setCanvasStyle', JSON.parse(localStorage.getItem('canvasStyle')))
+            }
+        },
+
         resetID(data) {
             data.forEach(item => {
                 item.id = generateID()
@@ -172,7 +201,7 @@ export default {
             component.style.top = e.offsetY
             component.style.left = e.offsetX
             component.id = generateID()
-            this.$store.commit('addComponent', component)
+            this.$store.commit('addComponent', { component })
             this.$store.commit('recordSnapshot')
         },
 
@@ -182,7 +211,7 @@ export default {
         },
 
         deselectCurComponent() {
-            this.$store.commit('setCurComponent', { component: null, zIndex: null })
+            this.$store.commit('setCurComponent', { component: null, index: null })
             this.$store.commit('hideContexeMenu')
         },
 
@@ -207,19 +236,21 @@ export default {
                 const img = new Image()
                 img.onload = () => {
                     this.$store.commit('addComponent', {
-                        id: generateID(),
-                        component: 'Picture', 
-                        label: '图片', 
-                        icon: '',
-                        propValue: fileResult,
-                        animations: [],
-                        events: [],
-                        style: {
-                            top: 0,
-                            left: 0,
-                            width: img.width,
-                            height: img.height,
-                            rotate: '',
+                        component: {
+                            id: generateID(),
+                            component: 'Picture', 
+                            label: '图片', 
+                            icon: '',
+                            propValue: fileResult,
+                            animations: [],
+                            events: [],
+                            style: {
+                                top: 0,
+                                left: 0,
+                                width: img.width,
+                                height: img.height,
+                                rotate: '',
+                            },
                         },
                     })
                 }
