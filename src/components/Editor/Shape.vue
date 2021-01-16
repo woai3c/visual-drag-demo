@@ -156,13 +156,17 @@ export default {
         },
 
         getCursor() {
-            // 防止角度有负数，所以 + 360
-            const rotate = (this.curComponent.style.rotate + 360) % 360
+            const { angleToCursor, initialAngle, pointList, curComponent } = this
+            const rotate = (curComponent.style.rotate + 360) % 360 // 防止角度有负数，所以 + 360
             const result = {}
-            this.pointList.forEach(point => {
-                const angle = (this.initialAngle[point] + rotate) % 360
-                for (let i = 0, len = this.angleToCursor.length; i < len; i++) {
-                    const angleLimit = this.angleToCursor[i]
+            let lastMatchIndex = -1 // 从上一个命中的角度的索引开始匹配下一个，降低时间复杂度
+            pointList.forEach(point => {
+                const angle = (initialAngle[point] + rotate) % 360
+                const len = angleToCursor.length
+                let i = 0
+                while (i < len) {
+                    lastMatchIndex = (lastMatchIndex + 1) % len
+                    const angleLimit = angleToCursor[lastMatchIndex]
                     if (angle < 23 || angle >= 338) {
                         result[point] = 'nw-resize'
                         break
