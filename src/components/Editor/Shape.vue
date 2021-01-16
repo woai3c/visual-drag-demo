@@ -6,7 +6,7 @@
             v-for="(item, index) in (active? pointList : [])"
             @mousedown="handleMouseDownOnPoint(item)"
             :key="index"
-            :style="getPointStyle(item, index)">
+            :style="getPointStyle(item)">
         </div>
         <slot></slot>
     </div>
@@ -40,9 +40,28 @@ export default {
     },
     data() {
         return {
-            pointList: ['lt', 't', 'rt', 'r', 'lb', 'b', 'rb', 'l'], // 八个方向
-            directions: ['nw', 'n', 'ne', 'e', 'sw', 's', 'se', 'w'], // 光标
-            cursors: [],
+            pointList: ['lt', 't', 'rt', 'r', 'rb', 'b', 'lb', 'l'], // 八个方向
+            initialAngle: { // 每个点对应的初始角度
+                lt: 0,
+                t: 45,
+                rt: 90,
+                r: 135,
+                rb: 180,
+                b: 225,
+                lb: 270,
+                l: 315,
+            },
+            angleToCursor: [ // 每个范围的角度对应的光标
+                { start: 338, end: 23, cursor: 'nw' },
+                { start: 23, end: 68, cursor: 'n' },
+                { start: 68, end: 113, cursor: 'ne' },
+                { start: 113, end: 158, cursor: 'e' },
+                { start: 158, end: 203, cursor: 'se' },
+                { start: 203, end: 248, cursor: 's' },
+                { start: 248, end: 293, cursor: 'sw' },
+                { start: 293, end: 338, cursor: 'w' },
+            ],
+            cursors: {},
         }
     },
     computed: mapState([
@@ -51,7 +70,6 @@ export default {
     mounted() {
         eventBus.$on('runAnimation', () => {
             if (this.element == this.curComponent) {
-                console.log(this.curComponent)
                 runAnimation(this.$el, this.curComponent.animations)
             }
         })
@@ -99,7 +117,7 @@ export default {
             document.addEventListener('mouseup', up)
         },
 
-        getPointStyle(point, index) {
+        getPointStyle(point) {
             const { width, height } = this.defaultStyle
             const hasT = /t/.test(point)
             const hasB = /b/.test(point)
@@ -131,7 +149,7 @@ export default {
                 marginTop: '-4px',
                 left: `${newLeft}px`,
                 top: `${newTop}px`,
-                cursor: this.cursors[index],
+                cursor: this.cursors[point],
             }
             
             return style
@@ -139,14 +157,25 @@ export default {
 
         getCursor() {
             // 防止角度有负数，所以 + 360
-            const offsetNum = Math.floor(((this.curComponent.style.rotate + 360) % 360) / 45) % 8
-            const { directions } = this
-            const newDirections = [
-                ...directions.slice(offsetNum),
-                ...directions.slice(0, offsetNum),
-            ]
+            const rotate = (this.curComponent.style.rotate + 360) % 360
+            const result = {}
+            this.pointList.forEach(point => {
+                const angle = (this.initialAngle[point] + rotate) % 360
+                for (let i = 0, len = this.angleToCursor.length; i < len; i++) {
+                    const angleLimit = this.angleToCursor[i]
+                    if (angle < 23 || angle >= 338) {
+                        result[point] = 'nw-resize'
+                        break
+                    }
 
-            return newDirections.map(direction => direction + '-resize')
+                    if (angleLimit.start <= angle && angle < angleLimit.end) {
+                        result[point] = angleLimit.cursor + '-resize'
+                        break
+                    }
+                }
+            })
+
+            return result
         },
 
         handleMouseDownOnShape(e) {
