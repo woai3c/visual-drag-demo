@@ -28,12 +28,12 @@ function calculateLeftTop(style, curPositon, pointInfo) {
 }
 
 function calculateTop(style, curPositon, pointInfo) {
-    const { symmetricPoint, clickPoint } = pointInfo
-    const rotatedcurPositon = calculateRotatedPointCoordinate(curPositon, clickPoint, -style.rotate)
+    const { symmetricPoint, curPoint } = pointInfo
+    const rotatedcurPositon = calculateRotatedPointCoordinate(curPositon, curPoint, -style.rotate)
     const rotatedTopMiddlePoint = calculateRotatedPointCoordinate({
-        x: clickPoint.x,
+        x: curPoint.x,
         y: rotatedcurPositon.y,
-    }, clickPoint, style.rotate)
+    }, curPoint, style.rotate)
   
     // 勾股定理
     const newHeight = Math.sqrt((rotatedTopMiddlePoint.x - symmetricPoint.x) ** 2 + (rotatedTopMiddlePoint.y - symmetricPoint.y) ** 2)
@@ -51,12 +51,12 @@ function calculateTop(style, curPositon, pointInfo) {
 }
   
 function calculateRight(style, curPositon, pointInfo) {
-    const { symmetricPoint, clickPoint } = pointInfo
-    const rotatedcurPositon = calculateRotatedPointCoordinate(curPositon, clickPoint, -style.rotate)
+    const { symmetricPoint, curPoint } = pointInfo
+    const rotatedcurPositon = calculateRotatedPointCoordinate(curPositon, curPoint, -style.rotate)
     const rotatedRightMiddlePoint = calculateRotatedPointCoordinate({
         x: rotatedcurPositon.x,
-        y: clickPoint.y,
-    }, clickPoint, style.rotate)
+        y: curPoint.y,
+    }, curPoint, style.rotate)
   
     const newWidth = Math.sqrt((rotatedRightMiddlePoint.x - symmetricPoint.x) ** 2 + (rotatedRightMiddlePoint.y - symmetricPoint.y) ** 2)
     if (newWidth > 0) {
@@ -72,12 +72,12 @@ function calculateRight(style, curPositon, pointInfo) {
 }
   
 function calculateBottom(style, curPositon, pointInfo) {
-    const { symmetricPoint, clickPoint } = pointInfo
-    const rotatedcurPositon = calculateRotatedPointCoordinate(curPositon, clickPoint, -style.rotate)
+    const { symmetricPoint, curPoint } = pointInfo
+    const rotatedcurPositon = calculateRotatedPointCoordinate(curPositon, curPoint, -style.rotate)
     const rotatedBottomMiddlePoint = calculateRotatedPointCoordinate({
-        x: clickPoint.x,
+        x: curPoint.x,
         y: rotatedcurPositon.y,
-    }, clickPoint, style.rotate)
+    }, curPoint, style.rotate)
   
     const newHeight = Math.sqrt((rotatedBottomMiddlePoint.x - symmetricPoint.x) ** 2 + (rotatedBottomMiddlePoint.y - symmetricPoint.y) ** 2)
     if (newHeight > 0) {
@@ -92,12 +92,12 @@ function calculateBottom(style, curPositon, pointInfo) {
 }
   
 function calculateLeft(style, curPositon, pointInfo) {
-    const { symmetricPoint, clickPoint } = pointInfo
-    const rotatedcurPositon = calculateRotatedPointCoordinate(curPositon, clickPoint, -style.rotate)
+    const { symmetricPoint, curPoint } = pointInfo
+    const rotatedcurPositon = calculateRotatedPointCoordinate(curPositon, curPoint, -style.rotate)
     const rotatedLeftMiddlePoint = calculateRotatedPointCoordinate({
         x: rotatedcurPositon.x,
-        y: clickPoint.y,
-    }, clickPoint, style.rotate)
+        y: curPoint.y,
+    }, curPoint, style.rotate)
   
     const newWidth = Math.sqrt((rotatedLeftMiddlePoint.x - symmetricPoint.x) ** 2 + (rotatedLeftMiddlePoint.y - symmetricPoint.y) ** 2)
     if (newWidth > 0) {

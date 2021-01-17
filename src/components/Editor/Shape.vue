@@ -4,7 +4,7 @@
         <div
             class="shape-point"
             v-for="(item, index) in (active? pointList : [])"
-            @mousedown="handleMouseDownOnPoint(item)"
+            @mousedown="handleMouseDownOnPoint(item, $event)"
             :key="index"
             :style="getPointStyle(item)">
         </div>
@@ -16,7 +16,6 @@
 import eventBus from '@/utils/eventBus'
 import runAnimation from '@/utils/runAnimation'
 import { mapState } from 'vuex'
-import { getRotatedPointCoordinate } from '@/utils/translate'
 import calculateComponentPositonAndSize from '@/utils/calculateComponentPositonAndSize'
 
 export default {
@@ -239,29 +238,31 @@ export default {
             this.$store.commit('hideContexeMenu')
         },
 
-        handleMouseDownOnPoint(point) {
+        handleMouseDownOnPoint(point, e) {
             const downEvent = window.event
             downEvent.stopPropagation()
             downEvent.preventDefault()
  
             const style = { ...this.defaultStyle }
-
             const center = {
                 x: style.left + style.width / 2,
                 y: style.top + style.height / 2,
             }
 
-            // 获取点击的点坐标
-            const clickPoint = getRotatedPointCoordinate(style, center, point)
+            // 获取画布位移信息
+            const editorRectInfo = document.querySelector('#editor').getBoundingClientRect()
+
+            // 当前点击坐标
+            const curPoint = {
+                x: e.clientX - editorRectInfo.left,
+                y: e.clientY - editorRectInfo.top,
+            }
 
             // 获取对称点的坐标
             const symmetricPoint = {
-                x: center.x - (clickPoint.x - center.x),
-                y: center.y - (clickPoint.y - center.y),
+                x: center.x - (curPoint.x - center.x),
+                y: center.y - (curPoint.y - center.y),
             }
-
-            // 获取画布位移信息
-            const editorRectInfo = document.querySelector('#editor').getBoundingClientRect()
 
             // 是否需要保存快照
             let needSave = false
@@ -274,7 +275,7 @@ export default {
                 
                 calculateComponentPositonAndSize(point, style, curPositon, {
                     center,
-                    clickPoint,
+                    curPoint,
                     symmetricPoint,
                 })
 
