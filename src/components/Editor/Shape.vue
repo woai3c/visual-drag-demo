@@ -266,7 +266,15 @@ export default {
 
             // 是否需要保存快照
             let needSave = false
+            let isFirst = true
             const move = (moveEvent) => {
+                // 第一次点击时也会触发 move，所以会有“刚点击组件但未移动，组件的大小却改变了”的情况发生
+                // 因此第一次点击时不触发 move 事件
+                if (isFirst) {
+                    isFirst = false
+                    return
+                }
+
                 needSave = true
                 const curPositon = {
                     x: moveEvent.clientX - editorRectInfo.left,
