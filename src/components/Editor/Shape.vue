@@ -96,10 +96,10 @@ export default {
             let hasMove = false
             const move = (moveEvent) => {
                 hasMove = true
-                const currX = moveEvent.clientX
-                const currY = moveEvent.clientY
+                const curX = moveEvent.clientX
+                const curY = moveEvent.clientY
                 // 旋转后的角度
-                const rotateDegreeAfter = Math.atan2(currY - centerY, currX - centerX) / (Math.PI / 180)
+                const rotateDegreeAfter = Math.atan2(curY - centerY, curX - centerX) / (Math.PI / 180)
                 // 获取旋转的角度值
                 pos.rotate = startRotate + rotateDegreeAfter - rotateDegreeBefore
                 // 修改当前组件样式
@@ -202,10 +202,10 @@ export default {
             let hasMove = false
             const move = (moveEvent) => {
                 hasMove = true
-                const currX = moveEvent.clientX
-                const currY = moveEvent.clientY
-                pos.top = currY - startY + startTop
-                pos.left = currX - startX + startLeft
+                const curX = moveEvent.clientX
+                const curY = moveEvent.clientY
+                pos.top = curY - startY + startTop
+                pos.left = curX - startX + startLeft
 
                 // 修改当前组件样式
                 this.$store.commit('setShapeStyle', pos)
@@ -214,9 +214,9 @@ export default {
                 this.$nextTick(() => {
                     // 触发元素移动事件，用于显示标线、吸附功能
                     // 后面两个参数代表鼠标移动方向
-                    // currY - startY > 0 true 表示向下移动 false 表示向上移动
-                    // currX - startX > 0 true 表示向右移动 false 表示向左移动
-                    eventBus.$emit('move', currY - startY > 0, currX - startX > 0)
+                    // curY - startY > 0 true 表示向下移动 false 表示向上移动
+                    // curX - startX > 0 true 表示向右移动 false 表示向左移动
+                    eventBus.$emit('move', curY - startY > 0, curX - startX > 0)
                 })
             }
 
