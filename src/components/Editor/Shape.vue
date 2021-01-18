@@ -162,18 +162,17 @@ export default {
             pointList.forEach(point => {
                 const angle = (initialAngle[point] + rotate) % 360
                 const len = angleToCursor.length
-                let i = 0
-                while (i < len) {
+                while (true) {
                     lastMatchIndex = (lastMatchIndex + 1) % len
                     const angleLimit = angleToCursor[lastMatchIndex]
                     if (angle < 23 || angle >= 338) {
                         result[point] = 'nw-resize'
-                        break
+                        return
                     }
 
                     if (angleLimit.start <= angle && angle < angleLimit.end) {
                         result[point] = angleLimit.cursor + '-resize'
-                        break
+                        return
                     }
                 }
             })
