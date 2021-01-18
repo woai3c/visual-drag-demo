@@ -5,6 +5,9 @@ export default function getStyle(style, filter = []) {
         'height',
         'top',
         'left',
+        'borderWidth',
+        'letterSpacing',
+        'borderRadius',
     ]
 
     const result = {}
