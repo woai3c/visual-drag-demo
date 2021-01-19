@@ -53,9 +53,18 @@ const store = new Vuex.Store({
             state.copyData = null
         },
 
-        cut({ copyData }) {
-            if (copyData) {
-                store.commit('addComponent', { component: copyData.data, index: copyData.index })
+        cut(state) {
+            if (!state.curComponent) {
+                toast('请选择组件')
+                return
+            }
+            
+            if (state.copyData) {
+                store.commit('addComponent', { component: state.copyData.data, index: state.copyData.index })
+                if (state.curComponentIndex >= state.copyData.index) {
+                    // 如果当前组件索引大于等于插入索引，需要加一，因为当前组件往后移了一位
+                    state.curComponentIndex++
+                }
             }
 
             store.commit('copy')
@@ -71,7 +80,7 @@ const store = new Vuex.Store({
         },
 
         addComponent(state, { component, index }) {
-            if (index === undefined) {
+            if (index !== undefined) {
                 state.componentData.splice(index, 0, component)
             } else {
                 state.componentData.push(component)
