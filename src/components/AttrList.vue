@@ -1,7 +1,7 @@
 <template>
     <div class="attr-list">
         <el-form>
-            <el-form-item v-for="(key, index) in styleKeys" :key="index" :label="map[key]">
+            <el-form-item v-for="(key, index) in styleKeys.filter(item => item != 'rotate')" :key="index" :label="map[key]">
                 <el-color-picker v-if="key == 'borderColor'" v-model="curComponent.style[key]"></el-color-picker>
                 <el-color-picker v-else-if="key == 'color'" v-model="curComponent.style[key]"></el-color-picker>
                 <el-color-picker v-else-if="key == 'backgroundColor'" v-model="curComponent.style[key]"></el-color-picker>
@@ -15,7 +15,7 @@
                 </el-select>
                 <el-input type="number" v-else v-model="curComponent.style[key]" />
             </el-form-item>
-            <el-form-item label="内容" v-if="curComponent && curComponent.propValue && !excludes.includes(curComponent.component)">
+            <el-form-item label="内容" v-if="curComponent && !excludes.includes(curComponent.component)">
                 <el-input type="textarea" v-model="curComponent.propValue" />
             </el-form-item>
         </el-form>
@@ -57,7 +57,6 @@ export default {
                 letterSpacing: '字间距',
                 textAlign: '对齐方式',
                 opacity: '透明度',
-                rotate: '旋转角度',
             },
         }
     },

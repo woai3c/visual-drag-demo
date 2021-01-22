@@ -1,13 +1,3 @@
-@font-face {
-    font-family: siyuan;
-    src: url("../assets/font/SOURCEHANSANSCN-REGULAR.OTF");
-}
-
-@font-face {
-    font-family: siyuan-bold;
-    src: url("../assets/font/SourceHanSansCN-Bold.otf");
-}
-
 body,
 button,
 input,
@@ -31,7 +21,6 @@ address,
 aside,
 pre,
 canvas {
-    font-family: siyuan;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -44,9 +33,6 @@ li {
 }
 #app {
     overflow: hidden;
-}
-.el-input__inner {
-    font-family: siyuan;
 }
 .el-tabs {
     height: 100%;

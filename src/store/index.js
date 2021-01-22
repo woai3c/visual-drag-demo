@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { deepCopy, swap } from '@/utils/utils'
 import toast from '@/utils/toast'
+import generateID from '@/utils/generateID'
 
 Vue.use(Vuex)
 
@@ -12,16 +13,64 @@ const store = new Vuex.Store({
             width: 1200,
             height: 740,
         },
-        componentData: [],
+        componentData: [], // 画布组件数据
         curComponent: null,
-        curComponentZIndex: null,
+        curComponentIndex: null,
         snapshotData: [], // 编辑器快照数据
         snapshotIndex: -1, // 快照索引
-        menuTop: 0,
+        menuTop: 0, // 右击菜单数据
         menuLeft: 0,
         menuShow: false,
+        copyData: null, // 复制粘贴剪切
     },
     mutations: {
+        copy(state) {
+            state.copyData = {
+                data: deepCopy(state.curComponent),
+                index: state.curComponentIndex,
+            }
+        },
+
+        paste(state, isMouse) {
+            if (!state.copyData) {
+                toast('请选择组件')
+                return
+            }
+
+            const data = state.copyData.data
+            
+            if (isMouse) {
+                data.style.top = state.menuTop
+                data.style.left = state.menuLeft
+            } else {
+                data.style.top += 10
+                data.style.left += 10
+            }
+            
+            data.id = generateID()
+            store.commit('addComponent', { component: data })
+            store.commit('recordSnapshot')
+            state.copyData = null
+        },
+
+        cut(state) {
+            if (!state.curComponent) {
+                toast('请选择组件')
+                return
+            }
+            
+            if (state.copyData) {
+                store.commit('addComponent', { component: state.copyData.data, index: state.copyData.index })
+                if (state.curComponentIndex >= state.copyData.index) {
+                    // 如果当前组件索引大于等于插入索引，需要加一，因为当前组件往后移了一位
+                    state.curComponentIndex++
+                }
+            }
+
+            store.commit('copy')
+            store.commit('deleteComponent')
+        },
+
         setEditMode(state, mode) {
             state.editMode = mode
         },
@@ -30,20 +79,25 @@ const store = new Vuex.Store({
             state.canvasStyleData = style
         },
 
-        addComponent(state, component) {
-            state.componentData.push(component)
+        addComponent(state, { component, index }) {
+            if (index !== undefined) {
+                state.componentData.splice(index, 0, component)
+            } else {
+                state.componentData.push(component)
+            }
         },
 
-        setCurComponent(state, { component, zIndex }) {
+        setCurComponent(state, { component, index }) {
             state.curComponent = component
-            state.curComponentZIndex = zIndex
+            state.curComponentIndex = index
         },
         
-        setShapeStyle({ curComponent }, { top, left, width, height }) {
+        setShapeStyle({ curComponent }, { top, left, width, height, rotate }) {
             if (top) curComponent.style.top = top
             if (left) curComponent.style.left = left
             if (width) curComponent.style.width = width
             if (height) curComponent.style.height = height
+            if (rotate) curComponent.style.rotate = rotate
         },
 
         setShapePosStyle({ curComponent }, { key, value }) {
@@ -87,43 +141,43 @@ const store = new Vuex.Store({
             state.menuShow = false
         },
 
-        deleteComponent(state) {
-            state.componentData.splice(state.curComponentZIndex, 1)
+        deleteComponent(state, index = state.curComponentIndex) {
+            state.componentData.splice(index, 1)
         },
 
-        upComponent({ componentData, curComponentZIndex }) {
-            // 上移图层 zIndex，表示元素在数组中越往后
-            if (curComponentZIndex < componentData.length - 1) {
-                swap(componentData, curComponentZIndex, curComponentZIndex + 1)
+        upComponent({ componentData, curComponentIndex }) {
+            // 上移图层 index，表示元素在数组中越往后
+            if (curComponentIndex < componentData.length - 1) {
+                swap(componentData, curComponentIndex, curComponentIndex + 1)
             } else {
-                toast('已经到顶了', 'error')
+                toast('已经到顶了')
             }
         },
 
-        downComponent({ componentData, curComponentZIndex }) {
-            // 下移图层 zIndex，表示元素在数组中越往前
-            if (curComponentZIndex > 0) {
-                swap(componentData, curComponentZIndex, curComponentZIndex - 1)
+        downComponent({ componentData, curComponentIndex }) {
+            // 下移图层 index，表示元素在数组中越往前
+            if (curComponentIndex > 0) {
+                swap(componentData, curComponentIndex, curComponentIndex - 1)
             } else {
-                toast('已经到底了', 'error')
+                toast('已经到底了')
             }
         },
 
-        topComponent({ componentData, curComponentZIndex }) {
+        topComponent({ componentData, curComponentIndex }) {
             // 置顶
-            if (curComponentZIndex < componentData.length - 1) {
-                swap(componentData, curComponentZIndex, componentData.length - 1)
+            if (curComponentIndex < componentData.length - 1) {
+                swap(componentData, curComponentIndex, componentData.length - 1)
             } else {
-                toast('已经到顶了', 'error')
+                toast('已经到顶了')
             }
         },
 
-        bottomComponent({ componentData, curComponentZIndex }) {
+        bottomComponent({ componentData, curComponentIndex }) {
             // 置底
-            if (curComponentZIndex > 0) {
-                swap(componentData, curComponentZIndex, 0)
+            if (curComponentIndex > 0) {
+                swap(componentData, curComponentIndex, 0)
             } else {
-                toast('已经到底了', 'error')
+                toast('已经到底了')
             }
         },
 

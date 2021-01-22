@@ -1,0 +1,26 @@
+name: GitHub Actions Build and Deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.1
+        with:
+          persist-credentials: false
+      - name: Install and Build
+        run: |
+          npm install
+          npm run-script build
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.VISUAL_DRAG_DEMO }}
+          BRANCH: master
+          FOLDER: dist
+          CLEAN: true
+          REPOSITORY_NAME: woai3c/woai3c.github.io
+          TARGET_FOLDER: visual-drag-demo

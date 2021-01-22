@@ -1,11 +1,17 @@
 <template>
     <div class="contextmenu" v-show="menuShow" :style="{ top: menuTop + 'px', left: menuLeft + 'px' }">
         <ul>
-            <li @click="deleteComponent">删除</li>
-            <li @click="topComponent">置顶</li>
-            <li @click="bottomComponent">置底</li>
-            <li @click="upComponent">上移</li>
-            <li @click="downComponent">下移</li>
+            <template v-if="curComponent">
+                <li @click="copy">复制</li>
+                <li @click="paste">粘贴</li>
+                <li @click="cut">剪切</li>
+                <li @click="deleteComponent">删除</li>
+                <li @click="topComponent">置顶</li>
+                <li @click="bottomComponent">置底</li>
+                <li @click="upComponent">上移</li>
+                <li @click="downComponent">下移</li>
+            </template>
+            <li v-else @click="paste">粘贴</li>
         </ul>
     </div>
 </template>
@@ -14,12 +20,30 @@
 import { mapState } from 'vuex'
 
 export default {
+    data() {
+        return {
+            copyData: null,
+        }
+    },
     computed: mapState([
         'menuTop',
         'menuLeft',
         'menuShow',
+        'curComponent',
     ]),
     methods: {
+        cut() {
+            this.$store.commit('cut')
+        },
+
+        copy() {
+            this.$store.commit('copy')
+        },
+
+        paste() {
+            this.$store.commit('paste', true)
+        },
+
         deleteComponent() {
             this.$store.commit('deleteComponent')
             this.$store.commit('recordSnapshot')

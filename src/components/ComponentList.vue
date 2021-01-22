@@ -40,6 +40,10 @@ export default {
         text-align: center;
         color: #333;
         padding: 2px 5px;
+
+        &:active {
+            cursor: grabbing;
+        }
     }
 }
 </style>

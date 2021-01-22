@@ -8,13 +8,16 @@ module.exports = {
         '@vue/airbnb',
     ],
     parserOptions: {
+        ecmaFeatures: {
+            legacyDecorators: true
+        },
         parser: 'babel-eslint',
     },
     rules: {
         'no-console': 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'array-element-newline': ['error', 'consistent'],
-        'indent': ['error', 4, { 'MemberExpression': 0, 'SwitchCase': 1 }],
+        'indent': ['error', 4, { 'MemberExpression': 0, 'SwitchCase': 1, 'ignoredNodes': ['TemplateLiteral'] }],
         'quotes': ['error', 'single'],
         'comma-dangle': ['error', 'always-multiline'],
         'semi': ['error', 'never'],
@@ -57,5 +60,6 @@ module.exports = {
         'no-restricted-syntax': 'off',
         'no-mixed-operators': 'off',
         'no-await-in-loop': 'off',
+        'template-curly-spacing' : 'off',
     },
 };

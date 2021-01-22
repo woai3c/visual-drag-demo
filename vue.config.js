@@ -1,3 +1,3 @@
 module.exports = {
-    publicPath: './',
+    publicPath: process.env.NODE_ENV === 'production' ? '/visual-drag-demo/' : './',
 }
