@@ -76,26 +76,14 @@ export default {
         },
 
         getShapeStyle(style) {
-            const result = { ...style }
-            if (result.width) {
-                result.width += 'px'
-            }
-
-            if (result.height) {
-                result.height += 'px'
-            }
-
-            if (result.top) {
-                result.top += 'px'
-            }
-
-            if (result.left) {
-                result.left += 'px'
-            }
-
-            if (result.rotate) {
-                result.transform = 'rotate(' + result.rotate + 'deg)'
-            }
+            const result = {};
+            ['width', 'height', 'top', 'left', 'rotate'].forEach(attr => {
+                if (attr != 'rotate') {
+                    result[attr] = style[attr] + 'px'
+                } else {
+                    result.transform = 'rotate(' + style[attr] + 'deg)'
+                }
+            })
 
             return result
         },
