@@ -3,7 +3,5 @@
 
 * [原理分析（一）](https://github.com/woai3c/Front-end-articles/issues/19)
 * [原理分析（二）](https://github.com/woai3c/Front-end-articles/issues/20)
-* [国内站点在线预览](https://woai3c.gitee.io/visual-drag-demo)
-* [在线预览](https://woai3c.github.io/visual-drag-demo)
-
-不翻墙在线预览可能会比较慢，请耐心等待。
+* [预览入口一](https://woai3c.gitee.io/visual-drag-demo)
+* [预览入口二](https://woai3c.github.io/visual-drag-demo)
