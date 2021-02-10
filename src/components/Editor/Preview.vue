@@ -2,7 +2,12 @@
     <div class="bg" v-if="show">
         <el-button @click="close" class="close">关闭</el-button>
         <div class="canvas-container">
-            <div class="canvas" :style="{ width: canvasStyleData.width + 'px', height: canvasStyleData.height + 'px' }">
+            <div class="canvas"
+                :style="{
+                width: canvasStyleData.width + 'px',
+                height: canvasStyleData.height + 'px',
+                transform: 'scale(' + parseInt(canvasStyleData.scale) / 100 + ')'
+            }">
                 <ComponentWrapper
                     v-for="(item, index) in componentData"
                     :key="index"
