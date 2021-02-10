@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { deepCopy, swap } from '@/utils/utils'
+import { deepCopy, swap, $ } from '@/utils/utils'
 import toast from '@/utils/toast'
 import generateID from '@/utils/generateID'
+import { commonStyle, commonAttr } from '@/custom-component/component-list'
+import eventBus from '@/utils/eventBus'
+import { decomposeComponent } from '@/utils/style'
 
 Vue.use(Vuex)
 
@@ -22,8 +25,95 @@ const store = new Vuex.Store({
         menuLeft: 0,
         menuShow: false,
         copyData: null, // 复制粘贴剪切
+        areaData: {
+            style: {
+                top: 0,
+                left: 0,
+                width: 0,
+                height: 0,
+            },
+            components: [],
+        },
+        editor: null,
     },
     mutations: {
+        getEditor(state) {
+            state.editor = $('#editor')
+        },
+
+        setAreaData(state, data) {
+            state.areaData = data
+        },
+
+        compose({ componentData, areaData, editor }) {
+            const components = []
+            areaData.components.forEach(component => {
+                if (component.component != 'Group') {
+                    components.push(component)
+                } else {
+                    // 如果要组合的组件中，已经存在组合数据，则需要提前拆分
+                    const parentStyle = { ...component.style }
+                    const subComponents = component.propValue
+                    const editorRect = editor.getBoundingClientRect()
+
+                    store.commit('deleteComponent')
+                    subComponents.forEach(component => {
+                        decomposeComponent(component, editorRect, parentStyle)
+                        store.commit('addComponent', { component })
+                    })
+
+                    components.push(...component.propValue)
+                    store.commit('batchDeleteComponent', component.propValue)
+                }
+            })
+
+            store.commit('addComponent', {
+                component: {
+                    id: generateID(),
+                    component: 'Group',
+                    ...commonAttr,
+                    style: {
+                        ...commonStyle,
+                        ...areaData.style,
+                    },
+                    propValue: components,
+                },
+            })
+            
+            eventBus.$emit('hideArea')
+
+            store.commit('batchDeleteComponent', areaData.components)
+            store.commit('setCurComponent', { 
+                component: componentData[componentData.length - 1],
+                index: componentData.length - 1,
+            })
+
+            areaData.components = []
+        },
+
+        batchDeleteComponent({ componentData }, deleteData) {
+            deleteData.forEach(component => {
+                for (let i = 0, len = componentData.length; i < len; i++) {
+                    if (component.id == componentData[i].id) {
+                        componentData.splice(i, 1)
+                        break
+                    }
+                }
+            })
+        },
+
+        decompose({ curComponent, editor }) {
+            const parentStyle = { ...curComponent.style }
+            const components = curComponent.propValue
+            const editorRect = editor.getBoundingClientRect()
+
+            store.commit('deleteComponent')
+            components.forEach(component => {
+                decomposeComponent(component, editorRect, parentStyle)
+                store.commit('addComponent', { component })
+            })
+        },
+
         copy(state) {
             state.copyData = {
                 data: deepCopy(state.curComponent),
@@ -141,7 +231,11 @@ const store = new Vuex.Store({
             state.menuShow = false
         },
 
-        deleteComponent(state, index = state.curComponentIndex) {
+        deleteComponent(state, index) {
+            if (index === undefined) {
+                index = state.curComponentIndex
+            }
+
             state.componentData.splice(index, 1)
         },
 

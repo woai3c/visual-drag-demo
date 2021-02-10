@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import getStyle from '@/utils/style'
+import { getStyle } from '@/utils/style'
 import { mapState } from 'vuex'
 import ComponentWrapper from './ComponentWrapper'
 

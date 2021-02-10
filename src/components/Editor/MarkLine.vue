@@ -14,7 +14,7 @@
 <script>
 import eventBus from '@/utils/eventBus'
 import { mapState } from 'vuex'
-import { sin, cos } from '@/utils/translate'
+import { getComponentRotatedStyle } from '@/utils/style'
 
 export default {
     data() {
@@ -52,40 +52,17 @@ export default {
             })
         },
 
-        translateComponentStyle(style) {
-            style = { ...style }
-            if (style.rotate != 0) {
-                const newWidth = style.width * cos(style.rotate) + style.height * sin(style.rotate)
-                const diffX = (style.width - newWidth) / 2
-                style.left += diffX
-                style.right = style.left + newWidth
-
-                const newHeight = style.height * cos(style.rotate) + style.width * sin(style.rotate)
-                const diffY = (newHeight - style.height) / 2
-                style.top -= diffY
-                style.bottom = style.top + newHeight
-
-                style.width = newWidth
-                style.height = newHeight
-            } else {
-                style.bottom = style.top + style.height
-                style.right = style.left + style.width
-            }
-
-            return style
-        },
-
         showLine(isDownward, isRightward) {
             const lines = this.$refs
             const components = this.componentData
-            const curComponentStyle = this.translateComponentStyle(this.curComponent.style)
+            const curComponentStyle = getComponentRotatedStyle(this.curComponent.style)
             const curComponentHalfwidth = curComponentStyle.width / 2
             const curComponentHalfHeight = curComponentStyle.height / 2
 
             this.hideLine()
             components.forEach(component => {
                 if (component == this.curComponent) return
-                const componentStyle = this.translateComponentStyle(component.style)
+                const componentStyle = getComponentRotatedStyle(component.style)
                 const { top, left, bottom, right } = componentStyle
                 const componentHalfwidth = componentStyle.width / 2
                 const componentHalfHeight = componentStyle.height / 2

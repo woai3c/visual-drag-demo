@@ -26,7 +26,7 @@
 export default {
     data() {
         return {
-            excludes: ['Picture'], // 这些组件不显示内容
+            excludes: ['Picture', 'Group'], // 这些组件不显示内容
             options: [
                 {
                     label: '左对齐',
