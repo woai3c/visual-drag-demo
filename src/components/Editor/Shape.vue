@@ -186,7 +186,7 @@ export default {
         },
 
         handleMouseDownOnShape(e) {
-            if (this.element.component != 'v-text') {
+            if (this.element.component != 'v-text' && this.element.component != 'rect-shape') {
                 e.preventDefault()
             }
             
