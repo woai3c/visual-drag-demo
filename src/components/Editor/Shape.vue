@@ -3,9 +3,9 @@
         <i class="el-icon-refresh-right" v-show="active" @mousedown="handleRotate"></i>
         <div
             class="shape-point"
-            v-for="(item, index) in (active? pointList : [])"
+            v-for="item in (active? pointList : [])"
             @mousedown="handleMouseDownOnPoint(item, $event)"
-            :key="index"
+            :key="item"
             :style="getPointStyle(item)">
         </div>
         <slot></slot>
@@ -65,6 +65,7 @@ export default {
     },
     computed: mapState([
         'curComponent',
+        'editor',
     ]),
     mounted() {
         eventBus.$on('runAnimation', () => {
@@ -76,6 +77,7 @@ export default {
     methods: {
         // 处理旋转
         handleRotate(e) {
+            e.preventDefault()
             e.stopPropagation()
             // 初始坐标和初始角度
             const pos = { ...this.defaultStyle }
@@ -159,6 +161,7 @@ export default {
             const rotate = (curComponent.style.rotate + 360) % 360 // 防止角度有负数，所以 + 360
             const result = {}
             let lastMatchIndex = -1 // 从上一个命中的角度的索引开始匹配下一个，降低时间复杂度
+            
             pointList.forEach(point => {
                 const angle = (initialAngle[point] + rotate) % 360
                 const len = angleToCursor.length
@@ -167,11 +170,13 @@ export default {
                     const angleLimit = angleToCursor[lastMatchIndex]
                     if (angle < 23 || angle >= 338) {
                         result[point] = 'nw-resize'
+                        
                         return
                     }
 
                     if (angleLimit.start <= angle && angle < angleLimit.end) {
                         result[point] = angleLimit.cursor + '-resize'
+                        
                         return
                     }
                 }
@@ -184,18 +189,18 @@ export default {
             if (this.element.component != 'v-text') {
                 e.preventDefault()
             }
-
+            
             e.stopPropagation()
             this.$store.commit('setCurComponent', { component: this.element, index: this.index })
             this.cursors = this.getCursor() // 根据旋转角度获取光标位置
-
+            
             const pos = { ...this.defaultStyle }
             const startY = e.clientY
             const startX = e.clientX
             // 如果直接修改属性，值的类型会变为字符串，所以要转为数值型
             const startTop = Number(pos.top)
             const startLeft = Number(pos.left)
-
+            
             // 如果元素没有移动，则不保存快照
             let hasMove = false
             const move = (moveEvent) => {
@@ -204,7 +209,7 @@ export default {
                 const curY = moveEvent.clientY
                 pos.top = curY - startY + startTop
                 pos.left = curX - startX + startLeft
-
+                
                 // 修改当前组件样式
                 this.$store.commit('setShapeStyle', pos)
                 // 等更新完当前组件的样式并绘制到屏幕后再判断是否需要吸附
@@ -249,7 +254,7 @@ export default {
             }
 
             // 获取画布位移信息
-            const editorRectInfo = document.querySelector('#editor').getBoundingClientRect()
+            const editorRectInfo = this.editor.getBoundingClientRect()
 
             // 当前点击坐标
             const curPoint = {

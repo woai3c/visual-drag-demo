@@ -4,6 +4,7 @@ const components = [
     'Picture',
     'VText',
     'VButton',
+    'Group',
 ]
 
 components.forEach(key => {

@@ -1,7 +1,7 @@
 <template>
     <div @click="handleClick">
         <component
-            class="conponent"
+            class="component"
             :is="config.component"
             :style="getStyle(config.style)"
             :propValue="config.propValue"
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import getStyle from '@/utils/style'
+import { getStyle } from '@/utils/style'
 import runAnimation from '@/utils/runAnimation'
 import { mixins } from '@/utils/events'
 
@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.conponent {
+.component {
     position: absolute;
 }
 </style>
