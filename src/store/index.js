@@ -15,6 +15,7 @@ const store = new Vuex.Store({
         canvasStyleData: { // 页面全局数据
             width: 1200,
             height: 740,
+            scale: 100,
         },
         componentData: [], // 画布组件数据
         curComponent: null,

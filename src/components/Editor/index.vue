@@ -1,6 +1,11 @@
 <template>
     <div class="editor" id="editor" 
-        :class="{ edit: isEdit }" :style="{ width: canvasStyleData.width + 'px', height: canvasStyleData.height + 'px' }"
+        :class="{ edit: isEdit }"
+        :style="{
+            width: canvasStyleData.width + 'px',
+            height: canvasStyleData.height + 'px',
+            transform: 'scale(' + parseInt(canvasStyleData.scale) / 100 + ')'
+        }"
         @contextmenu="handleContextMenu"
         @mousedown="handleMouseDown"
     >
@@ -83,7 +88,7 @@ export default {
         const info = this.editor.getBoundingClientRect()
         this.editorX = info.x
         this.editorY = info.y
-        
+
         eventBus.$on('hideArea', () => {
             this.hideArea()
         })
