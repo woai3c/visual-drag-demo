@@ -63,14 +63,11 @@ export default {
         width: calc(100% - 40px);
         height: calc(100% - 120px);
         overflow: auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
 
         .canvas {
             background: #fff;
             position: relative;
-            flex-shrink: 0;
+            margin: auto;
         }
     }
 

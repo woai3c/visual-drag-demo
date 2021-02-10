@@ -165,11 +165,9 @@ export default {
             padding: 20px;
 
             .content {
+                width: 100%;
                 height: 100%;
                 overflow: auto;
-                display: flex;
-                align-items: center;
-                justify-content: center;
             }
         }
     }
