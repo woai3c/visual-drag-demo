@@ -19,7 +19,7 @@ const list = [
         icon: 'el-icon-edit',
         style: {
             width: 200,
-            height: 33,
+            height: 22,
             fontSize: 14,
             fontWeight: 500,
             lineHeight: '',
