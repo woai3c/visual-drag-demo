@@ -102,13 +102,7 @@ export default {
 
     .canEdit {
         cursor: text;
-    }
-
-    .text {
-        border: 1px solid #ddd;
-        padding: 5px 10px;
-        white-space: normal;
-        word-break: break-all;
+        height: 100%;
     }
 }
 </style>

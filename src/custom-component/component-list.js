@@ -15,7 +15,7 @@ const list = [
     {
         component: 'v-text',
         label: '文字',
-        propValue: '文字',
+        propValue: '双击编辑文字',
         icon: 'el-icon-edit',
         style: {
             width: 200,
@@ -57,6 +57,27 @@ const list = [
             width: 300,
             height: 200,
             borderRadius: '',
+        },
+    },
+    {
+        component: 'rect-shape',
+        label: '矩形',
+        propValue: '双击编辑文字',
+        icon: 'el-icon-edit',
+        style: {
+            width: 200,
+            height: 200,
+            fontSize: 14,
+            fontWeight: 500,
+            lineHeight: '',
+            letterSpacing: 0,
+            textAlign: 'center',
+            color: '',
+            borderColor: '#000',
+            borderWidth: 1,
+            backgroundColor: '',
+            borderStyle: 'solid',
+            verticalAlign: 'middle',
         },
     },
 ]
