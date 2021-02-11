@@ -42,6 +42,7 @@ export default {
 
         paste() {
             this.$store.commit('paste', true)
+            this.$store.commit('recordSnapshot')
         },
 
         deleteComponent() {
