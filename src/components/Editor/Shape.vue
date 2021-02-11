@@ -68,6 +68,11 @@ export default {
         'editor',
     ]),
     mounted() {
+        // 用于 Group 组件
+        if (this.curComponent) {
+            this.cursors = this.getCursor() // 根据旋转角度获取光标位置
+        }
+
         eventBus.$on('runAnimation', () => {
             if (this.element == this.curComponent) {
                 runAnimation(this.$el, this.curComponent.animations)
@@ -243,9 +248,8 @@ export default {
         },
 
         handleMouseDownOnPoint(point, e) {
-            const downEvent = window.event
-            downEvent.stopPropagation()
-            downEvent.preventDefault()
+            e.stopPropagation()
+            e.preventDefault()
  
             const style = { ...this.defaultStyle }
             const center = {
@@ -326,6 +330,7 @@ export default {
     width: 8px;
     height: 8px;
     border-radius: 50%;
+    z-index: 1;
 }
 .el-icon-refresh-right {
     position: absolute;
