@@ -75,6 +75,7 @@ export default {
                     this.$store.commit('copy')
                 } else if (isCtrlDown && e.keyCode == vKey) {
                     this.$store.commit('paste')
+                    this.$store.commit('recordSnapshot')
                 } else if (isCtrlDown && e.keyCode == xKey) {
                     this.$store.commit('cut')
                 }

@@ -140,7 +140,6 @@ const store = new Vuex.Store({
             
             data.id = generateID()
             store.commit('addComponent', { component: data })
-            store.commit('recordSnapshot')
             state.copyData = null
         },
 

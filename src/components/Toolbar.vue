@@ -50,10 +50,12 @@ export default {
     methods: {
         compose() {
             this.$store.commit('compose')
+            this.$store.commit('recordSnapshot')
         },
 
         decompose() {
             this.$store.commit('decompose')
+            this.$store.commit('recordSnapshot')
         },
         
         undo() {
