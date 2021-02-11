@@ -62,7 +62,7 @@ const list = [
     {
         component: 'rect-shape',
         label: '矩形',
-        propValue: '双击编辑文字',
+        propValue: '',
         icon: 'el-icon-edit',
         style: {
             width: 200,
