@@ -1,8 +1,8 @@
 <template>
-    <div v-if="editMode == 'edit'" class="v-text" @keydown="stopPropagation">
+    <div v-if="editMode == 'edit'" class="v-text" @keydown="handleKeydown" @keyup="handleKeyup">
         <!-- tabindex >= 0 使得双击时聚集该元素 -->
         <div :contenteditable="canEdit" :class="{ canEdit }" @dblclick="setEdit" :tabindex="element.id" @paste="clearStyle"
-            @mousedown="stopPropagation2" @blur="handleBlur" ref="text" v-html="element.propValue" @input="handleInput"
+            @mousedown="handleMousedown" @blur="handleBlur" ref="text" v-html="element.propValue" @input="handleInput"
             :style="{ verticalAlign: element.style.verticalAlign }"
         ></div>
     </div>
@@ -28,7 +28,7 @@ export default {
         return {
             canEdit: false,
             ctrlKey: 17,
-            keys: [67, 68, 86, 88, 89, 90], // 复制 删除 撤销 重做 剪切 删除键
+            keys: [67, 68, 86, 88, 89, 90], // 复制 删除 撤销 重做 剪切 删除
             isCtrlDown: false,
         }
     },
@@ -42,15 +42,21 @@ export default {
             this.$emit('input', this.element, e.target.innerHTML)
         },
 
-        stopPropagation(e) {
+        handleKeydown(e) {
             if (e.keyCode == this.ctrlKey) {
                 this.isCtrlDown = true
-            } else if (this.isCtrlDown && this.keys.includes(e.keyCode)) {
+            } else if (this.isCtrlDown && this.canEdit && this.keys.includes(e.keyCode)) {
                 e.stopPropagation()
             }
         },
 
-        stopPropagation2(e) {
+        handleKeyup(e) {
+            if (e.keyCode == this.ctrlKey) {
+                this.isCtrlDown = false
+            }
+        },
+
+        handleMousedown(e) {
             if (this.canEdit) {
                 e.stopPropagation()
             }
