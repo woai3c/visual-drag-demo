@@ -36,6 +36,7 @@ const store = new Vuex.Store({
             components: [],
         },
         editor: null,
+        isCut: false,
     },
     mutations: {
         getEditor(state) {
@@ -120,6 +121,9 @@ const store = new Vuex.Store({
                 data: deepCopy(state.curComponent),
                 index: state.curComponentIndex,
             }
+
+            state.isCut = false
+            console.log(1)
         },
 
         paste(state, isMouse) {
@@ -139,8 +143,10 @@ const store = new Vuex.Store({
             }
             
             data.id = generateID()
-            store.commit('addComponent', { component: data })
-            state.copyData = null
+            store.commit('addComponent', { component: deepCopy(data) })
+            if (state.isCut) {
+                state.copyData = null
+            }
         },
 
         cut(state) {
@@ -159,6 +165,7 @@ const store = new Vuex.Store({
 
             store.commit('copy')
             store.commit('deleteComponent')
+            state.isCut = true
         },
 
         setEditMode(state, mode) {
