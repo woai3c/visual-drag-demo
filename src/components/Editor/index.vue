@@ -52,6 +52,7 @@
 import { mapState } from 'vuex'
 import Shape from './Shape'
 import { getStyle, getComponentRotatedStyle } from '@/utils/style'
+import { $ } from '@/utils/utils'
 import ContextMenu from './ContextMenu'
 import MarkLine from './MarkLine'
 import Area from './Area'
@@ -87,9 +88,9 @@ export default {
     mounted() {
         // 获取编辑器元素
         this.$store.commit('getEditor')
-        const info = this.editor.getBoundingClientRect()
-        this.editorX = info.x
-        this.editorY = info.y
+        const rectInfo = this.editor.getBoundingClientRect()
+        this.editorX = rectInfo.x
+        this.editorY = rectInfo.y
 
         eventBus.$on('hideArea', () => {
             this.hideArea()
@@ -151,10 +152,29 @@ export default {
                 return
             }
 
+            // 为了求 Group 组件的 left top right bottom 边界
+            // 所以要遍历选择区域的每个组件，获取它们的 left top right bottom 信息来进行比较
             let top = Infinity, left = Infinity
             let right = -Infinity, bottom = -Infinity
             areaData.forEach(component => {
-                const style = getComponentRotatedStyle(component.style)
+                let style = {}
+                if (component.component == 'Group') {
+                    component.propValue.forEach(item => {
+                        const rectInfo = $(`#component${item.id}`).getBoundingClientRect()
+                        style.left = rectInfo.left - this.editorX
+                        style.top = rectInfo.top - this.editorY
+                        style.right = rectInfo.right - this.editorX
+                        style.bottom = rectInfo.bottom - this.editorY
+
+                        if (style.left < left) left = style.left
+                        if (style.top < top) top = style.top
+                        if (style.right > right) right = style.right
+                        if (style.bottom > bottom) bottom = style.bottom
+                    })
+                } else {
+                    style = getComponentRotatedStyle(component.style)
+                }
+
                 if (style.left < left) left = style.left
                 if (style.top < top) top = style.top
                 if (style.right > right) right = style.right
