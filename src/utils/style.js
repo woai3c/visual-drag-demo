@@ -62,9 +62,11 @@ export function decomposeComponent(component, editorRect, parentStyle) {
         y: componentRect.top - editorRect.top + componentRect.height / 2,
     }
 
+    component.style.rotate = (component.style.rotate + parentStyle.rotate + 360) % 360
+    component.style.width = parseFloat(component.groupStyle.width) / 100 * parentStyle.width
+    component.style.height = parseFloat(component.groupStyle.height) / 100 * parentStyle.height
     // 计算出元素新的 top left 坐标
     component.style.left = center.x - component.style.width / 2
     component.style.top = center.y - component.style.height / 2
-    component.style.rotate = (component.style.rotate + parentStyle.rotate + 360) % 360
     component.groupStyle = {}
 }

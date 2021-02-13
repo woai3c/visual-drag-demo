@@ -5,6 +5,7 @@
             :is="config.component"
             :style="getStyle(config.style)"
             :propValue="config.propValue"
+            :element="config"
         />
     </div>
 </template>
