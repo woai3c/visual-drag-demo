@@ -17,6 +17,7 @@ import eventBus from '@/utils/eventBus'
 import runAnimation from '@/utils/runAnimation'
 import { mapState } from 'vuex'
 import calculateComponentPositonAndSize from '@/utils/calculateComponentPositonAndSize'
+import { mod360 } from '@/utils/translate'
 
 export default {
     props: {
@@ -163,12 +164,12 @@ export default {
 
         getCursor() {
             const { angleToCursor, initialAngle, pointList, curComponent } = this
-            const rotate = (curComponent.style.rotate + 360) % 360 // 防止角度有负数，所以 + 360
+            const rotate = mod360(curComponent.style.rotate) // 取余 360
             const result = {}
             let lastMatchIndex = -1 // 从上一个命中的角度的索引开始匹配下一个，降低时间复杂度
             
             pointList.forEach(point => {
-                const angle = (initialAngle[point] + rotate) % 360
+                const angle = mod360(initialAngle[point] + rotate)
                 const len = angleToCursor.length
                 while (true) {
                     lastMatchIndex = (lastMatchIndex + 1) % len
@@ -244,7 +245,7 @@ export default {
             // 阻止向父组件冒泡
             e.stopPropagation()
             e.preventDefault()
-            this.$store.commit('hideContexeMenu')
+            this.$store.commit('hideContextMenu')
         },
 
         handleMouseDownOnPoint(point, e) {
@@ -319,7 +320,7 @@ export default {
             if (this.element.component != 'Group') return false
             const ratates = [0, 90, 180, 360]
             for (const component of this.element.propValue) {
-                if (!ratates.includes(parseInt(component.style.rotate))) {
+                if (!ratates.includes(mod360(parseInt(component.style.rotate)))) {
                     return true
                 }
             }

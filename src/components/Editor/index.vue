@@ -204,7 +204,7 @@ export default {
                 target = target.parentNode
             }
 
-            this.$store.commit('showContexeMenu', { top, left })
+            this.$store.commit('showContextMenu', { top, left })
         },
 
         getShapeStyle(style) {

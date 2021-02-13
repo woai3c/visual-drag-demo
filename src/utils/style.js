@@ -1,4 +1,4 @@
-import { sin, cos } from '@/utils/translate'
+import { sin, cos, mod360 } from '@/utils/translate'
 import { $ } from '@/utils/utils'
 
 export function getStyle(style, filter = []) {
@@ -62,7 +62,7 @@ export function decomposeComponent(component, editorRect, parentStyle) {
         y: componentRect.top - editorRect.top + componentRect.height / 2,
     }
 
-    component.style.rotate = (component.style.rotate + parentStyle.rotate + 360) % 360
+    component.style.rotate = mod360(component.style.rotate + parentStyle.rotate)
     component.style.width = parseFloat(component.groupStyle.width) / 100 * parentStyle.width
     component.style.height = parseFloat(component.groupStyle.height) / 100 * parentStyle.height
     // 计算出元素新的 top left 坐标
