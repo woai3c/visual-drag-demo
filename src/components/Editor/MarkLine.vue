@@ -153,7 +153,7 @@ export default {
                     conditions[key].forEach((condition) => {
                         if (!condition.isNearly) return
                         // 修改当前组件位移
-                        this.$store.commit('setShapePosStyle', { 
+                        this.$store.commit('setShapeSingleStyle', { 
                             key,
                             value: rotate != 0? this.translatecurComponentShift(key, condition, curComponentStyle) : condition.dragShift,
                         })

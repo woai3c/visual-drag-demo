@@ -115,3 +115,7 @@ export function sin(rotate) {
 export function cos(rotate) {
     return Math.abs(Math.cos(angleToRadian(rotate)))
 }
+
+export function mod360(deg) {
+    return (deg + 360) % 360
+}

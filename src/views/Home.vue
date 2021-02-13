@@ -125,7 +125,7 @@ export default {
 
         deselectCurComponent() {
             this.$store.commit('setCurComponent', { component: null, index: null })
-            this.$store.commit('hideContexeMenu')
+            this.$store.commit('hideContextMenu')
         },
     },
 }
