@@ -19,6 +19,7 @@ const data = {
         ...event.state,
         ...layer.state,
         ...snapshot.state,
+
         editMode: 'edit', // 编辑器模式 edit preview
         canvasStyleData: { // 页面全局数据
             width: 1200,
@@ -28,6 +29,7 @@ const data = {
         componentData: [], // 画布组件数据
         curComponent: null,
         curComponentIndex: null,
+        isClickComponent: false, // 点时画布时是否点中组件，主要用于取消选中组件用。如果点在空白处，则为 false。
     },
     mutations: {
         ...animation.mutations,
@@ -37,6 +39,11 @@ const data = {
         ...event.mutations,
         ...layer.mutations,
         ...snapshot.mutations,
+
+        setClickComponentStatus(state, status) {
+            state.isClickComponent = status
+        },
+
         setEditMode(state, mode) {
             state.editMode = mode
         },
