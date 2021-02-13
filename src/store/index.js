@@ -10,7 +10,7 @@ import snapshot from './snapshot'
 
 Vue.use(Vuex)
 
-const baseData = {
+const data = {
     state: {
         ...animation.state,
         ...compose.state,
@@ -84,4 +84,4 @@ const baseData = {
     },
 }
 
-export default new Vuex.Store(baseData)
+export default new Vuex.Store(data)
