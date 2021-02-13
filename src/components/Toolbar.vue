@@ -33,6 +33,7 @@ import toast from '@/utils/toast'
 import { mapState } from 'vuex'
 import Preview from '@/components/Editor/Preview'
 import { commonStyle, commonAttr } from '@/custom-component/component-list'
+import eventBus from '@/utils/eventBus'
 
 export default {
     components: { Preview },
@@ -47,6 +48,11 @@ export default {
         'areaData',
         'curComponent',
     ]),
+    created() {
+        eventBus.$on('preview', this.preview)
+        eventBus.$on('save', this.save)
+        eventBus.$on('clearCanvas', this.clearCanvas)
+    },
     methods: {
         compose() {
             this.$store.commit('compose')
@@ -107,7 +113,7 @@ export default {
 
         preview() {
             this.isShowPreview = true
-            this.$store.commit('setEditMode', 'read')
+            this.$store.commit('setEditMode', 'preview')
         },
 
         save() {
@@ -118,6 +124,7 @@ export default {
 
         clearCanvas() {
             this.$store.commit('setComponentData', [])
+            this.$store.commit('recordSnapshot')
         },
 
         handlePreviewChange() {

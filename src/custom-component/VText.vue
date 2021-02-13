@@ -13,6 +13,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { keycodes } from '@/utils/shortcutKey.js'
 
 export default {
     props: {
@@ -28,7 +29,6 @@ export default {
         return {
             canEdit: false,
             ctrlKey: 17,
-            keys: [67, 68, 86, 88, 89, 90], // 复制 删除 撤销 重做 剪切 删除
             isCtrlDown: false,
         }
     },
@@ -45,7 +45,7 @@ export default {
         handleKeydown(e) {
             if (e.keyCode == this.ctrlKey) {
                 this.isCtrlDown = true
-            } else if (this.isCtrlDown && this.canEdit && this.keys.includes(e.keyCode)) {
+            } else if (this.isCtrlDown && this.canEdit && keycodes.includes(e.keyCode)) {
                 e.stopPropagation()
             }
         },
