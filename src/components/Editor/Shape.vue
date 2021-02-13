@@ -83,6 +83,7 @@ export default {
     methods: {
         // 处理旋转
         handleRotate(e) {
+            this.$store.commit('setClickComponentStatus', true)
             e.preventDefault()
             e.stopPropagation()
             // 初始坐标和初始角度
@@ -192,6 +193,7 @@ export default {
         },
 
         handleMouseDownOnShape(e) {
+            this.$store.commit('setClickComponentStatus', true)
             if (this.element.component != 'v-text' && this.element.component != 'rect-shape') {
                 e.preventDefault()
             }
@@ -249,6 +251,7 @@ export default {
         },
 
         handleMouseDownOnPoint(point, e) {
+            this.$store.commit('setClickComponentStatus', true)
             e.stopPropagation()
             e.preventDefault()
  

@@ -9,7 +9,8 @@
             </section>
             <!-- 中间画布 -->
             <section class="center">
-                <div class="content" @drop="handleDrop" @dragover="handleDragOver" @click="deselectCurComponent">
+                <div class="content" @drop="handleDrop" @dragover="handleDragOver" 
+                @mousedown="handleMouseDown" @mouseup="deselectCurComponent">
                     <Editor />
                 </div>
             </section>
@@ -58,6 +59,7 @@ export default {
     computed: mapState([
         'componentData',
         'curComponent',
+        'isClickComponent',
     ]),
     created() {
         this.restore()
@@ -100,9 +102,15 @@ export default {
             e.dataTransfer.dropEffect = 'copy'
         },
 
+        handleMouseDown() {
+            this.$store.commit('setClickComponentStatus', false)
+        },
+
         deselectCurComponent() {
-            this.$store.commit('setCurComponent', { component: null, index: null })
-            this.$store.commit('hideContextMenu')
+            if (!this.isClickComponent) {
+                this.$store.commit('setCurComponent', { component: null, index: null })
+                this.$store.commit('hideContextMenu')
+            }
         },
     },
 }

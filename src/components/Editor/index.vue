@@ -102,7 +102,7 @@ export default {
             if (!this.curComponent || (this.curComponent.component != 'v-text' && this.curComponent.component != 'rect-shape')) {
                 e.preventDefault()
             }
-
+            
             this.hideArea()
 
             const startX = e.clientX
