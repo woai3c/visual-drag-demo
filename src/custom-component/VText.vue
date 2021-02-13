@@ -47,6 +47,8 @@ export default {
                 this.isCtrlDown = true
             } else if (this.isCtrlDown && this.canEdit && keycodes.includes(e.keyCode)) {
                 e.stopPropagation()
+            } else if (e.keyCode == 46) { // deleteKey
+                e.stopPropagation()
             }
         },
 

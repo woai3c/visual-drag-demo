@@ -15,6 +15,7 @@ const ctrlKey = 17,
     sKey = 83, // 保存
     pKey = 80, // 预览
     dKey = 68, // 删除
+    deleteKey = 46, // 删除
     eKey = 69 // 清空画布
 
 let isCtrlDown = false
@@ -23,7 +24,10 @@ export const keycodes = [66, 67, 68, 69, 71, 80, 83, 86, 88, 89, 90]
 // 全局监听按键操作并执行相应命令
 export function listenGlobalKeyDown() {
     window.onkeydown = (e) => {
-        if (e.keyCode == ctrlKey) {
+        if (e.keyCode == deleteKey && store.state.curComponent) {
+            store.commit('deleteComponent')
+            store.commit('recordSnapshot')
+        } else if (e.keyCode == ctrlKey) {
             isCtrlDown = true
         } else if (isCtrlDown && e.keyCode == cKey) {
             store.commit('copy')
@@ -51,7 +55,7 @@ export function listenGlobalKeyDown() {
         } else if (isCtrlDown && e.keyCode == pKey) {
             eventBus.$emit('preview')
             e.preventDefault()
-        } else if (isCtrlDown && e.keyCode == dKey) {
+        } else if (isCtrlDown && e.keyCode == dKey && store.state.curComponent) {
             store.commit('deleteComponent')
             store.commit('recordSnapshot')
             e.preventDefault()
