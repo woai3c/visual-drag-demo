@@ -252,6 +252,11 @@ export default {
             e.preventDefault()
  
             const style = { ...this.defaultStyle }
+
+            // 图形宽高比
+            const proportion = style.width / style.height
+
+            // 组件中心点
             const center = {
                 x: style.left + style.width / 2,
                 y: style.top + style.height / 2,
@@ -275,6 +280,8 @@ export default {
             // 是否需要保存快照
             let needSave = false
             let isFirst = true
+
+            const needLockProportion = this.isNeedLockProportion()
             const move = (moveEvent) => {
                 // 第一次点击时也会触发 move，所以会有“刚点击组件但未移动，组件的大小却改变了”的情况发生
                 // 因此第一次点击时不触发 move 事件
@@ -289,7 +296,7 @@ export default {
                     y: moveEvent.clientY - editorRectInfo.top,
                 }
                 
-                calculateComponentPositonAndSize(point, style, curPositon, {
+                calculateComponentPositonAndSize(point, style, curPositon, proportion, needLockProportion, {
                     center,
                     curPoint,
                     symmetricPoint,
@@ -306,6 +313,18 @@ export default {
 
             document.addEventListener('mousemove', move)
             document.addEventListener('mouseup', up)
+        },
+
+        isNeedLockProportion() {
+            if (this.element.component != 'Group') return false
+            const ratates = [0, 90, 180, 360]
+            for (const component of this.element.propValue) {
+                if (!ratates.includes(parseInt(component.style.rotate))) {
+                    return true
+                }
+            }
+
+            return false
         },
     },
 }
