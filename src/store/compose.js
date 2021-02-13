@@ -7,7 +7,7 @@ import { commonStyle, commonAttr } from '@/custom-component/component-list'
 
 export default {
     state: {
-        areaData: {
+        areaData: { // 选中区域包含的组件以及区域位移信息
             style: {
                 top: 0,
                 left: 0,
@@ -73,6 +73,7 @@ export default {
             areaData.components = []
         },
 
+        // 将已经放到 Group 组件数据删除，也就是在 componentData 中删除，因为它们已经放到 Group 组件中了
         batchDeleteComponent({ componentData }, deleteData) {
             deleteData.forEach(component => {
                 for (let i = 0, len = componentData.length; i < len; i++) {

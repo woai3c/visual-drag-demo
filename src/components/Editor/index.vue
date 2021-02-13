@@ -146,14 +146,15 @@ export default {
         },
 
         createGroup() {
+            // 获取选中区域的组件
             const areaData = this.getSelectArea()
             if (areaData.length <= 1) {
                 this.hideArea()
                 return
             }
-
-            // 为了求 Group 组件的 left top right bottom 边界
-            // 所以要遍历选择区域的每个组件，获取它们的 left top right bottom 信息来进行比较
+            
+            // 根据选中区域和区域中每个组件的位移信息来创建 Group 组件
+            // 要遍历选择区域的每个组件，获取它们的 left top right bottom 信息来进行比较
             let top = Infinity, left = Infinity
             let right = -Infinity, bottom = -Infinity
             areaData.forEach(component => {
