@@ -1,7 +1,7 @@
 import store from './index'
 import generateID from '@/utils/generateID'
 import eventBus from '@/utils/eventBus'
-import { decomposeComponent } from '@/utils/style'
+import decomposeComponent from '@/utils/style'
 import { $ } from '@/utils/utils'
 import { commonStyle, commonAttr } from '@/custom-component/component-list'
 
