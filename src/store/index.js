@@ -19,7 +19,7 @@ const data = {
         ...event.state,
         ...layer.state,
         ...snapshot.state,
-        editMode: 'edit', // 编辑器模式 edit read
+        editMode: 'edit', // 编辑器模式 edit preview
         canvasStyleData: { // 页面全局数据
             width: 1200,
             height: 740,

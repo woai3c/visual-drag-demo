@@ -45,6 +45,7 @@ import Toolbar from '@/components/Toolbar'
 import { deepCopy } from '@/utils/utils'
 import { mapState } from 'vuex'
 import generateID from '@/utils/generateID'
+import { listenGlobalKeyDown } from '@/utils/shortcutKey'
 
 export default {
     components: { Editor, ComponentList, AttrList, AnimationList, EventList, Toolbar },
@@ -60,34 +61,10 @@ export default {
     ]),
     created() {
         this.restore()
-        // 监听复制粘贴
-        this.listenCopyAndPaste()
+        // 全局监听按键事件
+        listenGlobalKeyDown()
     },
     methods: {
-        listenCopyAndPaste() {
-            const ctrlKey = 17, vKey = 86, cKey = 67, xKey = 88
-            let isCtrlDown = false
-
-            window.onkeydown = (e) => {
-                if (e.keyCode == ctrlKey) {
-                    isCtrlDown = true
-                } else if (isCtrlDown && e.keyCode == cKey) {
-                    this.$store.commit('copy')
-                } else if (isCtrlDown && e.keyCode == vKey) {
-                    this.$store.commit('paste')
-                    this.$store.commit('recordSnapshot')
-                } else if (isCtrlDown && e.keyCode == xKey) {
-                    this.$store.commit('cut')
-                }
-            }
-
-            window.onkeyup = (e) => {
-                if (e.keyCode == ctrlKey) {
-                    isCtrlDown = false
-                }
-            }
-        },
-
         restore() {
             // 用保存的数据恢复画布
             if (localStorage.getItem('canvasData')) {

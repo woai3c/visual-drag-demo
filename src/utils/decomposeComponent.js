@@ -1,4 +1,5 @@
-import { mod360, $ } from './utils'
+import { $ } from './utils'
+import { mod360 } from './translate'
 
 export default function decomposeComponent(component, editorRect, parentStyle) {
     const componentRect = $(`#component${component.id}`).getBoundingClientRect()

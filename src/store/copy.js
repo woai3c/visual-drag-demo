@@ -10,13 +10,13 @@ export default {
     },
     mutations: {
         copy(state) {
+            if (!state.curComponent) return
             state.copyData = {
                 data: deepCopy(state.curComponent),
                 index: state.curComponentIndex,
             }
 
             state.isCut = false
-            console.log(1)
         },
 
         paste(state, isMouse) {
@@ -49,8 +49,11 @@ export default {
             }
             
             if (state.copyData) {
-                store.commit('addComponent', { component: state.copyData.data, index: state.copyData.index })
-                if (state.curComponentIndex >= state.copyData.index) {
+                const data = deepCopy(state.copyData.data)
+                const index = state.copyData.index
+                data.id = generateID()
+                store.commit('addComponent', { component: data, index })
+                if (state.curComponentIndex >= index) {
                     // 如果当前组件索引大于等于插入索引，需要加一，因为当前组件往后移了一位
                     state.curComponentIndex++
                 }
