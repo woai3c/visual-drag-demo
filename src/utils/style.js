@@ -1,5 +1,4 @@
-import { sin, cos, mod360 } from '@/utils/translate'
-import { $ } from '@/utils/utils'
+import { sin, cos } from '@/utils/translate'
 
 export function getStyle(style, filter = []) {
     const needUnit = [
@@ -31,6 +30,7 @@ export function getStyle(style, filter = []) {
     return result
 }
 
+// 获取一个组件旋转 rotate 后的样式
 export function getComponentRotatedStyle(style) {
     style = { ...style }
     if (style.rotate != 0) {

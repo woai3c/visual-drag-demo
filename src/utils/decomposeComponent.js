@@ -1,6 +1,7 @@
 import { $ } from './utils'
 import { mod360 } from './translate'
 
+// 将组合中的各个子组件拆分出来，并计算它们新的 style
 export default function decomposeComponent(component, editorRect, parentStyle) {
     const componentRect = $(`#component${component.id}`).getBoundingClientRect()
     // 获取元素的中心点坐标
