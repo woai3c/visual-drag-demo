@@ -74,7 +74,7 @@ export default {
         },
 
         handleBlur(e) {
-            this.element.propValue = e.target.innerHTML
+            this.element.propValue = e.target.innerHTML || '&nbsp;'
             this.canEdit = false
         },
 
@@ -99,16 +99,13 @@ export default {
 .v-text {
     width: 100%;
     height: 100%;
-    overflow: auto;
     display: table;
-    padding: 0 5px;
 
     div {
         display: table-cell;
         width: 100%;
         height: 100%;
         outline: none;
-        overflow: auto;
     }
 
     .canEdit {
