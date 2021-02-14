@@ -1,6 +1,6 @@
 <template>
     <div class="shape" :class="{ active: this.active }" @click="selectCurComponent" @mousedown="handleMouseDownOnShape">
-        <i class="el-icon-refresh-right" v-show="active" @mousedown="handleRotate"></i>
+        <span class="iconfont icon-xiangyouxuanzhuan" v-show="active" @mousedown="handleRotate"></span>
         <div
             class="shape-point"
             v-for="item in (active? pointList : [])"
@@ -355,17 +355,17 @@ export default {
     border-radius: 50%;
     z-index: 1;
 }
-.el-icon-refresh-right {
+.icon-xiangyouxuanzhuan {
     position: absolute;
-    top: -30px;
+    top: -34px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     cursor: grab;
     color: #59c7f9;
     font-size: 22px;
-    font-weight: normal;
+    font-weight: 600;
 
     &:active {
         cursor: grabbing;

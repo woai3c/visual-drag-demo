@@ -2,7 +2,7 @@
     <div @dragstart="handleDragStart" class="component-list">
         <div v-for="(item, index) in componentList" :key="index" class="list" draggable 
         :data-index="index">
-            <i :class="item.icon"></i>
+            <span class="iconfont" :class="'icon-' + item.icon"></span>
             <span>{{ item.label }}</span>
         </div>
     </div>
@@ -40,9 +40,22 @@ export default {
         text-align: center;
         color: #333;
         padding: 2px 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         &:active {
             cursor: grabbing;
+        }
+
+        .iconfont {
+            margin-right: 4px;
+            font-size: 20px;
+        }
+
+        .icon-wenben,
+        .icon-tupian {
+            font-size: 18px;
         }
     }
 }
