@@ -226,6 +226,10 @@ export default {
             let target = e.target
             let top = e.offsetY
             let left = e.offsetX
+            while (target instanceof SVGElement) {
+                target = target.parentNode
+            }
+
             while (!target.className.includes('editor')) {
                 left += target.offsetLeft
                 top += target.offsetTop
