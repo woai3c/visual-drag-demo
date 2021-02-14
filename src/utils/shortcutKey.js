@@ -24,6 +24,8 @@ export const keycodes = [66, 67, 68, 69, 71, 80, 83, 86, 88, 89, 90]
 // 全局监听按键操作并执行相应命令
 export function listenGlobalKeyDown() {
     window.onkeydown = (e) => {
+        const { areaData, curComponent } = store.state
+
         if (e.keyCode == deleteKey && store.state.curComponent) {
             store.commit('deleteComponent')
             store.commit('recordSnapshot')
@@ -41,11 +43,11 @@ export function listenGlobalKeyDown() {
             e.preventDefault()
         } else if (isCtrlDown && e.keyCode == zKey) {
             store.commit('undo')
-        } else if (isCtrlDown && e.keyCode == gKey && store.state.areaData.components.length) {
+        } else if (isCtrlDown && e.keyCode == gKey && areaData.components.length) {
             store.commit('compose')
             store.commit('recordSnapshot')
             e.preventDefault()
-        } else if (isCtrlDown && e.keyCode == bKey && store.state.curComponent && store.state.curComponent.component == 'Group') {
+        } else if (isCtrlDown && e.keyCode == bKey && curComponent && !curComponent.isLock && curComponent.component == 'Group') {
             store.commit('decompose')
             store.commit('recordSnapshot')
             e.preventDefault()
@@ -55,7 +57,7 @@ export function listenGlobalKeyDown() {
         } else if (isCtrlDown && e.keyCode == pKey) {
             eventBus.$emit('preview')
             e.preventDefault()
-        } else if (isCtrlDown && e.keyCode == dKey && store.state.curComponent) {
+        } else if (isCtrlDown && e.keyCode == dKey && curComponent) {
             store.commit('deleteComponent')
             store.commit('recordSnapshot')
             e.preventDefault()
