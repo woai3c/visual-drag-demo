@@ -264,7 +264,7 @@ export default {
  
             const style = { ...this.defaultStyle }
 
-            // 图形宽高比
+            // 组件宽高比
             const proportion = style.width / style.height
 
             // 组件中心点

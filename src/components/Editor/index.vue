@@ -107,7 +107,7 @@ export default {
             
             this.hideArea()
 
-            // 获取编辑器的位移信息
+            // 获取编辑器的位移信息，每次点击时都需要获取一次。主要是为了方便开发时调试用。
             const rectInfo = this.editor.getBoundingClientRect()
             this.editorX = rectInfo.x
             this.editorY = rectInfo.y
@@ -116,6 +116,7 @@ export default {
             const startY = e.clientY
             this.start.x = startX - this.editorX
             this.start.y = startY - this.editorY
+            // 展示选中区域
             this.isShowArea = true
             
             const move = (moveEvent) => {
@@ -153,7 +154,7 @@ export default {
         },
 
         createGroup() {
-            // 获取选中区域的组件
+            // 获取选中区域的组件数据
             const areaData = this.getSelectArea()
             if (areaData.length <= 1) {
                 this.hideArea()
@@ -194,6 +195,7 @@ export default {
             this.width = right - left
             this.height = bottom - top
 
+            // 设置选中区域位移大小信息和区域内的组件数据
             this.$store.commit('setAreaData', {
                 style: {
                     left,
@@ -207,7 +209,9 @@ export default {
 
         getSelectArea() {
             const result = []
+            // 区域起点坐标
             const { x, y } = this.start
+            // 计算所有的组件数据，判断是否在选中区域内
             this.componentData.forEach(component => {
                 if (component.isLock) return
 
@@ -217,6 +221,7 @@ export default {
                 }
             })
 
+            // 返回在选中区域内的所有组件
             return result
         },
 
