@@ -8,6 +8,7 @@ export const commonAttr = {
     animations: [],
     events: {},
     groupStyle: {}, // 当一个组件成为 Group 的子组件时使用
+    isLock: false, // 是否锁定组件
 }
 
 // 编辑器左侧组件列表
@@ -16,7 +17,7 @@ const list = [
         component: 'v-text',
         label: '文字',
         propValue: '双击编辑文字',
-        icon: 'el-icon-edit',
+        icon: 'wenben',
         style: {
             width: 200,
             height: 22,
@@ -32,7 +33,7 @@ const list = [
         component: 'v-button', 
         label: '按钮', 
         propValue: '按钮',
-        icon: 'el-icon-thumb',
+        icon: 'button',
         style: {
             width: 100,
             height: 34,
@@ -51,7 +52,7 @@ const list = [
     {
         component: 'Picture', 
         label: '图片', 
-        icon: 'el-icon-picture',
+        icon: 'tupian',
         propValue: require('@/assets/title.jpg'),
         style: {
             width: 300,
@@ -63,7 +64,7 @@ const list = [
         component: 'rect-shape',
         label: '矩形',
         propValue: '&nbsp;',
-        icon: 'el-icon-edit',
+        icon: 'juxing',
         style: {
             width: 200,
             height: 200,
