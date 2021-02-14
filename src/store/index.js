@@ -7,6 +7,7 @@ import copy from './copy'
 import event from './event'
 import layer from './layer'
 import snapshot from './snapshot'
+import lock from './lock'
 
 Vue.use(Vuex)
 
@@ -19,6 +20,7 @@ const data = {
         ...event.state,
         ...layer.state,
         ...snapshot.state,
+        ...lock.state,
 
         editMode: 'edit', // 编辑器模式 edit preview
         canvasStyleData: { // 页面全局数据
@@ -41,6 +43,7 @@ const data = {
         ...event.mutations,
         ...layer.mutations,
         ...snapshot.mutations,
+        ...lock.mutations,
 
         setClickComponentStatus(state, status) {
             state.isClickComponent = status

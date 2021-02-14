@@ -1,9 +1,9 @@
 <template>
-    <div class="shape" :class="{ active: this.active }" @click="selectCurComponent" @mousedown="handleMouseDownOnShape">
-        <span class="iconfont icon-xiangyouxuanzhuan" v-show="active" @mousedown="handleRotate"></span>
+    <div class="shape" :class="{ active }" @click="selectCurComponent" @mousedown="handleMouseDownOnShape">
+        <span class="iconfont icon-xiangyouxuanzhuan" v-show="isActive()" @mousedown="handleRotate"></span>
         <div
             class="shape-point"
-            v-for="item in (active? pointList : [])"
+            v-for="item in (isActive()? pointList : [])"
             @mousedown="handleMouseDownOnPoint(item, $event)"
             :key="item"
             :style="getPointStyle(item)">
@@ -81,6 +81,10 @@ export default {
         })
     },
     methods: {
+        isActive() {
+            return this.active && !this.element.isLock
+        },
+
         // 处理旋转
         handleRotate(e) {
             this.$store.commit('setClickComponentStatus', true)
@@ -200,6 +204,8 @@ export default {
             
             e.stopPropagation()
             this.$store.commit('setCurComponent', { component: this.element, index: this.index })
+            if (this.element.isLock) return
+
             this.cursors = this.getCursor() // 根据旋转角度获取光标位置
             
             const pos = { ...this.defaultStyle }
@@ -364,7 +370,7 @@ export default {
     font-weight: 600;
     cursor: grab;
     color: #59c7f9;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 600;
 
     &:active {

@@ -17,6 +17,7 @@
             :active="item === curComponent"
             :element="item"
             :index="index"
+            :class="{ lock: item.isLock }"
         >
             <component
                 v-if="item.component != 'v-text'"
@@ -202,6 +203,8 @@ export default {
             const result = []
             const { x, y } = this.start
             this.componentData.forEach(component => {
+                if (component.isLock) return
+                
                 const { left, top, width, height } = component.style
                 if (x <= left && y <= top && (left + width <= x + this.width) && (top + height <= y + this.height)) {
                     result.push(component)
@@ -268,6 +271,10 @@ export default {
     position: relative;
     background: #fff;
     margin: auto;
+
+    .lock {
+        opacity: .5;
+    }
 }
 .edit {
     .component {
