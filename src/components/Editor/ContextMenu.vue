@@ -2,14 +2,18 @@
     <div class="contextmenu" v-show="menuShow" :style="{ top: menuTop + 'px', left: menuLeft + 'px' }">
         <ul @mouseup="handleMouseUp">
             <template v-if="curComponent">
-                <li @click="copy">复制</li>
-                <li @click="paste">粘贴</li>
-                <li @click="cut">剪切</li>
-                <li @click="deleteComponent">删除</li>
-                <li @click="topComponent">置顶</li>
-                <li @click="bottomComponent">置底</li>
-                <li @click="upComponent">上移</li>
-                <li @click="downComponent">下移</li>
+                <template v-if="!curComponent.isLock">
+                    <li @click="copy">复制</li>
+                    <li @click="paste">粘贴</li>
+                    <li @click="cut">剪切</li>
+                    <li @click="deleteComponent">删除</li>
+                    <li @click="lock">锁定</li>
+                    <li @click="topComponent">置顶</li>
+                    <li @click="bottomComponent">置底</li>
+                    <li @click="upComponent">上移</li>
+                    <li @click="downComponent">下移</li>
+                </template>
+                <li v-else @click="unlock">解锁</li>
             </template>
             <li v-else @click="paste">粘贴</li>
         </ul>
@@ -32,6 +36,14 @@ export default {
         'curComponent',
     ]),
     methods: {
+        lock() {
+            this.$store.commit('lock')
+        },
+
+        unlock() {
+            this.$store.commit('unlock')
+        },
+
         // 点击菜单时不取消当前组件的选中状态
         handleMouseUp() {
             this.$store.commit('setClickComponentStatus', true)

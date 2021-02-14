@@ -12,41 +12,63 @@ const ctrlKey = 17,
     gKey = 71, // 组合
     bKey = 66, // 拆分
 
+    lKey = 76, // 锁定
+    uKey = 85, // 解锁
+
     sKey = 83, // 保存
     pKey = 80, // 预览
     dKey = 68, // 删除
     deleteKey = 46, // 删除
     eKey = 69 // 清空画布
 
-export const keycodes = [66, 67, 68, 69, 71, 80, 83, 86, 88, 89, 90]
+export const keycodes = [66, 67, 68, 69, 71, 76, 80, 83, 85, 86, 88, 89, 90]
 
-const map = {
-    [vKey]: paste,
-    [cKey]: copy,
-    [xKey]: cut,
+// 与组件状态无关的操作
+const basemap = {
     [vKey]: paste,
     [yKey]: redo,
     [zKey]: undo,
-    [gKey]: compose,
-    [bKey]: decompose,
     [sKey]: save,
     [pKey]: preview,
+    [eKey]: clearCanvas,
+}
+
+// 组件锁定状态下可以执行的操作
+const lockMap = {
+    ...basemap,
+    [uKey]: unlock,
+}
+
+// 组件未锁定状态下可以执行的操作
+const unlockMap = {
+    ...basemap,
+    [cKey]: copy,
+    [xKey]: cut,
+    [gKey]: compose,
+    [bKey]: decompose,
     [dKey]: deleteComponent,
     [deleteKey]: deleteComponent,
-    [eKey]: clearCanvas,
+    [lKey]: lock,
 }
 
 let isCtrlDown = false
 // 全局监听按键操作并执行相应命令
 export function listenGlobalKeyDown() {
     window.onkeydown = (e) => {
+        const { curComponent } = store.state
         if (e.keyCode == ctrlKey) {
             isCtrlDown = true
-        } else if (e.keyCode == deleteKey && store.state.curComponent) {
+        } else if (e.keyCode == deleteKey && curComponent) {
             store.commit('deleteComponent')
             store.commit('recordSnapshot')
         } else if (isCtrlDown) {
-            map[e.keyCode](e)
+            if (!curComponent || !curComponent.isLock) {
+                e.preventDefault()
+                unlockMap[e.keyCode] && unlockMap[e.keyCode]()
+            } else if (curComponent && curComponent.isLock) {
+                e.preventDefault()
+                lockMap[e.keyCode] && lockMap[e.keyCode]()
+            }
         }
     }
 
@@ -70,51 +92,52 @@ function cut() {
     store.commit('cut')
 }
 
-function redo(e) {
+function redo() {
     store.commit('redo')
-    e.preventDefault()
 }
 
 function undo() {
     store.commit('undo')
 }
 
-function compose(e) {
+function compose() {
     if (store.state.areaData.components.length) {
         store.commit('compose')
         store.commit('recordSnapshot')
-        e.preventDefault()
     }
 }
 
-function decompose(e) {
+function decompose() {
     const curComponent = store.state.curComponent
     if (curComponent && !curComponent.isLock && curComponent.component == 'Group') {
         store.commit('decompose')
         store.commit('recordSnapshot')
-        e.preventDefault()
     }
 }
 
-function save(e) {
+function save() {
     eventBus.$emit('save')
-    e.preventDefault()
 }
 
-function preview(e) {
+function preview() {
     eventBus.$emit('preview')
-    e.preventDefault()
 }
 
-function deleteComponent(e) {
+function deleteComponent() {
     if (store.state.curComponent) {
         store.commit('deleteComponent')
         store.commit('recordSnapshot')
-        e.preventDefault()
     }
 }
 
-function clearCanvas(e) {
+function clearCanvas() {
     eventBus.$emit('clearCanvas')
-    e.preventDefault()
+}
+
+function lock() {
+    store.commit('lock')
+}
+
+function unlock() {
+    store.commit('unlock')
 }
