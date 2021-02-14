@@ -9,6 +9,9 @@
         @contextmenu="handleContextMenu"
         @mousedown="handleMouseDown"
     >
+        <!-- 网格线 -->
+        <Grid />
+        
         <!--页面组件列表展示-->
         <Shape v-for="(item, index) in componentData"
             :defaultStyle="item.style"
@@ -58,6 +61,7 @@ import ContextMenu from './ContextMenu'
 import MarkLine from './MarkLine'
 import Area from './Area'
 import eventBus from '@/utils/eventBus'
+import Grid from './Grid'
 
 export default {
     props: {
@@ -66,7 +70,7 @@ export default {
             default: true,
         },
     },
-    components: { Shape, ContextMenu, MarkLine, Area },
+    components: { Shape, ContextMenu, MarkLine, Area, Grid },
     data() {
         return {
             editorX: 0,
@@ -204,7 +208,7 @@ export default {
             const { x, y } = this.start
             this.componentData.forEach(component => {
                 if (component.isLock) return
-                
+
                 const { left, top, width, height } = component.style
                 if (x <= left && y <= top && (left + width <= x + this.width) && (top + height <= y + this.height)) {
                     result.push(component)

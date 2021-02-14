@@ -60,6 +60,7 @@ export default {
         'componentData',
         'curComponent',
         'isClickComponent',
+        'canvasStyleData',
     ]),
     created() {
         this.restore()
