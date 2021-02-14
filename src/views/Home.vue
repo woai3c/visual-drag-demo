@@ -107,9 +107,9 @@ export default {
         },
 
         deselectCurComponent() {
+            this.$store.commit('hideContextMenu')
             if (!this.isClickComponent) {
                 this.$store.commit('setCurComponent', { component: null, index: null })
-                this.$store.commit('hideContextMenu')
             }
         },
     },
