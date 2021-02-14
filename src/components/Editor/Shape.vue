@@ -1,6 +1,7 @@
 <template>
     <div class="shape" :class="{ active }" @click="selectCurComponent" @mousedown="handleMouseDownOnShape">
         <span class="iconfont icon-xiangyouxuanzhuan" v-show="isActive()" @mousedown="handleRotate"></span>
+        <span class="iconfont icon-suo" v-show="element.isLock"></span>
         <div
             class="shape-point"
             v-for="item in (isActive()? pointList : [])"
@@ -376,5 +377,10 @@ export default {
     &:active {
         cursor: grabbing;
     }
+}
+.icon-suo {
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 </style>
