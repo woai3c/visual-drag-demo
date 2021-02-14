@@ -18,52 +18,35 @@ const ctrlKey = 17,
     deleteKey = 46, // 删除
     eKey = 69 // 清空画布
 
-let isCtrlDown = false
 export const keycodes = [66, 67, 68, 69, 71, 80, 83, 86, 88, 89, 90]
 
+const map = {
+    [vKey]: paste,
+    [cKey]: copy,
+    [xKey]: cut,
+    [vKey]: paste,
+    [yKey]: redo,
+    [zKey]: undo,
+    [gKey]: compose,
+    [bKey]: decompose,
+    [sKey]: save,
+    [pKey]: preview,
+    [dKey]: deleteComponent,
+    [deleteKey]: deleteComponent,
+    [eKey]: clearCanvas,
+}
+
+let isCtrlDown = false
 // 全局监听按键操作并执行相应命令
 export function listenGlobalKeyDown() {
     window.onkeydown = (e) => {
-        const { areaData, curComponent } = store.state
-
-        if (e.keyCode == deleteKey && store.state.curComponent) {
-            store.commit('deleteComponent')
-            store.commit('recordSnapshot')
-        } else if (e.keyCode == ctrlKey) {
+        if (e.keyCode == ctrlKey) {
             isCtrlDown = true
-        } else if (isCtrlDown && e.keyCode == cKey) {
-            store.commit('copy')
-        } else if (isCtrlDown && e.keyCode == vKey) {
-            store.commit('paste')
-            store.commit('recordSnapshot')
-        } else if (isCtrlDown && e.keyCode == xKey) {
-            store.commit('cut')
-        } else if (isCtrlDown && e.keyCode == yKey) {
-            store.commit('redo')
-            e.preventDefault()
-        } else if (isCtrlDown && e.keyCode == zKey) {
-            store.commit('undo')
-        } else if (isCtrlDown && e.keyCode == gKey && areaData.components.length) {
-            store.commit('compose')
-            store.commit('recordSnapshot')
-            e.preventDefault()
-        } else if (isCtrlDown && e.keyCode == bKey && curComponent && !curComponent.isLock && curComponent.component == 'Group') {
-            store.commit('decompose')
-            store.commit('recordSnapshot')
-            e.preventDefault()
-        } else if (isCtrlDown && e.keyCode == sKey) {
-            eventBus.$emit('save')
-            e.preventDefault()
-        } else if (isCtrlDown && e.keyCode == pKey) {
-            eventBus.$emit('preview')
-            e.preventDefault()
-        } else if (isCtrlDown && e.keyCode == dKey && curComponent) {
+        } else if (e.keyCode == deleteKey && store.state.curComponent) {
             store.commit('deleteComponent')
             store.commit('recordSnapshot')
-            e.preventDefault()
-        } else if (isCtrlDown && e.keyCode == eKey) {
-            eventBus.$emit('clearCanvas')
-            e.preventDefault()
+        } else if (isCtrlDown) {
+            map[e.keyCode](e)
         }
     }
 
@@ -72,4 +55,66 @@ export function listenGlobalKeyDown() {
             isCtrlDown = false
         }
     }
+}
+
+function copy() {
+    store.commit('copy')
+}
+
+function paste() {
+    store.commit('paste')
+    store.commit('recordSnapshot')
+}
+
+function cut() {
+    store.commit('cut')
+}
+
+function redo(e) {
+    store.commit('redo')
+    e.preventDefault()
+}
+
+function undo() {
+    store.commit('undo')
+}
+
+function compose(e) {
+    if (store.state.areaData.components.length) {
+        store.commit('compose')
+        store.commit('recordSnapshot')
+        e.preventDefault()
+    }
+}
+
+function decompose(e) {
+    const curComponent = store.state.curComponent
+    if (curComponent && !curComponent.isLock && curComponent.component == 'Group') {
+        store.commit('decompose')
+        store.commit('recordSnapshot')
+        e.preventDefault()
+    }
+}
+
+function save(e) {
+    eventBus.$emit('save')
+    e.preventDefault()
+}
+
+function preview(e) {
+    eventBus.$emit('preview')
+    e.preventDefault()
+}
+
+function deleteComponent(e) {
+    if (store.state.curComponent) {
+        store.commit('deleteComponent')
+        store.commit('recordSnapshot')
+        e.preventDefault()
+    }
+}
+
+function clearCanvas(e) {
+    eventBus.$emit('clearCanvas')
+    e.preventDefault()
 }
