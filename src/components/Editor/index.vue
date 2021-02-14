@@ -93,10 +93,7 @@ export default {
     mounted() {
         // 获取编辑器元素
         this.$store.commit('getEditor')
-        const rectInfo = this.editor.getBoundingClientRect()
-        this.editorX = rectInfo.x
-        this.editorY = rectInfo.y
-
+        
         eventBus.$on('hideArea', () => {
             this.hideArea()
         })
@@ -110,6 +107,11 @@ export default {
             
             this.hideArea()
 
+            // 获取编辑器的位移信息
+            const rectInfo = this.editor.getBoundingClientRect()
+            this.editorX = rectInfo.x
+            this.editorY = rectInfo.y
+        
             const startX = e.clientX
             const startY = e.clientY
             this.start.x = startX - this.editorX
