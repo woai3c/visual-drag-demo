@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "8229196",
+      "name": "向右旋转",
+      "font_class": "xiangyouxuanzhuan",
+      "unicode": "e66a",
+      "unicode_decimal": 58986
+    },
+    {
       "icon_id": "2187794",
       "name": "图片",
       "font_class": "tupian",
