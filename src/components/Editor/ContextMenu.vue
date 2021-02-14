@@ -1,6 +1,6 @@
 <template>
     <div class="contextmenu" v-show="menuShow" :style="{ top: menuTop + 'px', left: menuLeft + 'px' }">
-        <ul>
+        <ul @mouseup="handleMouseUp">
             <template v-if="curComponent">
                 <li @click="copy">复制</li>
                 <li @click="paste">粘贴</li>
@@ -32,6 +32,11 @@ export default {
         'curComponent',
     ]),
     methods: {
+        // 点击菜单时不取消当前组件的选中状态
+        handleMouseUp() {
+            this.$store.commit('setClickComponentStatus', true)
+        },
+
         cut() {
             this.$store.commit('cut')
         },
