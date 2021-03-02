@@ -2,9 +2,8 @@
     <div class="editor" id="editor" 
         :class="{ edit: isEdit }"
         :style="{
-            width: canvasStyleData.width + 'px',
-            height: canvasStyleData.height + 'px',
-            transform: 'scale(' + parseInt(canvasStyleData.scale) / 100 + ')'
+            width: changeStyleWithScale(canvasStyleData.width) + 'px',
+            height: changeStyleWithScale(canvasStyleData.height) + 'px',
         }"
         @contextmenu="handleContextMenu"
         @mousedown="handleMouseDown"
@@ -62,6 +61,7 @@ import MarkLine from './MarkLine'
 import Area from './Area'
 import eventBus from '@/utils/eventBus'
 import Grid from './Grid'
+import { changeStyleWithScale } from '@/utils/translate'
 
 export default {
     props: {
@@ -99,6 +99,8 @@ export default {
         })
     },
     methods: {
+        changeStyleWithScale,
+        
         handleMouseDown(e) {
             // 如果没有选中组件 在画布上点击时需要调用 e.preventDefault() 防止触发 drop 事件
             if (!this.curComponent || (this.curComponent.component != 'v-text' && this.curComponent.component != 'rect-shape')) {

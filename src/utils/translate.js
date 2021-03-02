@@ -1,3 +1,5 @@
+import store from '@/store'
+
 // 角度转弧度
 // Math.PI = 180 度
 function angleToRadian(angle) {
@@ -118,4 +120,8 @@ export function cos(rotate) {
 
 export function mod360(deg) {
     return (deg + 360) % 360
+}
+
+export function changeStyleWithScale(value) {
+    return value * parseInt(store.state.canvasStyleData.scale) / 100
 }
