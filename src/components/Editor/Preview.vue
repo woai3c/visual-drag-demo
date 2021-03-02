@@ -4,10 +4,10 @@
         <div class="canvas-container">
             <div class="canvas"
                 :style="{
-                width: canvasStyleData.width + 'px',
-                height: canvasStyleData.height + 'px',
-                transform: 'scale(' + parseInt(canvasStyleData.scale) / 100 + ')'
-            }">
+                    width: changeStyleWithScale(canvasStyleData.width) + 'px',
+                    height: changeStyleWithScale(canvasStyleData.height) + 'px',
+                }"
+            >
                 <ComponentWrapper
                     v-for="(item, index) in componentData"
                     :key="index"
@@ -22,6 +22,7 @@
 import { getStyle } from '@/utils/style'
 import { mapState } from 'vuex'
 import ComponentWrapper from './ComponentWrapper'
+import { changeStyleWithScale } from '@/utils/translate'
 
 export default {
     model: {
@@ -40,6 +41,8 @@ export default {
         'canvasStyleData',
     ]),
     methods: {
+        changeStyleWithScale,
+        
         getStyle,
 
         close() {
