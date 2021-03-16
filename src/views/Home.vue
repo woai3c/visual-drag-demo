@@ -9,7 +9,7 @@
             </section>
             <!-- 中间画布 -->
             <section class="center">
-                <div class="content" @drop="handleDrop" @dragover="handleDragOver" 
+                <div class="content" @drop="handleDrop" @dragover="handleDragOver"
                 @mousedown="handleMouseDown" @mouseup="deselectCurComponent">
                     <Editor />
                 </div>
@@ -107,10 +107,14 @@ export default {
             this.$store.commit('setClickComponentStatus', false)
         },
 
-        deselectCurComponent() {
-            this.$store.commit('hideContextMenu')
+        deselectCurComponent(e) {
             if (!this.isClickComponent) {
                 this.$store.commit('setCurComponent', { component: null, index: null })
+            }
+
+            // 0 左击 1 滚轮 2 右击
+            if (e.button != 2) {
+                this.$store.commit('hideContextMenu')
             }
         },
     },
