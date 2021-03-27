@@ -90,7 +90,12 @@ const data = {
             if (index === undefined) {
                 index = state.curComponentIndex
             }
-
+            
+            if (index == state.curComponentIndex) {
+                state.curComponentIndex = null
+                state.curComponent = null
+            }
+            
             state.componentData.splice(index, 1)
         },
     },
