@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 export default {
     mutations: {
         addEvent({ curComponent }, { event, param }) {
@@ -5,7 +7,7 @@ export default {
         },
 
         removeEvent({ curComponent }, event) {
-            delete curComponent.events[event]
+            Vue.delete(curComponent.events, event)
         },
     },
 }
