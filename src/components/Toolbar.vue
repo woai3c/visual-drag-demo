@@ -84,13 +84,16 @@ export default {
 
         handleScaleChange() {
             clearTimeout(this.timer)
-            setTimeout(() => {
+            // 画布比例设一个最小值，不能为 0
+            // eslint-disable-next-line no-bitwise
+            this.scale = (~~this.scale) || 1
+            this.timer = setTimeout(() => {
                 const componentData = deepCopy(this.componentData)
                 componentData.forEach(component => {
                     Object.keys(component.style).forEach(key => {
                         if (this.needToChange.includes(key)) {
-                        // 根据原来的比例获取样式原来的尺寸
-                        // 再用原来的尺寸 * 现在的比例得出新的尺寸
+                            // 根据原来的比例获取样式原来的尺寸
+                            // 再用原来的尺寸 * 现在的比例得出新的尺寸
                             component.style[key] = this.format(this.getOriginStyle(component.style[key]))
                         }
                     })
