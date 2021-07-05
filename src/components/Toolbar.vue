@@ -164,6 +164,10 @@ export default {
                     })
 
                     this.$store.commit('recordSnapshot')
+
+                    /** 解决重复上传同一文件，@change不被触发的问题 **/
+                    document.querySelector('#input').setAttribute('type', 'text')
+                    document.querySelector('#input').setAttribute('type', 'file')
                 }
 
                 img.src = fileResult
