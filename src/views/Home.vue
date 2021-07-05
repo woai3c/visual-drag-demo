@@ -72,6 +72,8 @@ export default {
             // 用保存的数据恢复画布
             if (localStorage.getItem('canvasData')) {
                 this.$store.commit('setComponentData', this.resetID(JSON.parse(localStorage.getItem('canvasData'))))
+                /** 从本地获取数据时，记录快照，用来承接第一次撤销 * */
+                this.$store.commit('recordSnapshot')
             }
 
             if (localStorage.getItem('canvasStyle')) {
