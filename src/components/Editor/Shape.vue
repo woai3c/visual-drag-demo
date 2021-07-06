@@ -275,11 +275,16 @@ export default {
 
             // 获取画布位移信息
             const editorRectInfo = this.editor.getBoundingClientRect()
-
+            
+            //获取 point 与实际拖动基准点的差值 @justJokee
+            //fix https://github.com/woai3c/visual-drag-demo/issues/26#issue-937686285
+            
+            const pointDistance = this.getPointDistance(editorRectInfo, e)
+            
             // 当前点击坐标
             const curPoint = {
-                x: e.clientX - editorRectInfo.left,
-                y: e.clientY - editorRectInfo.top,
+                x: e.clientX - editorRectInfo.left + pointDistance.x,
+                y: e.clientY - editorRectInfo.top + pointDistance.y,
             }
 
             // 获取对称点的坐标
@@ -303,8 +308,8 @@ export default {
 
                 needSave = true
                 const curPositon = {
-                    x: moveEvent.clientX - editorRectInfo.left,
-                    y: moveEvent.clientY - editorRectInfo.top,
+                    x: moveEvent.clientX - editorRectInfo.left + pointDistance.x,
+                    y: moveEvent.clientY - editorRectInfo.top + pointDistance.y,
                 }
                 
                 calculateComponentPositonAndSize(point, style, curPositon, proportion, needLockProportion, {
@@ -336,6 +341,22 @@ export default {
             }
 
             return false
+        },
+        getPointDistance(editorRectInfo, e) {
+            const fakePos = {
+                x: e.clientX - editorRectInfo.left,
+                y: e.clientY - editorRectInfo.top,
+            }
+            const pointRect = e.target.getBoundingClientRect()
+            const relPos = {
+                x: pointRect.left - editorRectInfo.left + e.target.offsetWidth / 2,
+                y: pointRect.top - editorRectInfo.top + e.target.offsetHeight / 2,
+            }
+            const pointDistance = { 
+                x: relPos.x - fakePos.x,
+                y: relPos.y - fakePos.y,
+            }
+            return pointDistance
         },
     },
 }
