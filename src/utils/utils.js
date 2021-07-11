@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 export function deepCopy(target) {
     if (typeof target == 'object') {
         const result = Array.isArray(target)? [] : {}
@@ -11,14 +13,15 @@ export function deepCopy(target) {
 
         return result
     }
-    
+
     return target
 }
 
 export function swap(arr, i, j) {
     const temp = arr[i]
     arr[i] = arr[j]
-    arr[j] = temp
+    Vue.set(arr, i, arr[j])
+    Vue.set(arr, j, temp)
 }
 
 export function $(selector) {
