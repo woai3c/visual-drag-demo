@@ -9,9 +9,9 @@
             <el-button @click="save">保存</el-button>
             <el-button @click="clearCanvas">清空画布</el-button>
             <el-button @click="compose" :disabled="!areaData.components.length">组合</el-button>
-            <el-button @click="decompose" 
+            <el-button @click="decompose"
             :disabled="!curComponent || curComponent.isLock || curComponent.component != 'Group'">拆分</el-button>
-            
+
             <el-button @click="lock" :disabled="!curComponent || curComponent.isLock">锁定</el-button>
             <el-button @click="unlock" :disabled="!curComponent || !curComponent.isLock">解锁</el-button>
             <div class="canvas-config">
@@ -84,17 +84,18 @@ export default {
 
         handleScaleChange() {
             clearTimeout(this.timer)
-            // 画布比例设一个最小值，不能为 0
-            // eslint-disable-next-line no-bitwise
-            this.scale = (~~this.scale) || 1
             this.timer = setTimeout(() => {
+                // 画布比例设一个最小值，不能为 0
+                // eslint-disable-next-line no-bitwise
+                this.scale = (~~this.scale) || 1
                 const componentData = deepCopy(this.componentData)
                 componentData.forEach(component => {
                     Object.keys(component.style).forEach(key => {
                         if (this.needToChange.includes(key)) {
                             // 根据原来的比例获取样式原来的尺寸
                             // 再用原来的尺寸 * 现在的比例得出新的尺寸
-                            component.style[key] = this.format(this.getOriginStyle(component.style[key]))
+                            // 不能用 Math.round 防止 1 px 的边框变 0
+                            component.style[key] = Math.ceil(this.format(this.getOriginStyle(component.style[key])))
                         }
                     })
                 })
@@ -104,7 +105,7 @@ export default {
                     ...this.canvasStyleData,
                     scale: this.scale,
                 })
-            }, 500)
+            }, 1000)
         },
 
         lock() {
@@ -124,7 +125,7 @@ export default {
             this.$store.commit('decompose')
             this.$store.commit('recordSnapshot')
         },
-        
+
         undo() {
             this.$store.commit('undo')
         },
@@ -149,8 +150,8 @@ export default {
                         component: {
                             ...commonAttr,
                             id: generateID(),
-                            component: 'Picture', 
-                            label: '图片', 
+                            component: 'Picture',
+                            label: '图片',
                             icon: '',
                             propValue: fileResult,
                             style: {
