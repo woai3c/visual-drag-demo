@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build": "vue-cli-service build"
   },
   "husky": {
     "hooks": {
+      "pre-commit": "lint-staged",
       "commit-msg": "node scripts/verify-commit.js"
     }
   },
@@ -35,5 +35,8 @@
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"
-  }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,vue}": "eslint"
+  }  
 }
