@@ -138,7 +138,7 @@ export default {
             const hasR = /r/.test(point)
             let newLeft = 0
             let newTop = 0
-            
+
             // 四个角的点
             if (point.length === 2) {
                 newLeft = hasL? 0 : width
@@ -156,7 +156,7 @@ export default {
                     newTop = Math.floor(height / 2)
                 }
             }
-            
+
             const style = {
                 marginLeft: hasR? '-4px' : '-4px',
                 marginTop: '-4px',
@@ -164,7 +164,7 @@ export default {
                 top: `${newTop}px`,
                 cursor: this.cursors[point],
             }
-            
+
             return style
         },
 
@@ -173,7 +173,7 @@ export default {
             const rotate = mod360(curComponent.style.rotate) // 取余 360
             const result = {}
             let lastMatchIndex = -1 // 从上一个命中的角度的索引开始匹配下一个，降低时间复杂度
-            
+
             pointList.forEach(point => {
                 const angle = mod360(initialAngle[point] + rotate)
                 const len = angleToCursor.length
@@ -182,13 +182,13 @@ export default {
                     const angleLimit = angleToCursor[lastMatchIndex]
                     if (angle < 23 || angle >= 338) {
                         result[point] = 'nw-resize'
-                        
+
                         return
                     }
 
                     if (angleLimit.start <= angle && angle < angleLimit.end) {
                         result[point] = angleLimit.cursor + '-resize'
-                        
+
                         return
                     }
                 }
@@ -202,20 +202,20 @@ export default {
             if (this.element.component != 'v-text' && this.element.component != 'rect-shape') {
                 e.preventDefault()
             }
-            
+
             e.stopPropagation()
             this.$store.commit('setCurComponent', { component: this.element, index: this.index })
             if (this.element.isLock) return
 
             this.cursors = this.getCursor() // 根据旋转角度获取光标位置
-            
+
             const pos = { ...this.defaultStyle }
             const startY = e.clientY
             const startX = e.clientX
             // 如果直接修改属性，值的类型会变为字符串，所以要转为数值型
             const startTop = Number(pos.top)
             const startLeft = Number(pos.left)
-            
+
             // 如果元素没有移动，则不保存快照
             let hasMove = false
             const move = (moveEvent) => {
@@ -224,7 +224,7 @@ export default {
                 const curY = moveEvent.clientY
                 pos.top = curY - startY + startTop
                 pos.left = curX - startX + startLeft
-                
+
                 // 修改当前组件样式
                 this.$store.commit('setShapeStyle', pos)
                 // 等更新完当前组件的样式并绘制到屏幕后再判断是否需要吸附
@@ -261,7 +261,7 @@ export default {
             this.$store.commit('setClickComponentStatus', true)
             e.stopPropagation()
             e.preventDefault()
- 
+
             const style = { ...this.defaultStyle }
 
             // 组件宽高比
@@ -275,16 +275,14 @@ export default {
 
             // 获取画布位移信息
             const editorRectInfo = this.editor.getBoundingClientRect()
-            
-            //获取 point 与实际拖动基准点的差值 @justJokee
-            //fix https://github.com/woai3c/visual-drag-demo/issues/26#issue-937686285
-            
-            const pointDistance = this.getPointDistance(editorRectInfo, e)
-            
-            // 当前点击坐标
+
+            // 获取 point 与实际拖动基准点的差值 @justJokee
+            // fix https://github.com/woai3c/visual-drag-demo/issues/26#issue-937686285
+            const pointRect = e.target.getBoundingClientRect()
+            // 当前点击圆点相对于画布的中心坐标
             const curPoint = {
-                x: e.clientX - editorRectInfo.left + pointDistance.x,
-                y: e.clientY - editorRectInfo.top + pointDistance.y,
+                x: Math.round(pointRect.left - editorRectInfo.left + e.target.offsetWidth / 2),
+                y: Math.round(pointRect.top - editorRectInfo.top + e.target.offsetHeight / 2),
             }
 
             // 获取对称点的坐标
@@ -308,10 +306,10 @@ export default {
 
                 needSave = true
                 const curPositon = {
-                    x: moveEvent.clientX - editorRectInfo.left + pointDistance.x,
-                    y: moveEvent.clientY - editorRectInfo.top + pointDistance.y,
+                    x: moveEvent.clientX - editorRectInfo.left,
+                    y: moveEvent.clientY - editorRectInfo.top,
                 }
-                
+
                 calculateComponentPositonAndSize(point, style, curPositon, proportion, needLockProportion, {
                     center,
                     curPoint,
@@ -341,22 +339,6 @@ export default {
             }
 
             return false
-        },
-        getPointDistance(editorRectInfo, e) {
-            const fakePos = {
-                x: e.clientX - editorRectInfo.left,
-                y: e.clientY - editorRectInfo.top,
-            }
-            const pointRect = e.target.getBoundingClientRect()
-            const relPos = {
-                x: pointRect.left - editorRectInfo.left + e.target.offsetWidth / 2,
-                y: pointRect.top - editorRectInfo.top + e.target.offsetHeight / 2,
-            }
-            const pointDistance = { 
-                x: relPos.x - fakePos.x,
-                y: relPos.y - fakePos.y,
-            }
-            return pointDistance
         },
     },
 }
