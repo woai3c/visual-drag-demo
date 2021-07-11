@@ -49,7 +49,6 @@ module.exports = {
         'import/named': 'off',
         'object-curly-newline': 'off',
         'default-case': 'off',
-        'space-infix-ops': 'off',
         'import/order': 'off',
         'no-trailing-spaces': 'off',
         'func-names': 'off',
