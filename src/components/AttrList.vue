@@ -108,7 +108,7 @@ export default {
     },
     computed: {
         styleKeys() {
-            return this.$store.state.curComponent? Object.keys(this.$store.state.curComponent.style) : []
+            return this.$store.state.curComponent ? Object.keys(this.$store.state.curComponent.style) : []
         },
         curComponent() {
             return this.$store.state.curComponent

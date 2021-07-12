@@ -141,24 +141,24 @@ export default {
 
             // 四个角的点
             if (point.length === 2) {
-                newLeft = hasL? 0 : width
-                newTop = hasT? 0 : height
+                newLeft = hasL ? 0 : width
+                newTop = hasT ? 0 : height
             } else {
                 // 上下两点的点，宽度居中
                 if (hasT || hasB) {
                     newLeft = width / 2
-                    newTop = hasT? 0 : height
+                    newTop = hasT ? 0 : height
                 }
 
                 // 左右两边的点，高度居中
                 if (hasL || hasR) {
-                    newLeft = hasL? 0 : width
+                    newLeft = hasL ? 0 : width
                     newTop = Math.floor(height / 2)
                 }
             }
 
             const style = {
-                marginLeft: hasR? '-4px' : '-4px',
+                marginLeft: hasR ? '-4px' : '-4px',
                 marginTop: '-4px',
                 left: `${newLeft}px`,
                 top: `${newTop}px`,
