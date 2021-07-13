@@ -27,8 +27,8 @@
 24. 编辑器快照的另一种实现方式
 
 ## 在线 DEMO
-* [预览入口一](https://woai3c.gitee.io/visual-drag-demo)
-* [预览入口二](https://woai3c.github.io/visual-drag-demo)
+* [预览入口一（Gitee）](https://woai3c.gitee.io/visual-drag-demo)
+* [预览入口二（Github）](https://woai3c.github.io/visual-drag-demo)
 
 ## 文档
 * [可视化拖拽组件库一些技术要点原理分析](https://github.com/woai3c/Front-end-articles/issues/19)
