@@ -1,5 +1,5 @@
 <template>
-    <div class="editor" id="editor" 
+    <div class="editor" id="editor"
         :class="{ edit: isEdit }"
         :style="{
             width: changeStyleWithScale(canvasStyleData.width) + 'px',
@@ -10,7 +10,7 @@
     >
         <!-- 网格线 -->
         <Grid />
-        
+
         <!--页面组件列表展示-->
         <Shape v-for="(item, index) in componentData"
             :defaultStyle="item.style"
@@ -93,34 +93,34 @@ export default {
     mounted() {
         // 获取编辑器元素
         this.$store.commit('getEditor')
-        
+
         eventBus.$on('hideArea', () => {
             this.hideArea()
         })
     },
     methods: {
         changeStyleWithScale,
-        
+
         handleMouseDown(e) {
             // 如果没有选中组件 在画布上点击时需要调用 e.preventDefault() 防止触发 drop 事件
             if (!this.curComponent || (this.curComponent.component != 'v-text' && this.curComponent.component != 'rect-shape')) {
                 e.preventDefault()
             }
-            
+
             this.hideArea()
 
             // 获取编辑器的位移信息，每次点击时都需要获取一次。主要是为了方便开发时调试用。
             const rectInfo = this.editor.getBoundingClientRect()
             this.editorX = rectInfo.x
             this.editorY = rectInfo.y
-        
+
             const startX = e.clientX
             const startY = e.clientY
             this.start.x = startX - this.editorX
             this.start.y = startY - this.editorY
             // 展示选中区域
             this.isShowArea = true
-            
+
             const move = (moveEvent) => {
                 this.width = Math.abs(moveEvent.clientX - startX)
                 this.height = Math.abs(moveEvent.clientY - startY)
@@ -162,7 +162,7 @@ export default {
                 this.hideArea()
                 return
             }
-            
+
             // 根据选中区域和区域中每个组件的位移信息来创建 Group 组件
             // 要遍历选择区域的每个组件，获取它们的 left top right bottom 信息来进行比较
             let top = Infinity, left = Infinity
@@ -277,7 +277,7 @@ export default {
             }
 
             const newHeight = (text.split('<br>').length - 1) * lineHeight * fontSize
-            return height > newHeight? height : newHeight
+            return height > newHeight ? height : newHeight
         },
     },
 }
