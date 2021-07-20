@@ -9,6 +9,9 @@ export default {
             type: String,
             default: '',
         },
+        element: {
+            type: Object,
+        },
     },
 }
 </script>

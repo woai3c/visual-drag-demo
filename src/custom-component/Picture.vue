@@ -11,6 +11,9 @@ export default {
             type: String,
             require: true,
         },
+        element: {
+            type: Object,
+        },
     },
 }
 </script>
