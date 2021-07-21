@@ -90,12 +90,15 @@ export default {
         handleDrop(e) {
             e.preventDefault()
             e.stopPropagation()
-            const component = deepCopy(componentList[e.dataTransfer.getData('index')])
-            component.style.top = e.offsetY
-            component.style.left = e.offsetX
-            component.id = generateID()
-            this.$store.commit('addComponent', { component })
-            this.$store.commit('recordSnapshot')
+            const index = e.dataTransfer.getData('index')
+            if (index) {
+                const component = deepCopy(componentList[index])
+                component.style.top = e.offsetY
+                component.style.left = e.offsetX
+                component.id = generateID()
+                this.$store.commit('addComponent', { component })
+                this.$store.commit('recordSnapshot')
+            }
         },
 
         handleDragOver(e) {
