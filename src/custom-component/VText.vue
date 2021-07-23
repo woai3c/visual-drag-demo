@@ -77,6 +77,15 @@ export default {
 
         handleBlur(e) {
             this.element.propValue = e.target.innerHTML || '&nbsp;'
+            const html = e.target.innerHTML
+            if (html !== '') {
+                this.element.propValue = e.target.innerHTML
+            } else {
+                this.element.propValue = ''
+                this.$nextTick(() => {
+                    this.element.propValue = '&nbsp;'
+                })
+            }
             this.canEdit = false
         },
 
