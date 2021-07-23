@@ -1,6 +1,6 @@
 <template>
     <div @dragstart="handleDragStart" class="component-list">
-        <div v-for="(item, index) in componentList" :key="index" class="list" draggable 
+        <div v-for="(item, index) in componentList" :key="index" class="list" draggable
         :data-index="index">
             <span class="iconfont" :class="'icon-' + item.icon"></span>
             <span>{{ item.label }}</span>
@@ -17,9 +17,14 @@ export default {
             componentList,
         }
     },
+    created() {
+        window.ondragend = () => {
+            this.$store.commit('setDragElement', null)
+        }
+    },
     methods: {
         handleDragStart(e) {
-            e.dataTransfer.setData('index', e.target.dataset.index)
+            this.$store.commit('setDragElement', e.target)
         },
     },
 }

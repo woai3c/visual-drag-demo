@@ -61,6 +61,7 @@ export default {
         'curComponent',
         'isClickComponent',
         'canvasStyleData',
+        'dragElement',
     ]),
     created() {
         this.restore()
@@ -90,20 +91,19 @@ export default {
         handleDrop(e) {
             e.preventDefault()
             e.stopPropagation()
-            const index = e.dataTransfer.getData('index')
-            if (index) {
-                const component = deepCopy(componentList[index])
-                component.style.top = e.offsetY
-                component.style.left = e.offsetX
-                component.id = generateID()
-                this.$store.commit('addComponent', { component })
-                this.$store.commit('recordSnapshot')
-            }
+            const component = deepCopy(componentList[this.dragElement.dataset.index])
+            component.style.top = e.offsetY
+            component.style.left = e.offsetX
+            component.id = generateID()
+            this.$store.commit('addComponent', { component })
+            this.$store.commit('recordSnapshot')
         },
 
         handleDragOver(e) {
-            e.preventDefault()
-            e.dataTransfer.dropEffect = 'copy'
+            if (this.dragElement) {
+                e.preventDefault()
+                e.dataTransfer.dropEffect = 'copy'
+            }
         },
 
         handleMouseDown() {
