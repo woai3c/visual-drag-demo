@@ -355,6 +355,9 @@ export default {
 .active {
     outline: 1px solid #70c0ff;
     user-select: none;
+    &:hover {
+        cursor: not-allowed;
+    }
 }
 .shape-point {
     position: absolute;
