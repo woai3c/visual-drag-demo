@@ -90,6 +90,8 @@ export default {
         },
 
         setEdit() {
+            if (this.element.isLock) return
+
             this.canEdit = true
             // 全选
             this.selectText(this.$refs.text)
