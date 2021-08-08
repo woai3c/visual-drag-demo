@@ -291,6 +291,10 @@ export default {
 
     .lock {
         opacity: .5;
+
+        &:hover {
+            cursor: not-allowed;
+        }
     }
 }
 .edit {
