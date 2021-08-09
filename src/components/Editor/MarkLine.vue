@@ -58,6 +58,7 @@ export default {
             const curComponentStyle = getComponentRotatedStyle(this.curComponent.style)
             const curComponentHalfwidth = curComponentStyle.width / 2
             const curComponentHalfHeight = curComponentStyle.height / 2
+            const needToShow = []
 
             this.hideLine()
             components.forEach(component => {
@@ -146,7 +147,6 @@ export default {
                     ],
                 }
 
-                const needToShow = []
                 const { rotate } = this.curComponent.style
                 Object.keys(conditions).forEach(key => {
                     // 遍历符合的条件并处理
@@ -159,16 +159,18 @@ export default {
                         })
 
                         condition.lineNode.style[key] = `${condition.lineShift}px`
-                        needToShow.push(condition.line)
+                        if (!needToShow.includes(condition.line)) {
+                            needToShow.push(condition.line)
+                        }
                     })
                 })
-
-                // 同一方向上同时显示三条线可能不太美观，因此才有了这个解决方案
-                // 同一方向上的线只显示一条，例如多条横条只显示一条横线
-                if (needToShow.length) {
-                    this.chooseTheTureLine(needToShow, isDownward, isRightward)
-                }
             })
+
+            // 同一方向上同时显示三条线可能不太美观，因此才有了这个解决方案
+            // 同一方向上的线只显示一条，例如多条横条只显示一条横线
+            if (needToShow.length) {
+                this.chooseTheTureLine(needToShow, isDownward, isRightward)
+            }
         },
 
         translatecurComponentShift(key, condition, curComponentStyle) {
