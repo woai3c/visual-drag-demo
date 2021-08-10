@@ -153,6 +153,16 @@ export default {
             this.isShowArea = 0
             this.width = 0
             this.height = 0
+
+            this.$store.commit('setAreaData', {
+                style: {
+                    left: 0,
+                    top: 0,
+                    width: 0,
+                    height: 0,
+                },
+                components: [],
+            })
         },
 
         createGroup() {
