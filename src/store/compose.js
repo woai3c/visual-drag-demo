@@ -4,6 +4,7 @@ import eventBus from '@/utils/eventBus'
 import decomposeComponent from '@/utils/decomposeComponent'
 import { $ } from '@/utils/utils'
 import { commonStyle, commonAttr } from '@/custom-component/component-list'
+import createGroupStyle from '@/utils/createGroupStyle'
 
 export default {
     state: {
@@ -49,23 +50,25 @@ export default {
                 }
             })
 
-            store.commit('addComponent', {
-                component: {
-                    id: generateID(),
-                    component: 'Group',
-                    ...commonAttr,
-                    style: {
-                        ...commonStyle,
-                        ...areaData.style,
-                    },
-                    propValue: components,
+            const groupComponent = {
+                id: generateID(),
+                component: 'Group',
+                ...commonAttr,
+                style: {
+                    ...commonStyle,
+                    ...areaData.style,
                 },
+                propValue: components,
+            }
+            createGroupStyle(groupComponent)
+            store.commit('addComponent', {
+                component: groupComponent,
             })
-            
+
             eventBus.$emit('hideArea')
 
             store.commit('batchDeleteComponent', areaData.components)
-            store.commit('setCurComponent', { 
+            store.commit('setCurComponent', {
                 component: componentData[componentData.length - 1],
                 index: componentData.length - 1,
             })
