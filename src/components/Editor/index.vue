@@ -153,6 +153,16 @@ export default {
             this.isShowArea = 0
             this.width = 0
             this.height = 0
+
+            this.$store.commit('setAreaData', {
+                style: {
+                    left: 0,
+                    top: 0,
+                    width: 0,
+                    height: 0,
+                },
+                components: [],
+            })
         },
 
         createGroup() {
@@ -217,7 +227,7 @@ export default {
             this.componentData.forEach(component => {
                 if (component.isLock) return
 
-                const { left, top, width, height } = component.style
+                const { left, top, width, height } = getComponentRotatedStyle(component.style)
                 if (x <= left && y <= top && (left + width <= x + this.width) && (top + height <= y + this.height)) {
                     result.push(component)
                 }
