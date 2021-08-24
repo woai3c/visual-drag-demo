@@ -26,7 +26,7 @@ export default {
             }
 
             const data = state.copyData.data
-            
+
             if (isMouse) {
                 data.style.top = state.menuTop
                 data.style.left = state.menuLeft
@@ -34,8 +34,14 @@ export default {
                 data.style.top += 10
                 data.style.left += 10
             }
-            
+
             data.id = generateID()
+            if (data.component === 'Group') {
+                data.propValue.forEach(component => {
+                    component.id = generateID()
+                })
+            }
+
             store.commit('addComponent', { component: deepCopy(data) })
             if (state.isCut) {
                 state.copyData = null
@@ -47,7 +53,7 @@ export default {
                 toast('请选择组件')
                 return
             }
-            
+
             if (state.copyData) {
                 const data = deepCopy(state.copyData.data)
                 const index = state.copyData.index
