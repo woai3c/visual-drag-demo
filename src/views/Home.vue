@@ -61,6 +61,7 @@ export default {
         'curComponent',
         'isClickComponent',
         'canvasStyleData',
+        'editor',
     ]),
     created() {
         this.restore()
@@ -91,10 +92,11 @@ export default {
             e.preventDefault()
             e.stopPropagation()
             const index = e.dataTransfer.getData('index')
+            const rectInfo = this.editor.getBoundingClientRect()
             if (index) {
                 const component = deepCopy(componentList[index])
-                component.style.top = e.offsetY
-                component.style.left = e.offsetX
+                component.style.top = e.clientY - rectInfo.y
+                component.style.left = e.clientX - rectInfo.x
                 component.id = generateID()
                 this.$store.commit('addComponent', { component })
                 this.$store.commit('recordSnapshot')
