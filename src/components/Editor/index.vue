@@ -16,7 +16,7 @@
             :defaultStyle="item.style"
             :style="getShapeStyle(item.style)"
             :key="item.id"
-            :active="item === curComponent"
+            :active="item.id === (curComponent || {}).id"
             :element="item"
             :index="index"
             :class="{ lock: item.isLock }"
