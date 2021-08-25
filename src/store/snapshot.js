@@ -10,7 +10,19 @@ export default {
         undo(state) {
             if (state.snapshotIndex >= 0) {
                 state.snapshotIndex--
-                store.commit('setComponentData', deepCopy(state.snapshotData[state.snapshotIndex]))
+                const componentData = deepCopy(state.snapshotData[state.snapshotIndex]) || []
+                if (state.curComponent) {
+                    // 如果当前组件不在 componentData 中，则置空
+                    let needClean = !componentData.find(component => state.curComponent.id === component.id)
+
+                    if (needClean) {
+                        store.commit('setCurComponent', {
+                            component: null,
+                            index: null,
+                        })
+                    }
+                }
+                store.commit('setComponentData', componentData)
             }
         },
 
