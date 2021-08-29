@@ -189,6 +189,7 @@ export default {
         },
 
         clearCanvas() {
+            this.$store.commit('setCurComponent', { component: null, index: null })
             this.$store.commit('setComponentData', [])
             this.$store.commit('recordSnapshot')
         },
