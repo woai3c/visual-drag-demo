@@ -22,7 +22,7 @@
             </div>
             <div class="canvas-config">
                 <span>画布比例</span>
-                <input v-model="scale" @input="handleScaleChange"> %
+                <input type="number" v-model="canvasStyleData.scale"> %
             </div>
         </div>
 
@@ -38,7 +38,6 @@ import { mapState } from 'vuex'
 import Preview from '@/components/Editor/Preview'
 import { commonStyle, commonAttr } from '@/custom-component/component-list'
 import eventBus from '@/utils/eventBus'
-import { deepCopy } from '@/utils/utils'
 
 export default {
     components: { Preview },
@@ -53,7 +52,6 @@ export default {
                 'fontSize',
                 'borderWidth',
             ],
-            scale: '100%',
             timer: null,
         }
     },
@@ -67,46 +65,8 @@ export default {
         eventBus.$on('preview', this.preview)
         eventBus.$on('save', this.save)
         eventBus.$on('clearCanvas', this.clearCanvas)
-
-        this.scale = this.canvasStyleData.scale
     },
     methods: {
-        format(value) {
-            const scale = this.scale
-            return value * parseInt(scale) / 100
-        },
-
-        getOriginStyle(value) {
-            const scale = this.canvasStyleData.scale
-            const result = value / (parseInt(scale) / 100)
-            return result
-        },
-
-        handleScaleChange() {
-            clearTimeout(this.timer)
-            this.timer = setTimeout(() => {
-                // 画布比例设一个最小值，不能为 0
-                // eslint-disable-next-line no-bitwise
-                this.scale = (~~this.scale) || 1
-                const componentData = deepCopy(this.componentData)
-                componentData.forEach(component => {
-                    Object.keys(component.style).forEach(key => {
-                        if (this.needToChange.includes(key)) {
-                            // 根据原来的比例获取样式原来的尺寸
-                            // 再用原来的尺寸 * 现在的比例得出新的尺寸
-                            // 不能用 Math.round 防止 1 px 的边框变 0
-                            component.style[key] = Math.ceil(this.format(this.getOriginStyle(component.style[key])))
-                        }
-                    })
-                })
-
-                this.$store.commit('setComponentData', componentData)
-                this.$store.commit('setCanvasStyle', {
-                    ...this.canvasStyleData,
-                    scale: this.scale,
-                })
-            }, 1000)
-        },
 
         lock() {
             this.$store.commit('lock')

@@ -2,52 +2,58 @@
     <div class="editor" id="editor"
         :class="{ edit: isEdit }"
         :style="{
-            width: changeStyleWithScale(canvasStyleData.width) + 'px',
-            height: changeStyleWithScale(canvasStyleData.height) + 'px',
+            width: canvasStyleData.width*canvasStyleData.scale/100 + 'px',
+            height: canvasStyleData.height*canvasStyleData.scale/100 + 'px',
         }"
         @contextmenu="handleContextMenu"
         @mousedown="handleMouseDown"
     >
-        <!-- 网格线 -->
-        <Grid />
+        <div class="scale-wrap" :style="{
+                width: canvasStyleData.width + 'px',
+                height: canvasStyleData.height + 'px',
+                transform: 'scale3d('+ canvasStyleData.scale/100 +','+canvasStyleData.scale/100+',1)'
+            }">
+            <!-- 网格线 -->
+            <Grid />
 
-        <!--页面组件列表展示-->
-        <Shape v-for="(item, index) in componentData"
-            :defaultStyle="item.style"
-            :style="getShapeStyle(item.style)"
-            :key="item.id"
-            :active="item.id === (curComponent || {}).id"
-            :element="item"
-            :index="index"
-            :class="{ lock: item.isLock }"
-        >
-            <component
-                v-if="item.component != 'v-text'"
-                class="component"
-                :is="item.component"
-                :style="getComponentStyle(item.style)"
-                :propValue="item.propValue"
+            <!--页面组件列表展示-->
+            <Shape v-for="(item, index) in componentData"
+                :defaultStyle="item.style"
+                :style="getShapeStyle(item.style)"
+                :key="item.id"
+                :active="item.id === (curComponent || {}).id"
                 :element="item"
-                :id="'component' + item.id"
-            />
+                :index="index"
+                :class="{ lock: item.isLock }"
+            >
+                <component
+                    v-if="item.component != 'v-text'"
+                    class="component"
+                    :is="item.component"
+                    :style="getComponentStyle(item.style)"
+                    :propValue="item.propValue"
+                    :element="item"
+                    :id="'component' + item.id"
+                />
 
-            <component
-                v-else
-                class="component"
-                :is="item.component"
-                :style="getComponentStyle(item.style)"
-                :propValue="item.propValue"
-                @input="handleInput"
-                :element="item"
-                :id="'component' + item.id"
-            />
-        </Shape>
-        <!-- 右击菜单 -->
-        <ContextMenu />
-        <!-- 标线 -->
-        <MarkLine />
-        <!-- 选中区域 -->
-        <Area :start="start" :width="width" :height="height" v-show="isShowArea" />
+                <component
+                    v-else
+                    class="component"
+                    :is="item.component"
+                    :style="getComponentStyle(item.style)"
+                    :propValue="item.propValue"
+                    @input="handleInput"
+                    :element="item"
+                    :id="'component' + item.id"
+                />
+            </Shape>
+            <!-- 右击菜单 -->
+            <ContextMenu />
+            <!-- 标线 -->
+            <MarkLine />
+            <!-- 选中区域 -->
+            <Area :start="start" :width="width" :height="height" v-show="isShowArea" />
+        </div>
     </div>
 </template>
 
@@ -61,7 +67,6 @@ import MarkLine from './MarkLine'
 import Area from './Area'
 import eventBus from '@/utils/eventBus'
 import Grid from './Grid'
-import { changeStyleWithScale } from '@/utils/translate'
 
 export default {
     props: {
@@ -99,7 +104,6 @@ export default {
         })
     },
     methods: {
-        changeStyleWithScale,
 
         handleMouseDown(e) {
             // 如果没有选中组件 在画布上点击时需要调用 e.preventDefault() 防止触发 drop 事件
@@ -298,7 +302,6 @@ export default {
     position: relative;
     background: #fff;
     margin: auto;
-
     .lock {
         opacity: .5;
 
@@ -313,5 +316,8 @@ export default {
         width: 100%;
         height: 100%;
     }
+}
+.scale-wrap{
+    transform-origin: left top;
 }
 </style>
