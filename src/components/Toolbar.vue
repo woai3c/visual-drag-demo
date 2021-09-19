@@ -203,8 +203,9 @@ export default {
 
 <style lang="scss" scoped>
 .toolbar {
-    height: 64px;
-    line-height: 64px;
+    padding: 15px 10px;
+    white-space: nowrap;
+    overflow-x: auto;
     background: #fff;
     border-bottom: 1px solid #ddd;
 

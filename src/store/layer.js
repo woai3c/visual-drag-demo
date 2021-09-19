@@ -21,19 +21,21 @@ export default {
             }
         },
 
-        topComponent({ componentData, curComponentIndex }) {
+        topComponent({ componentData, curComponentIndex, curComponent }) {
             // 置顶
             if (curComponentIndex < componentData.length - 1) {
-                swap(componentData, curComponentIndex, componentData.length - 1)
+                componentData.splice(curComponentIndex, 1)
+                componentData.push(curComponent)
             } else {
                 toast('已经到顶了')
             }
         },
 
-        bottomComponent({ componentData, curComponentIndex }) {
+        bottomComponent({ componentData, curComponentIndex, curComponent }) {
             // 置底
             if (curComponentIndex > 0) {
-                swap(componentData, curComponentIndex, 0)
+                componentData.splice(curComponentIndex, 1)
+                componentData.unshift(curComponent)
             } else {
                 toast('已经到底了')
             }
