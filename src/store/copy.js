@@ -10,7 +10,11 @@ export default {
     },
     mutations: {
         copy(state) {
-            if (!state.curComponent) return
+            if (!state.curComponent) {
+                toast('请选择组件')
+                return
+            }
+
             state.copyData = {
                 data: deepCopy(state.curComponent),
                 index: state.curComponentIndex,
@@ -55,7 +59,8 @@ export default {
                 return
             }
 
-            if (state.copyData) {
+            // 如果重复剪切，需要恢复上一次剪切的数据
+            if (state.isCut && state.copyData) {
                 const data = deepCopy(state.copyData.data)
                 const index = state.copyData.index
                 data.id = generateID()
