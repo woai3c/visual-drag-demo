@@ -19,7 +19,6 @@ export function deepCopy(target) {
 
 export function swap(arr, i, j) {
     const temp = arr[i]
-    arr[i] = arr[j]
     Vue.set(arr, i, arr[j])
     Vue.set(arr, j, temp)
 }
