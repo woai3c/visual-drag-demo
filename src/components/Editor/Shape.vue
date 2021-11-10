@@ -158,7 +158,7 @@ export default {
             }
 
             const style = {
-                marginLeft: hasR ? '-4px' : '-4px',
+                marginLeft: '-4px',
                 marginTop: '-4px',
                 left: `${newLeft}px`,
                 top: `${newTop}px`,
