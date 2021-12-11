@@ -11,6 +11,7 @@
                     @close="removeAnimation(index)"
                 >
                     {{ tag.label }}
+                    <i class="cursor el-icon-setting" @click="handleAnimationSetting(index)"></i>
                 </el-tag>
             </div>
         </div>
@@ -35,6 +36,12 @@
                 </el-tab-pane>
             </el-tabs>
         </Modal>
+        <!-- 编辑动画配置 -->
+        <AnimationSettingModal
+           v-if="isShowAnimationSetting"
+           @close="isShowAnimationSetting = false"
+           :curIndex="curIndex"
+         />
     </div>
 </template>
 
@@ -43,9 +50,10 @@ import Modal from '@/components/Modal'
 import eventBus from '@/utils/eventBus'
 import animationClassData from '@/utils/animationClassData'
 import { mapState } from 'vuex'
+import AnimationSettingModal from './AnimationSettingModal.vue'
 
 export default {
-    components: { Modal },
+    components: { Modal, AnimationSettingModal },
     data() {
         return {
             isShowAnimation: false,
@@ -53,6 +61,8 @@ export default {
             animationActiveName: '进入',
             animationClassData,
             showAnimatePanel: false,
+            isShowAnimationSetting: false,
+            curIndex: 0,
         }
     },
     computed: mapState([
@@ -60,6 +70,7 @@ export default {
     ]),
     methods: {
         addAnimation(animate) {
+            animate.animationTime = 1
             this.$store.commit('addAnimation', animate)
             this.isShowAnimation = false
         },
@@ -71,12 +82,20 @@ export default {
         removeAnimation(index) {
             this.$store.commit('removeAnimation', index)
         },
+
+        handleAnimationSetting(index) {
+            this.isShowAnimationSetting = true
+            this.curIndex = index
+        },
     },
 }
 </script>
 
 <style lang="scss">
 .animation-list {
+    .cursor{
+      cursor: pointer;
+    }
     .div-animation {
         text-align: center;
 
