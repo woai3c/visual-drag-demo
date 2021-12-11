@@ -6,7 +6,7 @@ import router from './router'
 import '@/custom-component' // 注册自定义组件
 
 import '@/assets/iconfont/iconfont.css'
-import '@/styles/animate.css'
+import '@/styles/animate.scss'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/styles/reset.css'
 
