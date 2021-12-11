@@ -1,4 +1,4 @@
-export default [
+const animationClassData = [
     {
         label: '进入',
         children: [
@@ -92,3 +92,12 @@ export default [
         ],
     },
 ]
+
+animationClassData.forEach(item => {
+    item.children.forEach(e => {
+        // 是否在运行动画
+        e.pending = false
+    })
+})
+
+export default animationClassData

@@ -15,10 +15,9 @@ export default {
                 return
             }
 
-            state.copyData = {
-                data: deepCopy(state.curComponent),
-                index: state.curComponentIndex,
-            }
+            // 如果有剪切的数据，需要先还原
+            restorePreCutData(state)
+            copyData(state)
 
             state.isCut = false
         },
@@ -60,20 +59,32 @@ export default {
             }
 
             // 如果重复剪切，需要恢复上一次剪切的数据
-            if (state.isCut && state.copyData) {
-                const data = deepCopy(state.copyData.data)
-                const index = state.copyData.index
-                data.id = generateID()
-                store.commit('addComponent', { component: data, index })
-                if (state.curComponentIndex >= index) {
-                    // 如果当前组件索引大于等于插入索引，需要加一，因为当前组件往后移了一位
-                    state.curComponentIndex++
-                }
-            }
+            restorePreCutData(state)
+            copyData(state)
 
-            store.commit('copy')
             store.commit('deleteComponent')
             state.isCut = true
         },
     },
+}
+
+// 恢复上一次剪切的数据
+function restorePreCutData(state) {
+    if (state.isCut && state.copyData) {
+        const data = deepCopy(state.copyData.data)
+        const index = state.copyData.index
+        data.id = generateID()
+        store.commit('addComponent', { component: data, index })
+        if (state.curComponentIndex >= index) {
+            // 如果当前组件索引大于等于插入索引，需要加一，因为当前组件往后移了一位
+            state.curComponentIndex++
+        }
+    }
+}
+
+function copyData(state) {
+    state.copyData = {
+        data: deepCopy(state.curComponent),
+        index: state.curComponentIndex,
+    }
 }

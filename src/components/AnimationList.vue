@@ -22,13 +22,14 @@
                 <el-tab-pane v-for="item in animationClassData" :key="item.label" :label="item.label" :name="item.label">
                     <el-scrollbar class="animate-container">
                         <div
+                            :ref="animate.value"
                             class="animate"
-                            v-for="(animate, index) in item.children"
-                            :key="index"
-                            @mouseover="hoverPreviewAnimate = animate.value"
+                            v-for="animate in item.children"
+                            :key="animate.value"
+                            @mouseenter="runAnimation(animate)"
                             @click="addAnimation(animate)"
                         >
-                            <div :class="[hoverPreviewAnimate === animate.value && animate.value + ' animated']">
+                            <div>
                                 {{ animate.label }}
                             </div>
                         </div>
@@ -51,6 +52,7 @@ import eventBus from '@/utils/eventBus'
 import animationClassData from '@/utils/animationClassData'
 import { mapState } from 'vuex'
 import AnimationSettingModal from './AnimationSettingModal.vue'
+import runAnimation from '@/utils/runAnimation'
 
 export default {
     components: { Modal, AnimationSettingModal },
@@ -63,6 +65,7 @@ export default {
             showAnimatePanel: false,
             isShowAnimationSetting: false,
             curIndex: 0,
+            timer: null,
         }
     },
     computed: mapState([
@@ -86,6 +89,13 @@ export default {
         handleAnimationSetting(index) {
             this.isShowAnimationSetting = true
             this.curIndex = index
+        },
+        async runAnimation(animate) {
+            if (animate.pending) return
+
+            animate.pending = true
+            await runAnimation(this.$refs[animate.value][0], [animate])
+            animate.pending = false
         },
     },
 }
@@ -117,6 +127,10 @@ export default {
         flex-wrap: wrap;
         padding-left: 10px;
 
+        .animate {
+            cursor: pointer;
+        }
+        
         .animate > div {
             width: 100px;
             height: 60px;
