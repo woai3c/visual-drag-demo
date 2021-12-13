@@ -32,10 +32,10 @@
                         ></el-option>
                     </template>
                 </el-select>
-                <el-input type="number" v-else v-model.number="curComponent.style[key]" />
+                <el-input v-else v-model.number="curComponent.style[key]" type="number" />
             </el-form-item>
-            <el-form-item label="内容" v-if="curComponent && !excludes.includes(curComponent.component)">
-                <el-input type="textarea" v-model="curComponent.propValue" />
+            <el-form-item v-if="curComponent && !excludes.includes(curComponent.component)" label="内容">
+                <el-input v-model="curComponent.propValue" type="textarea" />
             </el-form-item>
         </el-form>
     </div>

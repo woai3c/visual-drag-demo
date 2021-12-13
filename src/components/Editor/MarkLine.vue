@@ -2,11 +2,11 @@
     <div class="mark-line">
         <div
             v-for="line in lines"
+            v-show="lineStatus[line] || false"
             :key="line"
+            :ref="line"
             class="line"
             :class="line.includes('x')? 'xline' : 'yline'"
-            :ref="line"
-            v-show="lineStatus[line] || false"
         ></div>
     </div>
 </template>
@@ -233,15 +233,18 @@ export default {
 .mark-line {
     height: 100%;
 }
+
 .line {
     background: #59c7f9;
     position: absolute;
     z-index: 1000;
 }
+
 .xline {
     width: 100%;
     height: 1px;
 }
+
 .yline {
     width: 1px;
     height: 100%;

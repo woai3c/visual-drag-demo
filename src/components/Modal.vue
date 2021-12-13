@@ -1,5 +1,5 @@
 <template>
-    <div class="modal-bg" v-if="show" @click="hide">
+    <div v-if="show" class="modal-bg" @click="hide">
         <div class="fadeInLeft animated modal" @click="stopPropagation">
             <slot></slot>
         </div>
@@ -37,7 +37,7 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,.5);
+    background: rgba(0, 0, 0, .5);
     z-index: 1001;
 
     .modal {

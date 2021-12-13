@@ -12,6 +12,10 @@
       "commit-msg": "FORCE_COLOR=1 node scripts/verify-commit.js"
     }
   },
+  "lint-staged": {
+    "src/**/*.{js,jsx}": "eslint",
+    "src/**/*.{vue,scss,css,sass}": "stylelint --allow-empty-input"
+  },
   "dependencies": {
     "core-js": "^3.6.5",
     "element-ui": "^2.14.1",
@@ -37,9 +41,9 @@
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11",
-    "webpack": "^4.44.2"
-  },
-  "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,vue}": "eslint"
+    "webpack": "^4.44.2",
+    "stylelint": "^13.13.1",
+    "stylelint-config-standard": "^22.0.0",
+    "stylelint-scss": "^3.21.0"
   }
 }

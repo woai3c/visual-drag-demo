@@ -11,6 +11,7 @@ export default {
         },
         element: {
             type: Object,
+            default: () => {},
         },
     },
 }
@@ -22,8 +23,8 @@ export default {
     line-height: 1;
     white-space: nowrap;
     cursor: pointer;
-    background: #FFF;
-    border: 1px solid #DCDFE6;
+    background: #fff;
+    border: 1px solid #dcdfe6;
     color: #606266;
     -webkit-appearance: none;
     text-align: center;
