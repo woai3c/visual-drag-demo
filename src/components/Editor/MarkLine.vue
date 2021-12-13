@@ -1,13 +1,13 @@
 <template>
     <div class="mark-line">
-        <div
-            v-for="line in lines"
-            :key="line"
-            class="line"
-            :class="line.includes('x')? 'xline' : 'yline'"
-            :ref="line"
-            v-show="lineStatus[line] || false"
-        ></div>
+     <div
+       v-for="line in lines"
+       v-show="lineStatus[line] || false"
+       :key="line"
+       :ref="line"
+       class="line"
+       :class="line.includes('x')? 'xline' : 'yline'"
+      />
     </div>
 </template>
 

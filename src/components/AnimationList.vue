@@ -1,48 +1,60 @@
 <template>
     <div class="animation-list">
-        <div class="div-animation">
-            <el-button @click="isShowAnimation = true">添加动画</el-button>
-            <el-button @click="previewAnimate">预览动画</el-button>
-            <div>
-                <el-tag
-                    v-for="(tag, index) in curComponent.animations"
-                    :key="index"
-                    closable
-                    @close="removeAnimation(index)"
-                >
-                    {{ tag.label }}
-                    <i class="cursor el-icon-setting" @click="handleAnimationSetting(index)"></i>
-                </el-tag>
-            </div>
-        </div>
-
-        <!-- 选择动画 -->
-        <Modal v-model="isShowAnimation">
-            <el-tabs v-model="animationActiveName">
-                <el-tab-pane v-for="item in animationClassData" :key="item.label" :label="item.label" :name="item.label">
-                    <el-scrollbar class="animate-container">
-                        <div
-                            :ref="animate.value"
-                            class="animate"
-                            v-for="animate in item.children"
-                            :key="animate.value"
-                            @mouseenter="runAnimation(animate)"
-                            @click="addAnimation(animate)"
-                        >
-                            <div>
-                                {{ animate.label }}
-                            </div>
-                        </div>
-                    </el-scrollbar>
-                </el-tab-pane>
-            </el-tabs>
-        </Modal>
-        <!-- 编辑动画配置 -->
-        <AnimationSettingModal
-           v-if="isShowAnimationSetting"
-           @close="isShowAnimationSetting = false"
-           :curIndex="curIndex"
+     <div class="div-animation">
+      <el-button @click="isShowAnimation = true">
+       添加动画
+      </el-button>
+      <el-button @click="previewAnimate">
+       预览动画
+      </el-button>
+      <div>
+       <el-tag
+         v-for="(tag, index) in curComponent.animations"
+         :key="index"
+         closable
+         @close="removeAnimation(index)"
+        >
+        {{ tag.label }}
+        <i
+          class="cursor el-icon-setting"
+          @click="handleAnimationSetting(index)"
          />
+       </el-tag>
+      </div>
+     </div>
+
+     <!-- 选择动画 -->
+     <Modal v-model="isShowAnimation">
+      <el-tabs v-model="animationActiveName">
+       <el-tab-pane
+         v-for="item in animationClassData"
+         :key="item.label"
+         :label="item.label"
+         :name="item.label"
+        >
+        <el-scrollbar class="animate-container">
+         <div
+           v-for="animate in item.children"
+           :ref="animate.value"
+           :key="animate.value"
+           class="animate"
+           @mouseenter="runAnimation(animate)"
+           @click="addAnimation(animate)"
+          >
+          <div>
+           {{ animate.label }}
+          </div>
+         </div>
+        </el-scrollbar>
+       </el-tab-pane>
+      </el-tabs>
+     </Modal>
+     <!-- 编辑动画配置 -->
+     <AnimationSettingModal
+       v-if="isShowAnimationSetting"
+       :cur-index="curIndex"
+       @close="isShowAnimationSetting = false"
+      />
     </div>
 </template>
 

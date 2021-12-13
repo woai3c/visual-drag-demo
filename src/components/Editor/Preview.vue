@@ -1,20 +1,29 @@
 <template>
-    <div class="bg" v-if="show">
-        <el-button @click="close" class="close">关闭</el-button>
-        <div class="canvas-container">
-            <div class="canvas"
-                :style="{
-                    width: changeStyleWithScale(canvasStyleData.width) + 'px',
-                    height: changeStyleWithScale(canvasStyleData.height) + 'px',
-                }"
-            >
-                <ComponentWrapper
-                    v-for="(item, index) in componentData"
-                    :key="index"
-                    :config="item"
-                />
-            </div>
-        </div>
+    <div
+      v-if="show"
+      class="bg"
+     >
+     <el-button
+       class="close"
+       @click="close"
+      >
+      关闭
+     </el-button>
+     <div class="canvas-container">
+      <div
+        class="canvas"
+        :style="{
+         width: changeStyleWithScale(canvasStyleData.width) + 'px',
+         height: changeStyleWithScale(canvasStyleData.height) + 'px',
+        }"
+       >
+       <ComponentWrapper
+         v-for="(item, index) in componentData"
+         :key="index"
+         :config="item"
+        />
+      </div>
+     </div>
     </div>
 </template>
 
@@ -25,6 +34,7 @@ import ComponentWrapper from './ComponentWrapper'
 import { changeStyleWithScale } from '@/utils/translate'
 
 export default {
+    components: { ComponentWrapper },
     model: {
         prop: 'show',
         event: 'change',
@@ -35,7 +45,6 @@ export default {
             default: false,
         },
     },
-    components: { ComponentWrapper },
     computed: mapState([
         'componentData',
         'canvasStyleData',

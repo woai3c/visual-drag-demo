@@ -1,6 +1,6 @@
 <template>
     <div style="overflow: hidden">
-        <img :src="propValue">
+     <img :src="propValue">
     </div>
 </template>
 

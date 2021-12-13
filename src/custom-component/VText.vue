@@ -1,13 +1,33 @@
 <template>
-    <div v-if="editMode == 'edit'" class="v-text" @keydown="handleKeydown" @keyup="handleKeyup">
-        <!-- tabindex >= 0 使得双击时聚集该元素 -->
-        <div :contenteditable="canEdit" :class="{ canEdit }" @dblclick="setEdit" :tabindex="element.id" @paste="clearStyle"
-            @mousedown="handleMousedown" @blur="handleBlur" ref="text" v-html="element.propValue" @input="handleInput"
-            :style="{ verticalAlign: element.style.verticalAlign }"
-        ></div>
+    <div
+      v-if="editMode == 'edit'"
+      class="v-text"
+      @keydown="handleKeydown"
+      @keyup="handleKeyup"
+     >
+     <!-- tabindex >= 0 使得双击时聚集该元素 -->
+     <div
+       ref="text"
+       :contenteditable="canEdit"
+       :class="{ canEdit }"
+       :tabindex="element.id"
+       :style="{ verticalAlign: element.style.verticalAlign }"
+       @dblclick="setEdit"
+       @paste="clearStyle"
+       @mousedown="handleMousedown"
+       @blur="handleBlur"
+       @input="handleInput"
+       v-html="element.propValue"
+      />
     </div>
-    <div v-else class="v-text preview">
-        <div v-html="element.propValue" :style="{ verticalAlign: element.style.verticalAlign }"></div>
+    <div
+      v-else
+      class="v-text preview"
+     >
+     <div
+       :style="{ verticalAlign: element.style.verticalAlign }"
+       v-html="element.propValue"
+      />
     </div>
 </template>
 

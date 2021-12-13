@@ -1,8 +1,15 @@
 <template>
-    <div class="modal-bg" v-if="show" @click="hide">
-        <div class="fadeInLeft animated modal" @click="stopPropagation">
-            <slot></slot>
-        </div>
+    <div
+      v-if="show"
+      class="modal-bg"
+      @click="hide"
+     >
+     <div
+       class="fadeInLeft animated modal"
+       @click="stopPropagation"
+      >
+      <slot />
+     </div>
     </div>
 </template>
 

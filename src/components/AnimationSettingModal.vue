@@ -5,29 +5,34 @@
       width="30%"
       center
       @close="handleCloseModal"
-    >
-      <div class="time">
-        动画时长：<el-input-number
-          v-model="config.animationTime"
-          controls-position="right"
-          :min="0.1"
-          :precision="2"
-          :step="0.01"
-        />
-      </div>
-      <div class="loop">
-        是否循环：<el-switch
-          v-model="config.isLoop"
-          active-text="是"
-          inactive-text="否"
-          :disabled="isDisabled"
-        >
-        </el-switch>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="handleCloseModal">取 消</el-button>
-        <el-button type="primary" @click="handleSaveSetting">确 定</el-button>
-      </span>
+     >
+     <div class="time">
+      动画时长：<el-input-number
+        v-model="config.animationTime"
+        controls-position="right"
+        :min="0.1"
+        :precision="2"
+        :step="0.01"
+       />
+     </div>
+     <div class="loop">
+      是否循环：<el-switch
+        v-model="config.isLoop"
+        active-text="是"
+        inactive-text="否"
+        :disabled="isDisabled"
+       />
+     </div>
+     <span
+       slot="footer"
+       class="dialog-footer"
+      >
+      <el-button @click="handleCloseModal">取 消</el-button>
+      <el-button
+        type="primary"
+        @click="handleSaveSetting"
+       >确 定</el-button>
+     </span>
     </el-dialog>
 </template>
 

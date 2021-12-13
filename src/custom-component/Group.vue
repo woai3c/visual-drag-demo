@@ -1,18 +1,18 @@
 <template>
     <div class="group">
-        <div>
-             <template v-for="item in propValue">
-                <component
-                    class="component"
-                    :is="item.component"
-                    :style="item.groupStyle"
-                    :propValue="item.propValue"
-                    :key="item.id"
-                    :id="'component' + item.id"
-                    :element="item"
-                />
-            </template>
-        </div>
+     <div>
+      <template v-for="item in propValue">
+       <component
+         :is="item.component"
+         :id="'component' + item.id"
+         :key="item.id"
+         class="component"
+         :style="item.groupStyle"
+         :prop-value="item.propValue"
+         :element="item"
+        />
+      </template>
+     </div>
     </div>
 </template>
 

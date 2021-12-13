@@ -1,15 +1,27 @@
 <template>
-    <div class="shape" :class="{ active }" @click="selectCurComponent" @mousedown="handleMouseDownOnShape">
-        <span class="iconfont icon-xiangyouxuanzhuan" v-show="isActive()" @mousedown="handleRotate"></span>
-        <span class="iconfont icon-suo" v-show="element.isLock"></span>
-        <div
-            class="shape-point"
-            v-for="item in (isActive()? pointList : [])"
-            @mousedown="handleMouseDownOnPoint(item, $event)"
-            :key="item"
-            :style="getPointStyle(item)">
-        </div>
-        <slot></slot>
+    <div
+      class="shape"
+      :class="{ active }"
+      @click="selectCurComponent"
+      @mousedown="handleMouseDownOnShape"
+     >
+     <span
+       v-show="isActive()"
+       class="iconfont icon-xiangyouxuanzhuan"
+       @mousedown="handleRotate"
+      />
+     <span
+       v-show="element.isLock"
+       class="iconfont icon-suo"
+      />
+     <div
+       v-for="item in (isActive()? pointList : [])"
+       :key="item"
+       class="shape-point"
+       :style="getPointStyle(item)"
+       @mousedown="handleMouseDownOnPoint(item, $event)"
+      />
+     <slot />
     </div>
 </template>
 
