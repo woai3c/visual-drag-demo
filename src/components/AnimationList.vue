@@ -19,13 +19,18 @@
         <!-- 选择动画 -->
         <Modal v-model="isShowAnimation">
             <el-tabs v-model="animationActiveName">
-                <el-tab-pane v-for="item in animationClassData" :key="item.label" :label="item.label" :name="item.label">
+                <el-tab-pane
+                    v-for="item in animationClassData"
+                    :key="item.label"
+                    :label="item.label"
+                    :name="item.label"
+                >
                     <el-scrollbar class="animate-container">
                         <div
-                            :ref="animate.value"
-                            class="animate"
                             v-for="animate in item.children"
+                            :ref="animate.value"
                             :key="animate.value"
+                            class="animate"
                             @mouseenter="runAnimation(animate)"
                             @click="addAnimation(animate)"
                         >
@@ -39,10 +44,10 @@
         </Modal>
         <!-- 编辑动画配置 -->
         <AnimationSettingModal
-           v-if="isShowAnimationSetting"
-           @close="isShowAnimationSetting = false"
-           :curIndex="curIndex"
-         />
+            v-if="isShowAnimationSetting"
+            :cur-index="curIndex"
+            @close="isShowAnimationSetting = false"
+        />
     </div>
 </template>
 
@@ -86,6 +91,11 @@ export default {
             this.$store.commit('removeAnimation', index)
         },
 
+        handleAnimationSetting(index) {
+            this.isShowAnimationSetting = true
+            this.curIndex = index
+        },
+        
         async runAnimation(animate) {
             if (animate.pending) return
 
@@ -93,20 +103,16 @@ export default {
             await runAnimation(this.$refs[animate.value][0], [animate])
             animate.pending = false
         },
-        
-        handleAnimationSetting(index) {
-            this.isShowAnimationSetting = true
-            this.curIndex = index
-        },
     },
 }
 </script>
 
 <style lang="scss">
 .animation-list {
-    .cursor{
-      cursor: pointer;
+    .cursor {
+        cursor: pointer;
     }
+
     .div-animation {
         text-align: center;
 
@@ -131,7 +137,7 @@ export default {
         .animate {
             cursor: pointer;
         }
-        
+
         .animate > div {
             width: 100px;
             height: 60px;

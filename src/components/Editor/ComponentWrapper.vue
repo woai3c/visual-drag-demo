@@ -1,10 +1,10 @@
 <template>
     <div @click="handleClick">
         <component
-            class="component"
             :is="config.component"
+            class="component"
             :style="getStyle(config.style)"
-            :propValue="config.propValue"
+            :prop-value="config.propValue"
             :element="config"
         />
     </div>
@@ -16,16 +16,17 @@ import runAnimation from '@/utils/runAnimation'
 import { mixins } from '@/utils/events'
 
 export default {
+    mixins: [mixins],
     props: {
         config: {
             type: Object,
             require: true,
+            default: () => {},
         },
     },
     mounted() {
         runAnimation(this.$el, this.config.animations)
     },
-    mixins: [mixins],
     methods: {
         getStyle,
 

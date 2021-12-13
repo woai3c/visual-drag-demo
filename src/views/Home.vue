@@ -9,8 +9,13 @@
             </section>
             <!-- 中间画布 -->
             <section class="center">
-                <div class="content" @drop="handleDrop" @dragover="handleDragOver"
-                @mousedown="handleMouseDown" @mouseup="deselectCurComponent">
+                <div
+                    class="content"
+                    @drop="handleDrop"
+                    @dragover="handleDragOver"
+                    @mousedown="handleMouseDown"
+                    @mouseup="deselectCurComponent"
+                >
                     <Editor />
                 </div>
             </section>

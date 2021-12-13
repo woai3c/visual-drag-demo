@@ -1,6 +1,6 @@
 <template>
     <div class="rect-shape">
-        <v-text :propValue="element.propValue" :element="element" />
+        <v-text :prop-value="element.propValue" :element="element" />
     </div>
 </template>
 
@@ -10,9 +10,11 @@ export default {
         propValue: {
             type: String,
             require: true,
+            default: '',
         },
         element: {
             type: Object,
+            default: () => {},
         },
     },
 }

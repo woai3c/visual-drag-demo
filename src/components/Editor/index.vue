@@ -1,5 +1,7 @@
 <template>
-    <div class="editor" id="editor"
+    <div
+        id="editor"
+        class="editor"
         :class="{ edit: isEdit }"
         :style="{
             width: changeStyleWithScale(canvasStyleData.width) + 'px',
@@ -12,34 +14,35 @@
         <Grid />
 
         <!--页面组件列表展示-->
-        <Shape v-for="(item, index) in componentData"
-            :defaultStyle="item.style"
-            :style="getShapeStyle(item.style)"
+        <Shape
+            v-for="(item, index) in componentData"
             :key="item.id"
+            :default-style="item.style"
+            :style="getShapeStyle(item.style)"
             :active="item.id === (curComponent || {}).id"
             :element="item"
             :index="index"
             :class="{ lock: item.isLock }"
         >
             <component
-                v-if="item.component != 'v-text'"
-                class="component"
                 :is="item.component"
-                :style="getComponentStyle(item.style)"
-                :propValue="item.propValue"
-                :element="item"
+                v-if="item.component != 'v-text'"
                 :id="'component' + item.id"
+                class="component"
+                :style="getComponentStyle(item.style)"
+                :prop-value="item.propValue"
+                :element="item"
             />
 
             <component
-                v-else
-                class="component"
                 :is="item.component"
-                :style="getComponentStyle(item.style)"
-                :propValue="item.propValue"
-                @input="handleInput"
-                :element="item"
+                v-else
                 :id="'component' + item.id"
+                class="component"
+                :style="getComponentStyle(item.style)"
+                :prop-value="item.propValue"
+                :element="item"
+                @input="handleInput"
             />
         </Shape>
         <!-- 右击菜单 -->
@@ -47,7 +50,12 @@
         <!-- 标线 -->
         <MarkLine />
         <!-- 选中区域 -->
-        <Area :start="start" :width="width" :height="height" v-show="isShowArea" />
+        <Area
+            v-show="isShowArea"
+            :start="start"
+            :width="width"
+            :height="height"
+        />
     </div>
 </template>
 
@@ -64,13 +72,13 @@ import Grid from './Grid'
 import { changeStyleWithScale } from '@/utils/translate'
 
 export default {
+    components: { Shape, ContextMenu, MarkLine, Area, Grid },
     props: {
         isEdit: {
             type: Boolean,
             default: true,
         },
     },
-    components: { Shape, ContextMenu, MarkLine, Area, Grid },
     data() {
         return {
             editorX: 0,
@@ -307,6 +315,7 @@ export default {
         }
     }
 }
+
 .edit {
     .component {
         outline: none;

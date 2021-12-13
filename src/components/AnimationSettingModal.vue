@@ -1,33 +1,33 @@
 <template>
     <el-dialog
-      :title="`${config.label} 动画配置`"
-      :visible="centerDialogVisible"
-      width="30%"
-      center
-      @close="handleCloseModal"
+        :title="`${config.label} 动画配置`"
+        :visible="centerDialogVisible"
+        width="30%"
+        center
+        @close="handleCloseModal"
     >
-      <div class="time">
-        动画时长：<el-input-number
-          v-model="config.animationTime"
-          controls-position="right"
-          :min="0.1"
-          :precision="2"
-          :step="0.01"
-        />
-      </div>
-      <div class="loop">
-        是否循环：<el-switch
-          v-model="config.isLoop"
-          active-text="是"
-          inactive-text="否"
-          :disabled="isDisabled"
-        >
-        </el-switch>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="handleCloseModal">取 消</el-button>
-        <el-button type="primary" @click="handleSaveSetting">确 定</el-button>
-      </span>
+        <div class="time">
+            动画时长：<el-input-number
+                v-model="config.animationTime"
+                controls-position="right"
+                :min="0.1"
+                :precision="2"
+                :step="0.01"
+            />
+        </div>
+        <div class="loop">
+            是否循环：<el-switch
+                v-model="config.isLoop"
+                active-text="是"
+                inactive-text="否"
+                :disabled="isDisabled"
+            >
+            </el-switch>
+        </div>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="handleCloseModal">取 消</el-button>
+            <el-button type="primary" @click="handleSaveSetting">确 定</el-button>
+        </span>
     </el-dialog>
 </template>
 
@@ -84,8 +84,8 @@ export default {
 }
 </script>
 
-<style scoped lang='scss'>
-.loop{
+<style scoped lang="scss">
+.loop {
     margin-top: 10px;
 }
 </style>

@@ -1,13 +1,19 @@
 <template>
-    <div class="shape" :class="{ active }" @click="selectCurComponent" @mousedown="handleMouseDownOnShape">
-        <span class="iconfont icon-xiangyouxuanzhuan" v-show="isActive()" @mousedown="handleRotate"></span>
-        <span class="iconfont icon-suo" v-show="element.isLock"></span>
+    <div
+        class="shape"
+        :class="{ active }"
+        @click="selectCurComponent"
+        @mousedown="handleMouseDownOnShape"
+    >
+        <span v-show="isActive()" class="iconfont icon-xiangyouxuanzhuan" @mousedown="handleRotate"></span>
+        <span v-show="element.isLock" class="iconfont icon-suo"></span>
         <div
-            class="shape-point"
             v-for="item in (isActive()? pointList : [])"
-            @mousedown="handleMouseDownOnPoint(item, $event)"
             :key="item"
-            :style="getPointStyle(item)">
+            class="shape-point"
+            :style="getPointStyle(item)"
+            @mousedown="handleMouseDownOnPoint(item, $event)"
+        >
         </div>
         <slot></slot>
     </div>
@@ -29,14 +35,17 @@ export default {
         element: {
             require: true,
             type: Object,
+            default: () => {},
         },
         defaultStyle: {
             require: true,
             type: Object,
+            default: () => {},
         },
         index: {
             require: true,
             type: [Number, String],
+            default: 0,
         },
     },
     data() {
@@ -352,10 +361,12 @@ export default {
         cursor: move;
     }
 }
+
 .active {
     outline: 1px solid #70c0ff;
     user-select: none;
 }
+
 .shape-point {
     position: absolute;
     background: #fff;
@@ -365,13 +376,12 @@ export default {
     border-radius: 50%;
     z-index: 1;
 }
+
 .icon-xiangyouxuanzhuan {
     position: absolute;
     top: -34px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 16px;
-    font-weight: 600;
     cursor: grab;
     color: #59c7f9;
     font-size: 20px;
@@ -381,6 +391,7 @@ export default {
         cursor: grabbing;
     }
 }
+
 .icon-suo {
     position: absolute;
     top: 0;

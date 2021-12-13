@@ -4,7 +4,7 @@ module.exports = {
         node: true,
     },
     extends: [
-        'plugin:vue/essential',
+        'plugin:vue/recommended',
         '@vue/airbnb',
     ],
     parserOptions: {
@@ -60,5 +60,22 @@ module.exports = {
         'no-mixed-operators': 'off',
         'no-await-in-loop': 'off',
         'template-curly-spacing' : 'off',
+        'vue/html-indent': ['error', 4, {
+            attribute: 1,
+            baseIndent: 1,
+            closeBracket: 0,
+            alignAttributesVertically: true,
+            ignores: []
+        }],
+        'vue/html-self-closing': 'off',
+        'vue/singleline-html-element-content-newline': 'off',
+        'vue/max-attributes-per-line': ['error', {
+            singleline: {
+              max: 3,
+            },      
+            multiline: {
+              max: 1,
+            }
+        }],
     },
 };

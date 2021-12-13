@@ -17,20 +17,26 @@
         <!-- 选择事件 -->
         <Modal v-model="isShowEvent">
             <el-tabs v-model="eventActiveName">
-                <el-tab-pane v-for="item in eventList" :key="item.key" :label="item.label" :name="item.key" style="padding: 0 20px">
+                <el-tab-pane
+                    v-for="item in eventList"
+                    :key="item.key"
+                    :label="item.label"
+                    :name="item.key"
+                    style="padding: 0 20px;"
+                >
                     <el-input
-                        @keydown.native.stop
                         v-if="item.key == 'redirect'"
                         v-model="item.param"
                         type="textarea"
                         placeholder="请输入完整的 URL"
+                        @keydown.native.stop
                     />
                     <el-input
-                        @keydown.native.stop
                         v-if="item.key == 'alert'"
                         v-model="item.param"
                         type="textarea"
                         placeholder="请输入要 alert 的内容"
+                        @keydown.native.stop
                     />
                     <el-button style="margin-top: 20px;" @click="addEvent(item.key, item.param)">确定</el-button>
                 </el-tab-pane>

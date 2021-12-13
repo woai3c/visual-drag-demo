@@ -1,5 +1,5 @@
 <template>
-    <div style="overflow: hidden">
+    <div style="overflow: hidden;">
         <img :src="propValue">
     </div>
 </template>
@@ -10,9 +10,11 @@ export default {
         propValue: {
             type: String,
             require: true,
+            default: '',
         },
         element: {
             type: Object,
+            default: () => {},
         },
     },
 }
