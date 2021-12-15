@@ -89,6 +89,9 @@ export default {
 
         removeAnimation(index) {
             this.$store.commit('removeAnimation', index)
+            if (!this.curComponent.animations.length) { // 清空动画数据，停止运动
+                eventBus.$emit('stopAnimation')
+            }
         },
 
         handleAnimationSetting(index) {

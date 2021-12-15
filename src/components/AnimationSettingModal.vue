@@ -33,6 +33,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import eventBus from '@/utils/eventBus'
 
 export default {
     name: 'AnimationSettingModal',
@@ -76,8 +77,7 @@ export default {
                     isLoop,
                 },
             })
-            const shapeDom = document.getElementsByClassName('shape')[0]
-            shapeDom.classList.remove('animated', 'infinite')
+            eventBus.$emit('stopAnimation')
             this.handleCloseModal()
         },
     },
