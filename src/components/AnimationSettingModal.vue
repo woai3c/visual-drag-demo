@@ -56,7 +56,7 @@ export default {
         },
     },
     created() {
-        const { label, animationTime = 1, isLoop = false, value } = this.curComponent.animations[this.curIndex] || {}
+        const { label, animationTime, isLoop = false, value } = this.curComponent.animations[this.curIndex] || {}
         this.config = {
             animationTime,
             label,

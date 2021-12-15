@@ -78,7 +78,6 @@ export default {
     ]),
     methods: {
         addAnimation(animate) {
-            animate.animationTime = 1
             this.$store.commit('addAnimation', animate)
             this.isShowAnimation = false
         },
@@ -104,7 +103,11 @@ export default {
 
             animate.pending = true
             await runAnimation(this.$refs[animate.value][0], [animate])
-            animate.pending = false
+
+            // 防止无限触发同一元素的动画
+            setTimeout(() => {
+                animate.pending = false
+            }, 100)  
         },
     },
 }
