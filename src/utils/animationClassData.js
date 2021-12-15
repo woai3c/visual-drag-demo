@@ -94,6 +94,9 @@ animationClassData.forEach(item => {
     item.children.forEach(e => {
         // 是否在运行动画
         e.pending = false
+
+        // 动画默认运行时间
+        e.animationTime = 1
     })
 })
 
