@@ -96,7 +96,9 @@ const data = {
                 state.curComponent = null
             }
             
-            state.componentData.splice(index, 1)
+            if (/\d/.test(index)) {
+                state.componentData.splice(index, 1)
+            }
         },
     },
 }

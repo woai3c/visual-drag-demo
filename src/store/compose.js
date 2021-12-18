@@ -39,14 +39,11 @@ export default {
                     const subComponents = component.propValue
                     const editorRect = editor.getBoundingClientRect()
 
-                    store.commit('deleteComponent')
                     subComponents.forEach(component => {
                         decomposeComponent(component, editorRect, parentStyle)
-                        store.commit('addComponent', { component })
                     })
 
                     components.push(...component.propValue)
-                    store.commit('batchDeleteComponent', component.propValue)
                 }
             })
 
@@ -60,7 +57,9 @@ export default {
                 },
                 propValue: components,
             }
+
             createGroupStyle(groupComponent)
+
             store.commit('addComponent', {
                 component: groupComponent,
             })
@@ -76,7 +75,7 @@ export default {
             areaData.components = []
         },
 
-        // 将已经放到 Group 组件数据删除，也就是在 componentData 中删除，因为它们已经放到 Group 组件中了
+        // 将已经放到 Group 组件数据删除，也就是在 componentData 中删除，因为它们已经从 componentData 挪到 Group 组件中了
         batchDeleteComponent({ componentData }, deleteData) {
             deleteData.forEach(component => {
                 for (let i = 0, len = componentData.length; i < len; i++) {
