@@ -13,7 +13,7 @@ export default {
                 const componentData = deepCopy(state.snapshotData[state.snapshotIndex]) || []
                 if (state.curComponent) {
                     // 如果当前组件不在 componentData 中，则置空
-                    let needClean = !componentData.find(component => state.curComponent.id === component.id)
+                    const needClean = !componentData.find(component => state.curComponent.id === component.id)
 
                     if (needClean) {
                         store.commit('setCurComponent', {
@@ -22,6 +22,7 @@ export default {
                         })
                     }
                 }
+                
                 store.commit('setComponentData', componentData)
             }
         },
