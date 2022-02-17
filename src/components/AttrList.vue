@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import attrNameData from '@/utils/attrNameData'
+import { styleData } from '@/utils/style'
 
 export default {
     data() {
@@ -87,14 +87,14 @@ export default {
                 },
             ],
             selectKey: ['textAlign', 'borderStyle', 'verticalAlign'],
-            attrNameData,
+            styleData,
         }
     },
     computed: {
         styleKeys() {
             if (this.$store.state.curComponent) {
                 const curComponentStyleKeys = Object.keys(this.$store.state.curComponent.style)
-                return this.attrNameData.filter(item => curComponentStyleKeys.includes(item.key))
+                return this.styleData.filter(item => curComponentStyleKeys.includes(item.key))
             }
             return []
         },
