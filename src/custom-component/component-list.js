@@ -1,6 +1,6 @@
 // 公共样式
 export const commonStyle = {
-    rotate: 0, 
+    rotate: 0,
     opacity: 1,
 }
 
@@ -30,8 +30,8 @@ const list = [
         },
     },
     {
-        component: 'v-button', 
-        label: '按钮', 
+        component: 'v-button',
+        label: '按钮',
         propValue: '按钮',
         icon: 'button',
         style: {
@@ -50,8 +50,8 @@ const list = [
         },
     },
     {
-        component: 'Picture', 
-        label: '图片', 
+        component: 'Picture',
+        label: '图片',
         icon: 'tupian',
         propValue: require('@/assets/title.jpg'),
         style: {
@@ -78,6 +78,7 @@ const list = [
             borderWidth: 1,
             backgroundColor: '',
             borderStyle: 'solid',
+            borderRadius: '',
             verticalAlign: 'middle',
         },
     },
