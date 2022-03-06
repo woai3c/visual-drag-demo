@@ -1,7 +1,8 @@
 import store from '@/store'
 import eventBus from '@/utils/eventBus'
 
-const ctrlKey = 17, 
+const ctrlKey = 17,
+    commandKey = 91, // mac command
     vKey = 86, // 粘贴
     cKey = 67, // 复制
     xKey = 88, // 剪切
@@ -51,31 +52,38 @@ const unlockMap = {
     [lKey]: lock,
 }
 
-let isCtrlDown = false
+let isCtrlOrCommandDown = false
 // 全局监听按键操作并执行相应命令
 export function listenGlobalKeyDown() {
     window.onkeydown = (e) => {
+        if (!store.state.isInEdiotr) return
+
         const { curComponent } = store.state
-        if (e.keyCode == ctrlKey) {
-            isCtrlDown = true
-        } else if (e.keyCode == deleteKey && curComponent) {
+        const { keyCode } = e
+        if (keyCode === ctrlKey || keyCode === commandKey) {
+            isCtrlOrCommandDown = true
+        } else if (keyCode == deleteKey && curComponent) {
             store.commit('deleteComponent')
             store.commit('recordSnapshot')
-        } else if (isCtrlDown) {
-            if (!curComponent || !curComponent.isLock) {
+        } else if (isCtrlOrCommandDown) {
+            if (unlockMap[keyCode] && (!curComponent || !curComponent.isLock)) {
                 e.preventDefault()
-                unlockMap[e.keyCode] && unlockMap[e.keyCode]()
-            } else if (curComponent && curComponent.isLock) {
+                unlockMap[keyCode]()
+            } else if (lockMap[keyCode] && curComponent && curComponent.isLock) {
                 e.preventDefault()
-                lockMap[e.keyCode] && lockMap[e.keyCode]()
+                lockMap[keyCode]()
             }
         }
     }
 
     window.onkeyup = (e) => {
-        if (e.keyCode == ctrlKey) {
-            isCtrlDown = false
+        if (e.keyCode === ctrlKey || e.keyCode === commandKey) {
+            isCtrlOrCommandDown = false
         }
+    }
+
+    window.onmousedown = () => {
+        store.commit('setInEditorStatus', false)
     }
 }
 

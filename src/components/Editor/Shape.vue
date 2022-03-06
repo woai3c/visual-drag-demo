@@ -209,6 +209,7 @@ export default {
         },
 
         handleMouseDownOnShape(e) {
+            this.$store.commit('setInEditorStatus', true)
             this.$store.commit('setClickComponentStatus', true)
             if (this.element.component != 'v-text' && this.element.component != 'rect-shape') {
                 e.preventDefault()
@@ -269,6 +270,7 @@ export default {
         },
 
         handleMouseDownOnPoint(point, e) {
+            this.$store.commit('setInEditorStatus', true)
             this.$store.commit('setClickComponentStatus', true)
             e.stopPropagation()
             e.preventDefault()
