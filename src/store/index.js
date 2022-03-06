@@ -28,6 +28,7 @@ const data = {
             height: 740,
             scale: 100,
         },
+        isInEdiotr: false, // 是否在编辑器中，用于判断复制、粘贴组件时是否生效，如果在编辑器外，则无视这些操作
         componentData: [], // 画布组件数据
         curComponent: null,
         curComponentIndex: null,
@@ -53,6 +54,10 @@ const data = {
             state.editMode = mode
         },
 
+        setInEditorStatus(state, status) {
+            state.isInEdiotr = status
+        },
+
         setCanvasStyle(state, style) {
             state.canvasStyleData = style
         },
@@ -61,7 +66,7 @@ const data = {
             state.curComponent = component
             state.curComponentIndex = index
         },
-        
+
         setShapeStyle({ curComponent }, { top, left, width, height, rotate }) {
             if (top) curComponent.style.top = top
             if (left) curComponent.style.left = left
@@ -90,12 +95,12 @@ const data = {
             if (index === undefined) {
                 index = state.curComponentIndex
             }
-            
+
             if (index == state.curComponentIndex) {
                 state.curComponentIndex = null
                 state.curComponent = null
             }
-            
+
             if (/\d/.test(index)) {
                 state.componentData.splice(index, 1)
             }

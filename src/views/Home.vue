@@ -113,8 +113,10 @@ export default {
             e.dataTransfer.dropEffect = 'copy'
         },
 
-        handleMouseDown() {
+        handleMouseDown(e) {
+            e.stopPropagation()
             this.$store.commit('setClickComponentStatus', false)
+            this.$store.commit('setInEditorStatus', true)
         },
 
         deselectCurComponent(e) {

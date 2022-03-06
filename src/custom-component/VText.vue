@@ -6,7 +6,7 @@
         @keydown="handleKeydown"
         @keyup="handleKeyup"
     >
-        <!-- tabindex >= 0 使得双击时聚集该元素 -->
+        <!-- tabindex >= 0 使得双击时聚焦该元素 -->
         <div
             ref="text"
             :contenteditable="canEdit"
@@ -60,6 +60,8 @@ export default {
         },
 
         handleKeydown(e) {
+            // 阻止冒泡，防止触发复制、粘贴组件操作
+            this.canEdit && e.stopPropagation()
             if (e.keyCode == this.ctrlKey) {
                 this.isCtrlDown = true
             } else if (this.isCtrlDown && this.canEdit && keycodes.includes(e.keyCode)) {
@@ -70,6 +72,8 @@ export default {
         },
 
         handleKeyup(e) {
+            // 阻止冒泡，防止触发复制、粘贴组件操作
+            this.canEdit && e.stopPropagation()
             if (e.keyCode == this.ctrlKey) {
                 this.isCtrlDown = false
             }
