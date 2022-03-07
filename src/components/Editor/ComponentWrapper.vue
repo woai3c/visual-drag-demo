@@ -2,6 +2,7 @@
     <div @click="handleClick">
         <component
             :is="config.component"
+            ref="component"
             class="component"
             :style="getStyle(config.style)"
             :prop-value="config.propValue"
@@ -25,7 +26,7 @@ export default {
         },
     },
     mounted() {
-        runAnimation(this.$el, this.config.animations)
+        runAnimation(this.$refs.component.$el, this.config.animations)
     },
     methods: {
         getStyle,
