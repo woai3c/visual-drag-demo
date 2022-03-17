@@ -8,13 +8,12 @@
         <span v-show="isActive()" class="iconfont icon-xiangyouxuanzhuan" @mousedown="handleRotate"></span>
         <span v-show="element.isLock" class="iconfont icon-suo"></span>
         <div
-            v-for="item in (isActive()? pointList : [])"
+            v-for="item in (isActive() ? pointList : [])"
             :key="item"
             class="shape-point"
             :style="getPointStyle(item)"
-            @mousedown="handleMouseDownOnPoint(item, $event)"
-        >
-        </div>
+            @mousedown="handleStretchedShape(item, $event)"
+        ></div>
         <slot></slot>
     </div>
 </template>
@@ -23,7 +22,7 @@
 import eventBus from '@/utils/eventBus'
 import runAnimation from '@/utils/runAnimation'
 import { mapState } from 'vuex'
-import calculateComponentPositonAndSize from '@/utils/calculateComponentPositonAndSize'
+import stretchedComponents from '@/utils/components'
 import { mod360 } from '@/utils/translate'
 
 export default {
@@ -35,12 +34,12 @@ export default {
         element: {
             require: true,
             type: Object,
-            default: () => {},
+            default: () => { },
         },
         defaultStyle: {
             require: true,
             type: Object,
-            default: () => {},
+            default: () => { },
         },
         index: {
             require: true,
@@ -268,90 +267,56 @@ export default {
             e.preventDefault()
             this.$store.commit('hideContextMenu')
         },
+        /**
+         * 拉伸组件
+         */
+        handleStretchedShape(point, e) {
+            if (e.button === 0) {
+                this.$store.commit('setInEditorStatus', true)
+                this.$store.commit('setClickComponentStatus', true)
+                e.stopPropagation()
+                e.preventDefault()
+                let style = { ...this.defaultStyle }
 
-        handleMouseDownOnPoint(point, e) {
-            this.$store.commit('setInEditorStatus', true)
-            this.$store.commit('setClickComponentStatus', true)
-            e.stopPropagation()
-            e.preventDefault()
+                let needSave = false
+                let isFirst = true
 
-            const style = { ...this.defaultStyle }
+                const position = {
+                    top: style.top,
+                    left: style.left,
+                    height: style.height,
+                    width: style.width,
+                    rotate: style.rotate,
+                }
+                // 获取画布位移信息
+                const editorRectInfo = this.editor.getBoundingClientRect()
 
-            // 组件宽高比
-            const proportion = style.width / style.height
+                const move = (moveEvent) => {
+                    if (isFirst) {
+                        isFirst = false
+                        return
+                    }
 
-            // 组件中心点
-            const center = {
-                x: style.left + style.width / 2,
-                y: style.top + style.height / 2,
-            }
+                    needSave = true
+                    const curPositon = {
+                        x: moveEvent.clientX - editorRectInfo.left,
+                        y: moveEvent.clientY - editorRectInfo.top,
+                    }
 
-            // 获取画布位移信息
-            const editorRectInfo = this.editor.getBoundingClientRect()
-
-            // 获取 point 与实际拖动基准点的差值 @justJokee
-            // fix https://github.com/woai3c/visual-drag-demo/issues/26#issue-937686285
-            const pointRect = e.target.getBoundingClientRect()
-            // 当前点击圆点相对于画布的中心坐标
-            const curPoint = {
-                x: Math.round(pointRect.left - editorRectInfo.left + e.target.offsetWidth / 2),
-                y: Math.round(pointRect.top - editorRectInfo.top + e.target.offsetHeight / 2),
-            }
-
-            // 获取对称点的坐标
-            const symmetricPoint = {
-                x: center.x - (curPoint.x - center.x),
-                y: center.y - (curPoint.y - center.y),
-            }
-
-            // 是否需要保存快照
-            let needSave = false
-            let isFirst = true
-
-            const needLockProportion = this.isNeedLockProportion()
-            const move = (moveEvent) => {
-                // 第一次点击时也会触发 move，所以会有“刚点击组件但未移动，组件的大小却改变了”的情况发生
-                // 因此第一次点击时不触发 move 事件
-                if (isFirst) {
-                    isFirst = false
-                    return
+                    const { top, left, width, height } = stretchedComponents(point, position, curPositon)
+                    style = { ...style, top, left, width, height }
+                    this.$store.commit('setShapeStyle', style)
                 }
 
-                needSave = true
-                const curPositon = {
-                    x: moveEvent.clientX - editorRectInfo.left,
-                    y: moveEvent.clientY - editorRectInfo.top,
+                const up = () => {
+                    document.removeEventListener('mousemove', move)
+                    document.removeEventListener('mouseup', up)
+                    needSave && this.$store.commit('recordSnapshot')
                 }
 
-                calculateComponentPositonAndSize(point, style, curPositon, proportion, needLockProportion, {
-                    center,
-                    curPoint,
-                    symmetricPoint,
-                })
-
-                this.$store.commit('setShapeStyle', style)
+                document.addEventListener('mousemove', move)
+                document.addEventListener('mouseup', up)
             }
-
-            const up = () => {
-                document.removeEventListener('mousemove', move)
-                document.removeEventListener('mouseup', up)
-                needSave && this.$store.commit('recordSnapshot')
-            }
-
-            document.addEventListener('mousemove', move)
-            document.addEventListener('mouseup', up)
-        },
-
-        isNeedLockProportion() {
-            if (this.element.component != 'Group') return false
-            const ratates = [0, 90, 180, 360]
-            for (const component of this.element.propValue) {
-                if (!ratates.includes(mod360(parseInt(component.style.rotate)))) {
-                    return true
-                }
-            }
-
-            return false
         },
     },
 }
