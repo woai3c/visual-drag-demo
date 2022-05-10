@@ -70,6 +70,7 @@ export default {
         'canvasStyleData',
         'areaData',
         'curComponent',
+        'curComponentIndex',
     ]),
     created() {
         eventBus.$on('preview', this.preview)
@@ -109,6 +110,8 @@ export default {
                 })
 
                 this.$store.commit('setComponentData', componentData)
+                // 更新画布数组后，需要重新设置当前组件，否则在改变比例后，直接拖动圆点改变组件大小不会生效 https://github.com/woai3c/visual-drag-demo/issues/74
+                this.$store.commit('setCurComponent', { component: componentData[this.curComponentIndex], index: this.curComponentIndex })
                 this.$store.commit('setCanvasStyle', {
                     ...this.canvasStyleData,
                     scale: this.scale,
