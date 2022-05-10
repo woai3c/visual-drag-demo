@@ -60,7 +60,6 @@ export default {
                 'width',
                 'height',
                 'fontSize',
-                'borderWidth',
             ],
             scale: '100%',
             timer: null,
