@@ -48,6 +48,7 @@ import Preview from '@/components/Editor/Preview'
 import { commonStyle, commonAttr } from '@/custom-component/component-list'
 import eventBus from '@/utils/eventBus'
 import { deepCopy } from '@/utils/utils'
+import { divide, multiply } from 'mathjs'
 
 export default {
     components: { Preview },
@@ -81,14 +82,11 @@ export default {
     },
     methods: {
         format(value) {
-            const scale = this.scale
-            return value * parseInt(scale) / 100
+            return multiply(value, divide(parseFloat(this.scale), 100))
         },
 
         getOriginStyle(value) {
-            const scale = this.canvasStyleData.scale
-            const result = value / (parseInt(scale) / 100)
-            return result
+            return divide(value, divide(parseFloat(this.canvasStyleData.scale), 100))
         },
 
         handleScaleChange() {
@@ -103,8 +101,7 @@ export default {
                         if (this.needToChange.includes(key)) {
                             // 根据原来的比例获取样式原来的尺寸
                             // 再用原来的尺寸 * 现在的比例得出新的尺寸
-                            // 不能用 Math.round 防止 1 px 的边框变 0
-                            component.style[key] = Math.ceil(this.format(this.getOriginStyle(component.style[key])))
+                            component.style[key] = this.format(this.getOriginStyle(component.style[key]))
                         }
                     })
                 })
