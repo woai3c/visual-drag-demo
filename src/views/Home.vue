@@ -88,6 +88,9 @@ export default {
         resetID(data) {
             data.forEach(item => {
                 item.id = generateID()
+                if (item.component === 'Group') {
+                    this.resetID(item.propValue)
+                }
             })
 
             return data
