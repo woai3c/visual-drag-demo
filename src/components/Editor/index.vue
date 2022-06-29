@@ -268,8 +268,10 @@ export default {
 
         getShapeStyle(style) {
             const result = {};
-            ['width', 'height', 'top', 'left', 'rotate'].forEach(attr => {
-                if (attr != 'rotate') {
+            ['width', 'height', 'top', 'left', 'rotate', 'zIndex'].forEach(attr => {
+                if (attr === 'zIndex') {
+                    result[attr] = style[attr]
+                } else if (attr != 'rotate') {
                     result[attr] = style[attr] + 'px'
                 } else {
                     result.transform = 'rotate(' + style[attr] + 'deg)'

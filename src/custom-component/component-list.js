@@ -2,6 +2,7 @@
 export const commonStyle = {
     rotate: 0,
     opacity: 1,
+    zIndex: '',
 }
 
 export const commonAttr = {
