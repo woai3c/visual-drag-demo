@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "dev": "vite dev",
+    "build": "vite build"
   },
   "husky": {
     "hooks": {
@@ -20,7 +20,11 @@
     "core-js": "^3.6.5",
     "element-ui": "^2.14.1",
     "mathjs": "^10.5.3",
+    "vite": "^2.9.13",
+    "vite-plugin-vue2": "^2.0.1",
     "vue": "^2.6.11",
+    "vue-class-component": "^7.2.6",
+    "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0"
   },

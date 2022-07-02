@@ -6,7 +6,6 @@ export const styleData = [
     { key: 'width', label: '宽' },
     { key: 'height', label: '高' },
     { key: 'color', label: '颜色' },
-    { key: 'zIndex', label: '图层' },
     { key: 'rotate', label: '旋转' },
     { key: 'backgroundColor', label: '背景色' },
     { key: 'borderWidth', label: '边框宽度' },

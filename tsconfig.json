@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "isolatedModules": true,
+        "allowJs": true,
+        "experimentalDecorators": true,
+        "target": "ES6",
+        "moduleResolution": "node",
+        "jsx": "preserve",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"]
+        },
+        "lib": [
+            "DOM",
+            "ES5",
+            "ES6",
+            "ES7"
+        ]
+    },
+    "include": ["src/**/*"]
+}

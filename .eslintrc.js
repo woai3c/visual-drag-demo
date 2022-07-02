@@ -8,10 +8,9 @@ module.exports = {
         '@vue/airbnb',
     ],
     parserOptions: {
-        ecmaFeatures: {
-            legacyDecorators: true
-        },
-        parser: 'babel-eslint',
+        ecmaVersion: 'latest',
+        parser: '@typescript-eslint/parser',
+        sourceType: 'module',
     },
     rules: {
         'no-console': 'off',

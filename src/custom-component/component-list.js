@@ -1,3 +1,5 @@
+import pic from '../assets/title.jpg';
+
 // 公共样式
 export const commonStyle = {
     rotate: 0,
@@ -54,7 +56,7 @@ const list = [
         component: 'Picture',
         label: '图片',
         icon: 'tupian',
-        propValue: require('@/assets/title.jpg'),
+        propValue: pic,
         style: {
             width: 300,
             height: 200,

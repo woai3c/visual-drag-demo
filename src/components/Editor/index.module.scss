@@ -1,0 +1,21 @@
+.editor {
+    position: relative;
+    background: #fff;
+    margin: auto;
+
+    .lock {
+        opacity: .5;
+
+        &:hover {
+            cursor: not-allowed;
+        }
+    }
+}
+
+.edit {
+    .component {
+        outline: none;
+        width: 100%;
+        height: 100%;
+    }
+}

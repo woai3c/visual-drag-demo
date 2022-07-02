@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 import App from './App'
-import store from './store'
-import router from './router'
+import store from './store/index'
+import router from './router/index'
 import '@/custom-component' // 注册自定义组件
 
 import '@/assets/iconfont/iconfont.css'
