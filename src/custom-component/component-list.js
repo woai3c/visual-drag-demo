@@ -3,8 +3,7 @@ import pic from '../assets/title.jpg';
 // 公共样式
 export const commonStyle = {
     rotate: 0,
-    opacity: 1,
-    zIndex: '',
+    opacity: 1
 }
 
 export const commonAttr = {
