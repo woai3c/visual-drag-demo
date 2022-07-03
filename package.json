@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
-    "format": "node ./scripts/format.js"
+    "build": "vite build"
   },
   "husky": {
     "hooks": {
@@ -21,36 +20,24 @@
     "core-js": "^3.6.5",
     "element-ui": "^2.14.1",
     "mathjs": "^10.5.3",
+    "sass": "^1.53.0",
     "vite": "^2.9.13",
     "vite-plugin-vue2": "^2.0.1",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.6",
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.2.0",
+    "vue-template-compiler": "^2.7.0",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/eslint-config-airbnb": "^5.0.2",
-    "babel-eslint": "^10.1.0",
     "chalk": "^4.1.1",
-    "compression-webpack-plugin": "^6.1.1",
     "eslint": "^8.19.0",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-vue": "^6.2.2",
     "husky": "^4.2.3",
     "lint-staged": "^11.0.0",
     "prettier-eslint": "^15.0.1",
-    "sass": "^1.26.5",
-    "sass-loader": "^8.0.2",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",
-    "stylelint-scss": "^3.21.0",
-    "vue-template-compiler": "^2.6.11",
-    "webpack": "^4.44.2"
+    "stylelint-scss": "^3.21.0"
   }
 }
