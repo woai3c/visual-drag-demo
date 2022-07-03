@@ -41,7 +41,7 @@ export default {
             data.id = generateID()
             // Group 的子组件根节点的 id 是通过组件的 id 生成的，必须重新生成 id，否则拆分 Group 的时候获取根节点不正确
             if (data.component === 'Group') {
-                data.propValue.forEach(component => {
+                data.propValue.forEach((component) => {
                     component.id = generateID()
                 })
             }

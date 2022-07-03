@@ -23,7 +23,8 @@ const data = {
         ...lock.state,
 
         editMode: 'edit', // 编辑器模式 edit preview
-        canvasStyleData: { // 页面全局数据
+        canvasStyleData: {
+            // 页面全局数据
             width: 1200,
             height: 740,
             scale: 100,

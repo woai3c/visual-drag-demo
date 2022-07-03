@@ -2,7 +2,7 @@
 <template>
     <div class="attr-list">
         <el-form>
-            <el-form-item v-for="({key,label}, index) in styleKeys" :key="index" :label="label">
+            <el-form-item v-for="({ key, label }, index) in styleKeys" :key="index" :label="label">
                 <el-color-picker v-if="key == 'borderColor'" v-model="curComponent.style[key]"></el-color-picker>
                 <el-color-picker v-else-if="key == 'color'" v-model="curComponent.style[key]"></el-color-picker>
                 <el-color-picker v-else-if="key == 'backgroundColor'" v-model="curComponent.style[key]"></el-color-picker>
@@ -94,7 +94,7 @@ export default {
         styleKeys() {
             if (this.$store.state.curComponent) {
                 const curComponentStyleKeys = Object.keys(this.$store.state.curComponent.style)
-                return this.styleData.filter(item => curComponentStyleKeys.includes(item.key))
+                return this.styleData.filter((item) => curComponentStyleKeys.includes(item.key))
             }
             return []
         },

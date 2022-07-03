@@ -8,7 +8,8 @@ import createGroupStyle from '@/utils/createGroupStyle'
 
 export default {
     state: {
-        areaData: { // 选中区域包含的组件以及区域位移信息
+        areaData: {
+            // 选中区域包含的组件以及区域位移信息
             style: {
                 top: 0,
                 left: 0,
@@ -30,7 +31,7 @@ export default {
 
         compose({ componentData, areaData, editor }) {
             const components = []
-            areaData.components.forEach(component => {
+            areaData.components.forEach((component) => {
                 if (component.component != 'Group') {
                     components.push(component)
                 } else {
@@ -39,7 +40,7 @@ export default {
                     const subComponents = component.propValue
                     const editorRect = editor.getBoundingClientRect()
 
-                    subComponents.forEach(component => {
+                    subComponents.forEach((component) => {
                         decomposeComponent(component, editorRect, parentStyle)
                     })
 
@@ -77,7 +78,7 @@ export default {
 
         // 将已经放到 Group 组件数据删除，也就是在 componentData 中删除，因为它们已经从 componentData 挪到 Group 组件中了
         batchDeleteComponent({ componentData }, deleteData) {
-            deleteData.forEach(component => {
+            deleteData.forEach((component) => {
                 for (let i = 0, len = componentData.length; i < len; i++) {
                     if (component.id == componentData[i].id) {
                         componentData.splice(i, 1)
@@ -93,7 +94,7 @@ export default {
             const editorRect = editor.getBoundingClientRect()
 
             store.commit('deleteComponent')
-            components.forEach(component => {
+            components.forEach((component) => {
                 decomposeComponent(component, editorRect, parentStyle)
                 store.commit('addComponent', { component })
             })

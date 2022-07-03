@@ -33,7 +33,7 @@ export default {
 
         handleClick() {
             const events = this.config.events
-            Object.keys(events).forEach(event => {
+            Object.keys(events).forEach((event) => {
                 this[event](events[event])
             })
         },

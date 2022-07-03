@@ -1,23 +1,26 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { Prop } from 'vue-property-decorator'
-import s from './index.module.scss';
+import s from './index.module.scss'
 import { keycodes } from '@/utils/shortcutKey.js'
 
 interface ElementType {
-    propValue: string,
-    isLock: boolean,
-    style: any,
+    propValue: string
+    isLock: boolean
+    style: any
     id: number
 }
 
 @Component
 export default class Picture extends Vue {
-    @Prop({ type: String, default: ''}) propValue;
-    @Prop({ type: Object, default:() => ({}) }) element: ElementType;
-    
+    @Prop({ type: String, default: '' }) propValue
+
+    @Prop({ type: Object, default: () => ({}) }) element: ElementType
+
     canEdit = false
+
     ctrlKey = 17
+
     isCtrlDown = false
 
     get editMode() {
@@ -35,7 +38,8 @@ export default class Picture extends Vue {
             this.isCtrlDown = true
         } else if (this.isCtrlDown && this.canEdit && keycodes.includes(e.keyCode)) {
             e.stopPropagation()
-        } else if (e.keyCode == 46) { // deleteKey
+        } else if (e.keyCode == 46) {
+            // deleteKey
             e.stopPropagation()
         }
     }
@@ -96,28 +100,27 @@ export default class Picture extends Vue {
     }
 
     render() {
-        return this.editMode == 'edit' ? <div
-            class={s['v-text']}
-            onKeydown={this.handleKeydown}
-            onKeyup={this.handleKeyup}
-        >
-            {/* tabindex >= 0 使得双击时聚焦该元素 */}
-            <div
-                ref="text"
-                contenteditable={this.canEdit}
-                class={{ canEdit: this.canEdit }}
-                tabindex={this.element.id}
-                style={{ verticalAlign: this.element.style.verticalAlign }}
-                onDblclick={this.setEdit}
-                onPpaste={this.clearStyle}
-                onMousedown={this.handleMousedown}
-                onBlur={this.handleBlur}
-                onInput={this.handleInput}
-                domPropsInnerHTML={this.element.propValue}
-            ></div>
-        </div> : <div class={[s['v-text'], s.preview]}>
-            <div style={{ verticalAlign: this.element.style.verticalAlign }} v-html={this.element.propValue}></div>
-        </div>
+        return this.editMode == 'edit' ? (
+            <div class={s['v-text']} onKeydown={this.handleKeydown} onKeyup={this.handleKeyup}>
+                {/* tabindex >= 0 使得双击时聚焦该元素 */}
+                <div
+                    ref="text"
+                    contenteditable={this.canEdit}
+                    class={{ canEdit: this.canEdit }}
+                    tabindex={this.element.id}
+                    style={{ verticalAlign: this.element.style.verticalAlign }}
+                    onDblclick={this.setEdit}
+                    onPpaste={this.clearStyle}
+                    onMousedown={this.handleMousedown}
+                    onBlur={this.handleBlur}
+                    onInput={this.handleInput}
+                    domPropsInnerHTML={this.element.propValue}
+                ></div>
+            </div>
+        ) : (
+            <div class={[s['v-text'], s.preview]}>
+                <div style={{ verticalAlign: this.element.style.verticalAlign }} domPropsInnerHTML={this.element.propValue}></div>
+            </div>
+        )
     }
-}   
-
+}

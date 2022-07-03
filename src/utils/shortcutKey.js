@@ -6,16 +6,12 @@ const ctrlKey = 17,
     vKey = 86, // 粘贴
     cKey = 67, // 复制
     xKey = 88, // 剪切
-
     yKey = 89, // 重做
     zKey = 90, // 撤销
-
     gKey = 71, // 组合
     bKey = 66, // 拆分
-
     lKey = 76, // 锁定
     uKey = 85, // 解锁
-
     sKey = 83, // 保存
     pKey = 80, // 预览
     dKey = 68, // 删除

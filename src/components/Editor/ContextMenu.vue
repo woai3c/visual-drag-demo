@@ -29,12 +29,7 @@ export default {
             copyData: null,
         }
     },
-    computed: mapState([
-        'menuTop',
-        'menuLeft',
-        'menuShow',
-        'curComponent',
-    ]),
+    computed: mapState(['menuTop', 'menuLeft', 'menuShow', 'curComponent']),
     methods: {
         lock() {
             this.$store.commit('lock')
@@ -99,7 +94,7 @@ export default {
         border: 1px solid #e4e7ed;
         border-radius: 4px;
         background-color: #fff;
-        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
         box-sizing: border-box;
         margin: 5px 0;
         padding: 6px 0;

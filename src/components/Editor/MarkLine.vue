@@ -6,7 +6,7 @@
             :key="line"
             :ref="line"
             class="line"
-            :class="line.includes('x')? 'xline' : 'yline'"
+            :class="line.includes('x') ? 'xline' : 'yline'"
         ></div>
     </div>
 </template>
@@ -31,10 +31,7 @@ export default {
             },
         }
     },
-    computed: mapState([
-        'curComponent',
-        'componentData',
-    ]),
+    computed: mapState(['curComponent', 'componentData']),
     mounted() {
         // 监听元素移动和不移动的事件
         eventBus.$on('move', (isDownward, isRightward) => {
@@ -47,7 +44,7 @@ export default {
     },
     methods: {
         hideLine() {
-            Object.keys(this.lineStatus).forEach(line => {
+            Object.keys(this.lineStatus).forEach((line) => {
                 this.lineStatus[line] = false
             })
         },
@@ -60,7 +57,7 @@ export default {
             const curComponentHalfHeight = curComponentStyle.height / 2
 
             this.hideLine()
-            components.forEach(component => {
+            components.forEach((component) => {
                 if (component == this.curComponent) return
                 const componentStyle = getComponentRotatedStyle(component.style)
                 const { top, left, bottom, right } = componentStyle
@@ -148,7 +145,7 @@ export default {
 
                 const needToShow = []
                 const { rotate } = this.curComponent.style
-                Object.keys(conditions).forEach(key => {
+                Object.keys(conditions).forEach((key) => {
                     // 遍历符合的条件并处理
                     conditions[key].forEach((condition) => {
                         if (!condition.isNearly) return

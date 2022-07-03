@@ -13,6 +13,8 @@ module.exports = {
         sourceType: 'module',
     },
     rules: {
+        'import/no-unresolved': 0,
+        'class-methods-use-this': 0,
         'no-console': 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'array-element-newline': ['error', 'consistent'],

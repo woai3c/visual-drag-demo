@@ -6,11 +6,11 @@ import Group from './Group/index'
 import RectShape from './RectShape/index'
 
 const components = {
-    'Picture': Picture,
-    'VText': VText,
-    'VButton': VButton,
-    'Group': Group,
-    'RectShape': RectShape,
+    Picture,
+    VText,
+    VButton,
+    Group,
+    RectShape,
 }
 
-Object.entries(components).map(([k, v]) => Vue.component(k, v));
+Object.entries(components).map(([k, v]) => Vue.component(k, v))

@@ -72,7 +72,7 @@ export default {
             const { isLoop } = this.config
             this.$store.commit('alterAnimation', {
                 index: this.curIndex,
-                data: { 
+                data: {
                     animationTime: this.config.animationTime,
                     isLoop,
                 },

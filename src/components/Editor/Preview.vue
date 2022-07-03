@@ -9,11 +9,7 @@
                     height: changeStyleWithScale(canvasStyleData.height) + 'px',
                 }"
             >
-                <ComponentWrapper
-                    v-for="(item, index) in componentData"
-                    :key="index"
-                    :config="item"
-                />
+                <ComponentWrapper v-for="(item, index) in componentData" :key="index" :config="item" />
             </div>
         </div>
     </div>
@@ -37,13 +33,10 @@ export default {
             default: false,
         },
     },
-    computed: mapState([
-        'componentData',
-        'canvasStyleData',
-    ]),
+    computed: mapState(['componentData', 'canvasStyleData']),
     methods: {
         changeStyleWithScale,
-        
+
         getStyle,
 
         close() {
@@ -60,7 +53,7 @@ export default {
     top: 0;
     left: 0;
     position: fixed;
-    background: rgb(0, 0, 0, .5);
+    background: rgb(0, 0, 0, 0.5);
     z-index: 10;
     display: flex;
     align-items: center;

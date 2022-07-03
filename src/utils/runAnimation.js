@@ -1,5 +1,5 @@
 export default async function runAnimation($el, animations = []) {
-    const play = (animation) => new Promise(resolve => {
+    const play = (animation) => new Promise((resolve) => {
         const { animationTime, value = '', isLoop } = animation
         $el.style.setProperty('--time', animationTime + 's')
         $el.classList.add(value, 'animated', utilsHandle(isLoop))
@@ -10,7 +10,7 @@ export default async function runAnimation($el, animations = []) {
             $el.style.removeProperty('--time')
             resolve()
         }
-            
+
         $el.addEventListener('animationend', removeAnimation)
         $el.addEventListener('animationcancel', removeAnimation)
     })

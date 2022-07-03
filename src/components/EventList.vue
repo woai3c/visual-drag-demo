@@ -22,7 +22,7 @@
                     :key="item.key"
                     :label="item.label"
                     :name="item.key"
-                    style="padding: 0 20px;"
+                    style="padding: 0 20px"
                 >
                     <el-input
                         v-if="item.key == 'redirect'"
@@ -38,7 +38,7 @@
                         placeholder="请输入要 alert 的内容"
                         @keydown.native.stop
                     />
-                    <el-button style="margin-top: 20px;" @click="addEvent(item.key, item.param)">确定</el-button>
+                    <el-button style="margin-top: 20px" @click="addEvent(item.key, item.param)">确定</el-button>
                 </el-tab-pane>
             </el-tabs>
         </Modal>
@@ -60,9 +60,7 @@ export default {
             eventList,
         }
     },
-    computed: mapState([
-        'curComponent',
-    ]),
+    computed: mapState(['curComponent']),
     methods: {
         addEvent(event, param) {
             this.isShowEvent = false

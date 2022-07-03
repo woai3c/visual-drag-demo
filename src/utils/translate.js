@@ -4,7 +4,7 @@ import { divide, multiply } from 'mathjs'
 // 角度转弧度
 // Math.PI = 180 度
 function angleToRadian(angle) {
-    return angle * Math.PI / 180
+    return (angle * Math.PI) / 180
 }
 
 /**
@@ -44,14 +44,14 @@ export function getRotatedPointCoordinate(style, center, name) {
     switch (name) {
         case 't':
             point = {
-                x: style.left + (style.width / 2),
+                x: style.left + style.width / 2,
                 y: style.top,
             }
 
             break
         case 'b':
             point = {
-                x: style.left + (style.width / 2),
+                x: style.left + style.width / 2,
                 y: style.top + style.height,
             }
 
@@ -106,8 +106,8 @@ export function getRotatedPointCoordinate(style, center, name) {
 // 求两点之间的中点坐标
 export function getCenterPoint(p1, p2) {
     return {
-        x: p1.x + ((p2.x - p1.x) / 2),
-        y: p1.y + ((p2.y - p1.y) / 2),
+        x: p1.x + (p2.x - p1.x) / 2,
+        y: p1.y + (p2.y - p1.y) / 2,
     }
 }
 

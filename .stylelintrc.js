@@ -1,6 +1,7 @@
 module.exports = {
     extends: 'stylelint-config-standard',
     rules: {
+        'number-leading-zero': null,
         'indentation': 4,
         'selector-pseudo-element-no-unknown': [
             true,

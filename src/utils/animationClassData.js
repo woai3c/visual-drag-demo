@@ -90,8 +90,8 @@ const animationClassData = [
     },
 ]
 
-animationClassData.forEach(item => {
-    item.children.forEach(e => {
+animationClassData.forEach((item) => {
+    item.children.forEach((e) => {
         // 是否在运行动画
         e.pending = false
 

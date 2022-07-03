@@ -43,11 +43,7 @@
             </el-tabs>
         </Modal>
         <!-- 编辑动画配置 -->
-        <AnimationSettingModal
-            v-if="isShowAnimationSetting"
-            :cur-index="curIndex"
-            @close="isShowAnimationSetting = false"
-        />
+        <AnimationSettingModal v-if="isShowAnimationSetting" :cur-index="curIndex" @close="isShowAnimationSetting = false" />
     </div>
 </template>
 
@@ -73,9 +69,7 @@ export default {
             curIndex: 0,
         }
     },
-    computed: mapState([
-        'curComponent',
-    ]),
+    computed: mapState(['curComponent']),
     methods: {
         addAnimation(animate) {
             this.$store.commit('addAnimation', animate)
@@ -88,7 +82,8 @@ export default {
 
         removeAnimation(index) {
             this.$store.commit('removeAnimation', index)
-            if (!this.curComponent.animations.length) { // 清空动画数据，停止运动
+            if (!this.curComponent.animations.length) {
+                // 清空动画数据，停止运动
                 eventBus.$emit('stopAnimation')
             }
         },
@@ -97,7 +92,7 @@ export default {
             this.isShowAnimationSetting = true
             this.curIndex = index
         },
-        
+
         async runAnimation(animate) {
             if (animate.pending) return
 
@@ -107,7 +102,7 @@ export default {
             // 防止无限触发同一元素的动画
             setTimeout(() => {
                 animate.pending = false
-            }, 100)  
+            }, 100)
         },
     },
 }

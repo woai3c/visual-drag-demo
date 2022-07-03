@@ -4,6 +4,9 @@ const viteVuePlugin = require('vite-plugin-vue2');
 
 export default defineConfig({
     root: './src',
+    build: {
+        outDir: '../dist'
+    },
     plugins: [ viteVuePlugin.createVuePlugin({
         jsx: true,
         jsxOptions: {

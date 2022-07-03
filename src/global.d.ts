@@ -1,7 +1,7 @@
-declare module '*.scss'
-declare module '*.vue' {
-    import Vue from "vue"
-    export default Vue
+declare module "*.scss";
+declare module "*.vue" {
+    import Vue from "vue";
+    export default Vue;
 }
 
 declare function h(): JSX.Element | JSX.ElementClass | JSX.IntrinsicElements;
@@ -13,4 +13,3 @@ declare namespace JSX {
         [ele: string]: any;
     }
 }
-  

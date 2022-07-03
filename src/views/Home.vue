@@ -54,20 +54,21 @@ import generateID from '@/utils/generateID'
 import { listenGlobalKeyDown } from '@/utils/shortcutKey'
 
 export default {
-    components: { Editor, ComponentList, AttrList, AnimationList, EventList, Toolbar },
+    components: {
+        Editor,
+        ComponentList,
+        AttrList,
+        AnimationList,
+        EventList,
+        Toolbar,
+    },
     data() {
         return {
             activeName: 'attr',
             reSelectAnimateIndex: undefined,
         }
     },
-    computed: mapState([
-        'componentData',
-        'curComponent',
-        'isClickComponent',
-        'canvasStyleData',
-        'editor',
-    ]),
+    computed: mapState(['componentData', 'curComponent', 'isClickComponent', 'canvasStyleData', 'editor']),
     created() {
         this.restore()
         // 全局监听按键事件
@@ -86,7 +87,7 @@ export default {
         },
 
         resetID(data) {
-            data.forEach(item => {
+            data.forEach((item) => {
                 item.id = generateID()
                 if (item.component === 'Group') {
                     this.resetID(item.propValue)

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build"
+    "build": "vite build",
+    "format": "node ./scripts/format.js"
   },
   "husky": {
     "hooks": {
@@ -38,11 +39,12 @@
     "babel-eslint": "^10.1.0",
     "chalk": "^4.1.1",
     "compression-webpack-plugin": "^6.1.1",
-    "eslint": "^6.7.2",
+    "eslint": "^8.19.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^6.2.2",
     "husky": "^4.2.3",
     "lint-staged": "^11.0.0",
+    "prettier-eslint": "^15.0.1",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "stylelint": "^13.13.1",

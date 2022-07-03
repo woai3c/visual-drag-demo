@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { Prop } from 'vue-property-decorator'
 import { mapState } from 'vuex'
-import Shape from './Shape.vue'
+import Shape from './Shape'
 import { getStyle, getComponentRotatedStyle } from '@/utils/style'
 import { $ } from '@/utils/utils'
 import ContextMenu from './ContextMenu.vue'
@@ -14,29 +14,33 @@ import { changeStyleWithScale } from '@/utils/translate'
 import s from './index.module.scss'
 
 @Component({
-    computed: mapState([
-        'componentData',
-        'curComponent',
-        'canvasStyleData',
-        'editor',
-    ])
+    computed: mapState(['componentData', 'curComponent', 'canvasStyleData', 'editor']),
 })
 export default class Editor extends Vue {
-    @Prop({ type: Boolean, default: true}) isEdit;
-    
+    @Prop({ type: Boolean, default: true }) isEdit
+
     componentData
+
     curComponent
+
     canvasStyleData
+
     editor
 
     editorX = 0
+
     editorY = 0
-    start = { // 选中区域的起点
+
+    start = {
+        // 选中区域的起点
         x: 0,
         y: 0,
     }
+
     width = 0
+
     height = 0
+
     isShowArea = false
 
     mounted() {
@@ -48,8 +52,8 @@ export default class Editor extends Vue {
         })
     }
 
-    changeStyleWithScale(){
-        changeStyleWithScale();
+    changeStyleWithScale() {
+        changeStyleWithScale()
     }
 
     handleMouseDown(e) {
@@ -126,12 +130,14 @@ export default class Editor extends Vue {
 
         // 根据选中区域和区域中每个组件的位移信息来创建 Group 组件
         // 要遍历选择区域的每个组件，获取它们的 left top right bottom 信息来进行比较
-        let top = Infinity, left = Infinity
-        let right = -Infinity, bottom = -Infinity
-        areaData.forEach(component => {
+        let top = Infinity,
+            left = Infinity
+        let right = -Infinity,
+            bottom = -Infinity
+        areaData.forEach((component) => {
             let style: any = {}
             if (component.component == 'Group') {
-                component.propValue.forEach(item => {
+                component.propValue.forEach((item) => {
                     const rectInfo = $(`#component${item.id}`).getBoundingClientRect()
                     style.left = rectInfo.left - this.editorX
                     style.top = rectInfo.top - this.editorY
@@ -175,11 +181,11 @@ export default class Editor extends Vue {
         // 区域起点坐标
         const { x, y } = this.start
         // 计算所有的组件数据，判断是否在选中区域内
-        this.componentData.forEach(component => {
+        this.componentData.forEach((component) => {
             if (component.isLock) return
 
             const { left, top, width, height } = getComponentRotatedStyle(component.style)
-            if (x <= left && y <= top && (left + width <= x + this.width) && (top + height <= y + this.height)) {
+            if (x <= left && y <= top && left + width <= x + this.width && top + height <= y + this.height) {
                 result.push(component)
             }
         })
@@ -211,7 +217,7 @@ export default class Editor extends Vue {
 
     getShapeStyle(style) {
         const result: any = {};
-        ['width', 'height', 'top', 'left', 'rotate', 'zIndex'].forEach(attr => {
+        ['width', 'height', 'top', 'left', 'rotate', 'zIndex'].forEach((attr) => {
             if (attr === 'zIndex') {
                 result[attr] = style[attr]
             } else if (attr != 'rotate') {
@@ -230,7 +236,9 @@ export default class Editor extends Vue {
 
     handleInput(element, value) {
         // 根据文本组件高度调整 shape 高度
-        this.$store.commit('setShapeStyle', { height: this.getTextareaHeight(element, value) })
+        this.$store.commit('setShapeStyle', {
+            height: this.getTextareaHeight(element, value),
+        })
     }
 
     getTextareaHeight(element, text) {
@@ -244,62 +252,63 @@ export default class Editor extends Vue {
     }
 
     render(h) {
-        return <div
-            id="editor"
-            class={[s.editor, this.isEdit ? s.edit : '']}
-            style={{
-                width: changeStyleWithScale(this.canvasStyleData.width) + 'px',
-                height: changeStyleWithScale(this.canvasStyleData.height) + 'px',
-            }}
-            onContextmenu={this.handleContextMenu}
-            onMousedown={this.handleMouseDown}
-    >
-        {/* <!-- 网格线 --> */}
-        <Grid />
+        return (
+            <div
+                id="editor"
+                class={[s.editor, this.isEdit ? s.edit : '']}
+                style={{
+                    width: changeStyleWithScale(this.canvasStyleData.width) + 'px',
+                    height: changeStyleWithScale(this.canvasStyleData.height) + 'px',
+                }}
+                onContextmenu={this.handleContextMenu}
+                onMousedown={this.handleMouseDown}
+            >
+                {/* <!-- 网格线 --> */}
+                <Grid />
 
-        {/* <!--页面组件列表展示--> */}
-        {this.componentData.map((item, index) => <Shape
-            key={item.id}
-            default-style={item.style}
-            style={this.getShapeStyle(item.style)}
-            active={item.id === (this.curComponent || {}).id}
-            element={item}
-            index={index}
-            class={[item.isLock ? s.lock : '' ]}
-        >
-            {item.component != 'v-text' && h(item.component, {
-                props: {
-                    id: 'component' + item.id,
-                    propValue: item.propValue,
-                    element: item
-                },
-                style: this.getComponentStyle(item.style),
-                class: s.component,
-            })}
-            {item.component == 'v-text' && h(item.component, {
-                props: {
-                    id: 'component' + item.id,
-                    propValue: item.propValue,
-                    element: item,
-                },
-                class: s.component,
-                style: this.getComponentStyle(item.style),
-                events: {
-                    input: this.handleInput,
-                }
-            })}
-        </Shape>)}
-        {/* <!-- 右击菜单 --> */}
-        <ContextMenu />
-        {/* <!-- 标线 --> */}
-        <MarkLine />
-        {/* <!-- 选中区域 --> */}
-        <Area
-            v-show={this.isShowArea}
-            start={this.start}
-            width={this.width}
-            height={this.height}
-        />
-    </div>
+                {/* <!--页面组件列表展示--> */}
+                {this.componentData.map((item, index) => (
+                    <Shape
+                        key={item.id}
+                        default-style={item.style}
+                        style={this.getShapeStyle(item.style)}
+                        active={item.id === (this.curComponent || {}).id}
+                        element={item}
+                        index={index}
+                        class={[item.isLock ? s.lock : '']}
+                    >
+                        {item.component != 'v-text'
+                            && h(item.component, {
+                                props: {
+                                    element: item,
+                                    propValue: item.propValue,
+                                },
+                                id: 'component' + item.id,
+                                style: this.getComponentStyle(item.style),
+                                class: s.component,
+                            })}
+                        {item.component == 'v-text'
+                            && h(item.component, {
+                                props: {
+                                    propValue: item.propValue,
+                                    element: item,
+                                },
+                                id: 'component' + item.id,
+                                class: s.component,
+                                style: this.getComponentStyle(item.style),
+                                events: {
+                                    input: this.handleInput,
+                                },
+                            })}
+                    </Shape>
+                ))}
+                {/* <!-- 右击菜单 --> */}
+                <ContextMenu />
+                {/* <!-- 标线 --> */}
+                <MarkLine />
+                {/* <!-- 选中区域 --> */}
+                <Area v-show={this.isShowArea} start={this.start} width={this.width} height={this.height} />
+            </div>
+        )
     }
 }

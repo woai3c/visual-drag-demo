@@ -10,14 +10,11 @@
                 hidden
                 @change="handleFileChange"
             />
-            <el-button style="margin-left: 10px;" @click="preview">预览</el-button>
+            <el-button style="margin-left: 10px" @click="preview">预览</el-button>
             <el-button @click="save">保存</el-button>
             <el-button @click="clearCanvas">清空画布</el-button>
             <el-button :disabled="!areaData.components.length" @click="compose">组合</el-button>
-            <el-button
-                :disabled="!curComponent || curComponent.isLock || curComponent.component != 'Group'"
-                @click="decompose"
-            >
+            <el-button :disabled="!curComponent || curComponent.isLock || curComponent.component != 'Group'" @click="decompose">
                 拆分
             </el-button>
 
@@ -25,13 +22,13 @@
             <el-button :disabled="!curComponent || !curComponent.isLock" @click="unlock">解锁</el-button>
             <div class="canvas-config">
                 <span>画布大小</span>
-                <input v-model="canvasStyleData.width">
+                <input v-model="canvasStyleData.width" />
                 <span>*</span>
-                <input v-model="canvasStyleData.height">
+                <input v-model="canvasStyleData.height" />
             </div>
             <div class="canvas-config">
                 <span>画布比例</span>
-                <input v-model="scale" @input="handleScaleChange"> %
+                <input v-model="scale" @input="handleScaleChange" /> %
             </div>
         </div>
 
@@ -55,24 +52,12 @@ export default {
     data() {
         return {
             isShowPreview: false,
-            needToChange: [
-                'top',
-                'left',
-                'width',
-                'height',
-                'fontSize',
-            ],
+            needToChange: ['top', 'left', 'width', 'height', 'fontSize'],
             scale: '100%',
             timer: null,
         }
     },
-    computed: mapState([
-        'componentData',
-        'canvasStyleData',
-        'areaData',
-        'curComponent',
-        'curComponentIndex',
-    ]),
+    computed: mapState(['componentData', 'canvasStyleData', 'areaData', 'curComponent', 'curComponentIndex']),
     created() {
         eventBus.$on('preview', this.preview)
         eventBus.$on('save', this.save)
@@ -94,10 +79,10 @@ export default {
             this.timer = setTimeout(() => {
                 // 画布比例设一个最小值，不能为 0
                 // eslint-disable-next-line no-bitwise
-                this.scale = (~~this.scale) || 1
+                this.scale = ~~this.scale || 1
                 const componentData = deepCopy(this.componentData)
-                componentData.forEach(component => {
-                    Object.keys(component.style).forEach(key => {
+                componentData.forEach((component) => {
+                    Object.keys(component.style).forEach((key) => {
                         if (this.needToChange.includes(key)) {
                             // 根据原来的比例获取样式原来的尺寸
                             // 再用原来的尺寸 * 现在的比例得出新的尺寸
@@ -108,7 +93,10 @@ export default {
 
                 this.$store.commit('setComponentData', componentData)
                 // 更新画布数组后，需要重新设置当前组件，否则在改变比例后，直接拖动圆点改变组件大小不会生效 https://github.com/woai3c/visual-drag-demo/issues/74
-                this.$store.commit('setCurComponent', { component: componentData[this.curComponentIndex], index: this.curComponentIndex })
+                this.$store.commit('setCurComponent', {
+                    component: componentData[this.curComponentIndex],
+                    index: this.curComponentIndex,
+                })
                 this.$store.commit('setCanvasStyle', {
                     ...this.canvasStyleData,
                     scale: this.scale,
@@ -250,7 +238,7 @@ export default {
         box-sizing: border-box;
         outline: 0;
         margin: 0;
-        transition: .1s;
+        transition: 0.1s;
         font-weight: 500;
         padding: 9px 15px;
         font-size: 12px;
