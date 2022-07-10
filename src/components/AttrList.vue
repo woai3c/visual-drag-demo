@@ -37,6 +37,12 @@
             <el-form-item v-if="curComponent && !excludes.includes(curComponent.component)" label="内容">
                 <el-input v-model="curComponent.propValue" type="textarea" />
             </el-form-item>
+            <el-form-item v-if="curComponent && curComponent.component === 'Picture'" label="图片镜像翻转">
+                <div style="clear: both;">
+                    <el-checkbox v-model="curComponent.propValue.flip.horizontal" label="horizontal">水平翻转</el-checkbox>
+                    <el-checkbox v-model="curComponent.propValue.flip.vertical" label="vertical">垂直翻转</el-checkbox>
+                </div>
+            </el-form-item>
         </el-form>
     </div>
 </template>

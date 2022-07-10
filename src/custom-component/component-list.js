@@ -53,7 +53,13 @@ const list = [
         component: 'Picture',
         label: '图片',
         icon: 'tupian',
-        propValue: require('@/assets/title.jpg'),
+        propValue: {
+            url: require('@/assets/title.jpg'),
+            flip: {
+                horizontal: false,
+                vertical: false,
+            },
+        },
         style: {
             width: 300,
             height: 200,

@@ -161,7 +161,13 @@ export default {
                             component: 'Picture',
                             label: '图片',
                             icon: '',
-                            propValue: fileResult,
+                            propValue: {
+                                url: fileResult,
+                                flip: {
+                                    horizontal: false,
+                                    vertical: false,
+                                },
+                            },
                             style: {
                                 ...commonStyle,
                                 top: 0,
