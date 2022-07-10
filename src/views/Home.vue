@@ -160,6 +160,10 @@ export default {
             width: 262px;
             right: 0;
             top: 0;
+
+            .el-select {
+                width: 100%;
+            }
         }
 
         .center {
