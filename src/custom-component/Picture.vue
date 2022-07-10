@@ -44,10 +44,10 @@ export default {
     mounted() {
         this.canvas = this.$refs.canvas
         this.ctx = this.canvas.getContext('2d')
-        this.firstDrawImage()
+        this.drawImage()
     },
     methods: {
-        firstDrawImage() {
+        drawImage() {
             const { width, height } = this.element.style
             this.canvas.width = width
             this.canvas.height = height
@@ -57,10 +57,10 @@ export default {
                 this.img.src = this.propValue.url
                 this.img.onload = () => {
                     this.ctx.drawImage(this.img, 0, 0, width, height)
+                    this.mirrorFlip()
                 }
             } else {
-                this.ctx.clearRect(0, 0, width, height)
-                this.ctx.drawImage(this.img, 0, 0, width, height)
+                this.mirrorFlip()
             }
         },
 
