@@ -47,7 +47,7 @@ import { mapState } from 'vuex'
 import Preview from '@/components/Editor/Preview'
 import { commonStyle, commonAttr } from '@/custom-component/component-list'
 import eventBus from '@/utils/eventBus'
-import { deepCopy } from '@/utils/utils'
+import { deepCopy, $ } from '@/utils/utils'
 import { divide, multiply } from 'mathjs'
 
 export default {
@@ -181,8 +181,8 @@ export default {
                     this.$store.commit('recordSnapshot')
 
                     // 修复重复上传同一文件，@change 不触发的问题
-                    document.querySelector('#input').setAttribute('type', 'text')
-                    document.querySelector('#input').setAttribute('type', 'file')
+                    $('#input').setAttribute('type', 'text')
+                    $('#input').setAttribute('type', 'file')
                 }
 
                 img.src = fileResult
