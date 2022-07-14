@@ -3,6 +3,7 @@ import { sin, cos } from '@/utils/translate'
 export const styleData = [
     { key: 'left', label: 'x 坐标' },
     { key: 'top', label: 'y 坐标' },
+    { key: 'rotate', label: '旋转角度' },
     { key: 'width', label: '宽' },
     { key: 'height', label: '高' },
     { key: 'color', label: '颜色' },
@@ -19,6 +20,19 @@ export const styleData = [
     { key: 'verticalAlign', label: '上下对齐' },
     { key: 'opacity', label: '透明度' },
 ]
+
+export function getShapeStyle(style) {
+    const result = {};
+    ['width', 'height', 'top', 'left', 'rotate'].forEach(attr => {
+        if (attr != 'rotate') {
+            result[attr] = style[attr] + 'px'
+        } else {
+            result.transform = 'rotate(' + style[attr] + 'deg)'
+        }
+    })
+
+    return result
+}
 
 export function getStyle(style, filter = []) {
     const needUnit = [

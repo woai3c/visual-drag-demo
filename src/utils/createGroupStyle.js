@@ -1,4 +1,4 @@
-import { getStyle } from '@/utils/style'
+import { getStyle, getShapeStyle } from '@/utils/style'
 import { toPercent } from '@/utils/translate'
 
 export default function createGroupStyle(groupComponent) {
@@ -8,7 +8,12 @@ export default function createGroupStyle(groupComponent) {
         // 如果已存在 component.groupStyle，说明已经计算过一次了。不需要再次计算
         if (!Object.keys(component.groupStyle).length) {
             const style = { ...component.style }
-            component.groupStyle = getStyle(style)
+            if (component.component.startsWith('SVG')) {
+                component.groupStyle = getShapeStyle(style)
+            } else {
+                component.groupStyle = getStyle(style)
+            }
+
             component.groupStyle.left = toPercent((style.left - parentStyle.left) / parentStyle.width)
             component.groupStyle.top = toPercent((style.top - parentStyle.top) / parentStyle.height)
             component.groupStyle.width = toPercent(style.width / parentStyle.width)

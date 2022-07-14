@@ -3,9 +3,9 @@
     <div class="attr-list">
         <el-form>
             <el-form-item v-for="({key,label}, index) in styleKeys" :key="index" :label="label">
-                <el-color-picker v-if="key == 'borderColor'" v-model="curComponent.style[key]"></el-color-picker>
-                <el-color-picker v-else-if="key == 'color'" v-model="curComponent.style[key]"></el-color-picker>
-                <el-color-picker v-else-if="key == 'backgroundColor'" v-model="curComponent.style[key]"></el-color-picker>
+                <el-color-picker v-if="key == 'borderColor'" v-model="curComponent.style[key]" show-alpha></el-color-picker>
+                <el-color-picker v-else-if="key == 'color'" v-model="curComponent.style[key]" show-alpha></el-color-picker>
+                <el-color-picker v-else-if="key == 'backgroundColor'" v-model="curComponent.style[key]" show-alpha></el-color-picker>
                 <el-select v-else-if="selectKey.includes(key)" v-model="curComponent.style[key]">
                     <template v-if="key == 'textAlign'">
                         <el-option
@@ -53,7 +53,7 @@ import { styleData } from '@/utils/style'
 export default {
     data() {
         return {
-            excludes: ['Picture', 'Group'], // 这些组件不显示内容
+            excludes: ['Picture', 'Group', 'SVGStar'], // 这些组件不显示内容
             textAlignOptions: [
                 {
                     label: '左对齐',
