@@ -88,6 +88,19 @@ const list = [
             verticalAlign: 'middle',
         },
     },
+    {
+        component: 'SVGStar',
+        label: '星形',
+        icon: 'tupian',
+        propValue: {},
+        style: {
+            width: 40,
+            height: 40,
+            borderColor: '#000',
+            borderWidth: 1,
+            backgroundColor: 'rgba(255, 255, 255, 1)',
+        },
+    },
 ]
 
 for (let i = 0, len = list.length; i < len; i++) {
