@@ -26,3 +26,7 @@ export function swap(arr, i, j) {
 export function $(selector) {
     return document.querySelector(selector)
 }
+
+export function isPreventDrop(component) {
+    return component != 'v-text' && component != 'rect-shape' && !component.startsWith('SVG')
+}

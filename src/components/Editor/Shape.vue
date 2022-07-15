@@ -25,6 +25,7 @@ import runAnimation from '@/utils/runAnimation'
 import { mapState } from 'vuex'
 import calculateComponentPositonAndSize from '@/utils/calculateComponentPositonAndSize'
 import { mod360 } from '@/utils/translate'
+import { isPreventDrop } from '@/utils/utils'
 
 export default {
     props: {
@@ -211,7 +212,7 @@ export default {
         handleMouseDownOnShape(e) {
             this.$store.commit('setInEditorStatus', true)
             this.$store.commit('setClickComponentStatus', true)
-            if (this.element.component != 'v-text' && this.element.component != 'rect-shape') {
+            if (isPreventDrop(this.element.component)) {
                 e.preventDefault()
             }
 
