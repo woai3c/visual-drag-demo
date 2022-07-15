@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "383678",
+      "name": "空五角星",
+      "font_class": "kongwujiaoxing",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "4354256",
+      "name": "形状-三角形",
+      "font_class": "xingzhuang-sanjiaoxing",
+      "unicode": "eb99",
+      "unicode_decimal": 60313
+    },
+    {
+      "icon_id": "7594403",
+      "name": "24gl-circle",
+      "font_class": "24gl-circle",
+      "unicode": "ea97",
+      "unicode_decimal": 60055
+    },
+    {
+      "icon_id": "22383638",
+      "name": "自由曲线",
+      "font_class": "ziyouquxian",
+      "unicode": "edfa",
+      "unicode_decimal": 60922
+    },
+    {
+      "icon_id": "26505830",
+      "name": "直线",
+      "font_class": "zhixian",
+      "unicode": "ee43",
+      "unicode_decimal": 60995
+    },
+    {
       "icon_id": "8229196",
       "name": "向右旋转",
       "font_class": "xiangyouxuanzhuan",

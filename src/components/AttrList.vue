@@ -34,7 +34,7 @@
                 </el-select>
                 <el-input v-else v-model.number="curComponent.style[key]" type="number" />
             </el-form-item>
-            <el-form-item v-if="curComponent && !excludes.includes(curComponent.component)" label="内容">
+            <el-form-item v-if="curComponent && isShowContent()" label="内容">
                 <el-input v-model="curComponent.propValue" type="textarea" />
             </el-form-item>
             <el-form-item v-if="curComponent && curComponent.component === 'Picture'" label="镜像翻转">
@@ -53,7 +53,6 @@ import { styleData } from '@/utils/style'
 export default {
     data() {
         return {
-            excludes: ['Picture', 'Group', 'SVGStar'], // 这些组件不显示内容
             textAlignOptions: [
                 {
                     label: '左对齐',
@@ -106,6 +105,13 @@ export default {
         },
         curComponent() {
             return this.$store.state.curComponent
+        },
+    },
+    methods: {
+        isShowContent() {
+            const excludes = ['Picture', 'Group'] // 这些组件不显示内容
+            const component = this.curComponent.component
+            return !excludes.includes(component)
         },
     },
 }

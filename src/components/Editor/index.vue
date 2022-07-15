@@ -28,6 +28,7 @@
                 :is="item.component"
                 v-if="item.component.startsWith('SVG')"
                 :id="'component' + item.id"
+                :style="getSVGStyle(item.style)"
                 class="component"
                 :prop-value="item.propValue"
                 :element="item"
@@ -71,8 +72,8 @@
 <script>
 import { mapState } from 'vuex'
 import Shape from './Shape'
-import { getStyle, getComponentRotatedStyle, getShapeStyle } from '@/utils/style'
-import { $ } from '@/utils/utils'
+import { getStyle, getComponentRotatedStyle, getShapeStyle, getSVGStyle } from '@/utils/style'
+import { $, isPreventDrop } from '@/utils/utils'
 import ContextMenu from './ContextMenu'
 import MarkLine from './MarkLine'
 import Area from './Area'
@@ -99,6 +100,7 @@ export default {
             width: 0,
             height: 0,
             isShowArea: false,
+            svgFilterAttrs: ['width', 'height', 'top', 'left', 'rotate'],
         }
     },
     computed: mapState([
@@ -121,7 +123,7 @@ export default {
 
         handleMouseDown(e) {
             // 如果没有选中组件 在画布上点击时需要调用 e.preventDefault() 防止触发 drop 事件
-            if (!this.curComponent || (this.curComponent.component != 'v-text' && this.curComponent.component != 'rect-shape')) {
+            if (!this.curComponent || (isPreventDrop(this.curComponent.component))) {
                 e.preventDefault()
             }
 
@@ -277,7 +279,11 @@ export default {
         },
 
         getComponentStyle(style) {
-            return getStyle(style, ['top', 'left', 'width', 'height', 'rotate'])
+            return getStyle(style, this.svgFilterAttrs)
+        },
+
+        getSVGStyle(style) {
+            return getSVGStyle(style, this.svgFilterAttrs)
         },
 
         handleInput(element, value) {

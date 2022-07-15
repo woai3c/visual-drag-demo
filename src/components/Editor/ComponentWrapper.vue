@@ -5,7 +5,7 @@
             v-if="config.component.startsWith('SVG')"
             ref="component"
             class="component"
-            :style="getShapeStyle(config.style)"
+            :style="getSVGStyle(config.style)"
             :prop-value="config.propValue"
             :element="config"
         />
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { getStyle, getShapeStyle } from '@/utils/style'
+import { getStyle, getSVGStyle } from '@/utils/style'
 import runAnimation from '@/utils/runAnimation'
 import { mixins } from '@/utils/events'
 
@@ -41,7 +41,7 @@ export default {
     },
     methods: {
         getStyle,
-        getShapeStyle,
+        getSVGStyle,
 
         handleClick() {
             const events = this.config.events

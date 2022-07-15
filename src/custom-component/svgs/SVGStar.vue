@@ -1,22 +1,30 @@
 <template>
-    <svg
-        version="1.1"
-        baseProfile="full"
-        xmlns="http://www.w3.org/2000/svg"
-    >
-        <polygon
-            ref="star"
-            :points="points"
-            :stroke="element.style.borderColor"
-            :fill="element.style.backgroundColor"
-            :stroke-width="element.style.borderWidth"
-        />
-    </svg>
+    <div class="svg-star-container">
+        <svg
+            version="1.1"
+            baseProfile="full"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <polygon
+                ref="star"
+                :points="points"
+                :stroke="element.style.borderColor"
+                :fill="element.style.backgroundColor"
+                :stroke-width="element.style.borderWidth"
+            />
+        </svg>
+        <v-text :prop-value="element.propValue" :element="element" />
+    </div>
 </template>
 
 <script>
 export default {
     props: {
+        propValue: {
+            type: String,
+            require: true,
+            default: '',
+        },
         element: {
             type: Object,
             default: () => {},
@@ -65,3 +73,25 @@ export default {
     },
 }
 </script>
+
+<style lang="scss" scoped>
+.svg-star-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    .v-text {
+        position: absolute;
+        top: 58%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50%;
+        height: 40%;
+    }
+}
+</style>
