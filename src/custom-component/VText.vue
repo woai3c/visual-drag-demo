@@ -140,6 +140,8 @@ export default {
         width: 100%;
         height: 100%;
         outline: none;
+        word-break: break-all;
+        padding: 4px;
     }
 
     .canEdit {
