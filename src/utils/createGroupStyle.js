@@ -1,4 +1,4 @@
-import { getStyle, getShapeStyle } from '@/utils/style'
+import { getStyle, getSVGStyle } from '@/utils/style'
 import { toPercent } from '@/utils/translate'
 
 export default function createGroupStyle(groupComponent) {
@@ -9,7 +9,7 @@ export default function createGroupStyle(groupComponent) {
         if (!Object.keys(component.groupStyle).length) {
             const style = { ...component.style }
             if (component.component.startsWith('SVG')) {
-                component.groupStyle = getShapeStyle(style)
+                component.groupStyle = getSVGStyle(style)
             } else {
                 component.groupStyle = getStyle(style)
             }

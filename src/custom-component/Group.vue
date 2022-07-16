@@ -1,17 +1,16 @@
 <template>
     <div class="group">
         <div>
-            <template v-for="item in propValue">
-                <component
-                    :is="item.component"
-                    :id="'component' + item.id"
-                    :key="item.id"
-                    class="component"
-                    :style="item.groupStyle"
-                    :prop-value="item.propValue"
-                    :element="item"
-                />
-            </template>
+            <component
+                :is="item.component"
+                v-for="item in propValue"
+                :id="'component' + item.id"
+                :key="item.id"
+                class="component"
+                :style="item.groupStyle"
+                :prop-value="item.propValue"
+                :element="item"
+            />
         </div>
     </div>
 </template>
