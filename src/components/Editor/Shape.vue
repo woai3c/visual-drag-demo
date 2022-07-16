@@ -8,7 +8,7 @@
         <span v-show="isActive()" class="iconfont icon-xiangyouxuanzhuan" @mousedown="handleRotate"></span>
         <span v-show="element.isLock" class="iconfont icon-suo"></span>
         <div
-            v-for="item in (isActive()? pointList : [])"
+            v-for="item in (isActive()? getPointList() : [])"
             :key="item"
             class="shape-point"
             :style="getPointStyle(item)"
@@ -52,6 +52,7 @@ export default {
     data() {
         return {
             pointList: ['lt', 't', 'rt', 'r', 'rb', 'b', 'lb', 'l'], // 八个方向
+            pointList2: ['r', 'l'], // 左右两个方向
             initialAngle: { // 每个点对应的初始角度
                 lt: 0,
                 t: 45,
@@ -94,6 +95,10 @@ export default {
         })
     },
     methods: {
+        getPointList() {
+            return this.element.component === 'line-shape' ? this.pointList2 : this.pointList
+        },
+
         isActive() {
             return this.active && !this.element.isLock
         },

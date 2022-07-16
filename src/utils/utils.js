@@ -27,6 +27,7 @@ export function $(selector) {
     return document.querySelector(selector)
 }
 
+const components = ['v-text', 'rect-shape', 'circle-shape']
 export function isPreventDrop(component) {
-    return component != 'v-text' && component != 'rect-shape' && !component.startsWith('SVG')
+    return !components.includes(component) && !component.startsWith('SVG')
 }
