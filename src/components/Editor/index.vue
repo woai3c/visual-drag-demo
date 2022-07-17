@@ -36,7 +36,7 @@
 
             <component
                 :is="item.component"
-                v-else-if="item.component != 'v-text'"
+                v-else-if="item.component != 'VText'"
                 :id="'component' + item.id"
                 class="component"
                 :style="getComponentStyle(item.style)"
