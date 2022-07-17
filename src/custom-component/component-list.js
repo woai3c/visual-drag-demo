@@ -14,13 +14,13 @@ export const commonAttr = {
 // 编辑器左侧组件列表
 const list = [
     {
-        component: 'v-text',
+        component: 'VText',
         label: '文字',
         propValue: '双击编辑文字',
         icon: 'wenben',
         style: {
             width: 200,
-            height: 22,
+            height: 28,
             fontSize: 14,
             fontWeight: 400,
             lineHeight: '',
@@ -30,7 +30,7 @@ const list = [
         },
     },
     {
-        component: 'v-button',
+        component: 'VButton',
         label: '按钮',
         propValue: '按钮',
         icon: 'button',
@@ -67,7 +67,7 @@ const list = [
         },
     },
     {
-        component: 'rect-shape',
+        component: 'RectShape',
         label: '矩形',
         propValue: '&nbsp;',
         icon: 'juxing',
@@ -89,7 +89,7 @@ const list = [
         },
     },
     {
-        component: 'line-shape',
+        component: 'LineShape',
         label: '直线',
         propValue: '',
         icon: 'zhixian',
@@ -100,7 +100,7 @@ const list = [
         },
     },
     {
-        component: 'circle-shape',
+        component: 'CircleShape',
         label: '圆形',
         propValue: '&nbsp;',
         icon: '24gl-circle',

@@ -23,7 +23,7 @@
             <section class="right">
                 <el-tabs v-model="activeName">
                     <el-tab-pane label="属性" name="attr">
-                        <AttrList v-if="curComponent" />
+                        <component :is="curComponent.component + 'Attr'" v-if="curComponent" />
                         <p v-else class="placeholder">请选择组件</p>
                     </el-tab-pane>
                     <el-tab-pane label="动画" name="animation">
@@ -43,7 +43,6 @@
 <script>
 import Editor from '@/components/Editor/index'
 import ComponentList from '@/components/ComponentList' // 左侧列表组件
-import AttrList from '@/components/AttrList' // 右侧属性列表
 import AnimationList from '@/components/AnimationList' // 右侧动画列表
 import EventList from '@/components/EventList' // 右侧事件列表
 import componentList from '@/custom-component/component-list' // 左侧列表数据
@@ -54,7 +53,7 @@ import generateID from '@/utils/generateID'
 import { listenGlobalKeyDown } from '@/utils/shortcutKey'
 
 export default {
-    components: { Editor, ComponentList, AttrList, AnimationList, EventList, Toolbar },
+    components: { Editor, ComponentList, AnimationList, EventList, Toolbar },
     data() {
         return {
             activeName: 'attr',

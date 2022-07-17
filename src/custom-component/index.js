@@ -11,7 +11,8 @@ const components = [
 ]
 
 components.forEach(key => {
-    Vue.component(key, () => import(`@/custom-component/${key}`))
+    Vue.component(key, () => import(`@/custom-component/${key}/Component`))
+    Vue.component(key + 'Attr', () => import(`@/custom-component/${key}/Attr`))
 })
 
 const svgs = [
@@ -20,5 +21,6 @@ const svgs = [
 ]
 
 svgs.forEach(key => {
-    Vue.component(key, () => import(`@/custom-component/svgs/${key}`))
+    Vue.component(key, () => import(`@/custom-component/svgs/${key}/Component`))
+    Vue.component(key + 'Attr', () => import(`@/custom-component/svgs/${key}/Attr`))
 })
