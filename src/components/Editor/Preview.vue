@@ -7,6 +7,7 @@
                 :style="{
                     width: changeStyleWithScale(canvasStyleData.width) + 'px',
                     height: changeStyleWithScale(canvasStyleData.height) + 'px',
+                    background: canvasStyleData.background,
                 }"
             >
                 <ComponentWrapper
@@ -43,7 +44,7 @@ export default {
     ]),
     methods: {
         changeStyleWithScale,
-        
+
         getStyle,
 
         close() {
