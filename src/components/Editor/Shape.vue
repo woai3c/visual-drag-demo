@@ -325,8 +325,8 @@ export default {
 
                 needSave = true
                 const curPositon = {
-                    x: moveEvent.clientX - editorRectInfo.left,
-                    y: moveEvent.clientY - editorRectInfo.top,
+                    x: moveEvent.clientX - Math.round(editorRectInfo.left),
+                    y: moveEvent.clientY - Math.round(editorRectInfo.top),
                 }
 
                 calculateComponentPositonAndSize(point, style, curPositon, proportion, needLockProportion, {
