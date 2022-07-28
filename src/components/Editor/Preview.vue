@@ -1,6 +1,7 @@
 <template>
-    <div v-if="show" class="bg">
-        <el-button class="close" @click="close">关闭</el-button>
+    <div v-if="show" ref="container" class="bg">
+        <el-button v-if="!isScreenshot" class="close" @click="close">关闭</el-button>
+        <el-button v-else class="close" @click="htmlToImage">确定</el-button>
         <div class="canvas-container">
             <div
                 class="canvas"
@@ -25,6 +26,7 @@ import { getStyle } from '@/utils/style'
 import { mapState } from 'vuex'
 import ComponentWrapper from './ComponentWrapper'
 import { changeStyleWithScale } from '@/utils/translate'
+import { toPng } from 'html-to-image'
 
 export default {
     components: { ComponentWrapper },
@@ -34,6 +36,10 @@ export default {
     },
     props: {
         show: {
+            type: Boolean,
+            default: false,
+        },
+        isScreenshot: {
             type: Boolean,
             default: false,
         },
@@ -49,6 +55,20 @@ export default {
 
         close() {
             this.$emit('change', false)
+        },
+
+        htmlToImage() {
+            toPng(this.$refs.container.querySelector('.canvas'))
+            .then(dataUrl => {
+                const a = document.createElement('a')
+                a.setAttribute('download', 'screenshot')
+                a.href = dataUrl
+                a.click()
+            })
+            .catch(error => {
+                console.error('oops, something went wrong!', error)
+            })
+            .finally(this.close)
         },
     },
 }
