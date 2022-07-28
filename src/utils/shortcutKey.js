@@ -20,7 +20,13 @@ const ctrlKey = 17,
     pKey = 80, // 预览
     dKey = 68, // 删除
     deleteKey = 46, // 删除
-    eKey = 69 // 清空画布
+    eKey = 69, // 清空画布
+
+    upKey = 38, // 上移
+    downKey = 40, // 下移
+
+    topKey = 84, // 置顶
+    bottomKey = 85 // 置底
 
 export const keycodes = [66, 67, 68, 69, 71, 76, 80, 83, 85, 86, 88, 89, 90]
 
@@ -50,6 +56,10 @@ const unlockMap = {
     [dKey]: deleteComponent,
     [deleteKey]: deleteComponent,
     [lKey]: lock,
+    [upKey]: up,
+    [downKey]: down,
+    [topKey]: top,
+    [bottomKey]: bottom,
 }
 
 let isCtrlOrCommandDown = false
@@ -85,6 +95,22 @@ export function listenGlobalKeyDown() {
     window.onmousedown = () => {
         store.commit('setInEditorStatus', false)
     }
+}
+
+function top() {
+    store.commit('topComponent')
+}
+
+function bottom() {
+    store.commit('bottomComponent')
+}
+
+function up() {
+    store.commit('upComponent')
+}
+
+function down() {
+    store.commit('downComponent')
 }
 
 function copy() {

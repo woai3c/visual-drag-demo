@@ -71,6 +71,7 @@ export default {
         this.restore()
         // 全局监听按键事件
         listenGlobalKeyDown()
+        this.getCurrentOS()
     },
     methods: {
         restore() {
@@ -130,6 +131,13 @@ export default {
             if (e.button != 2) {
                 this.$store.commit('hideContextMenu')
             }
+        },
+
+        // 获取当前的操作系统
+        getCurrentOS() {
+            const agent = navigator.userAgent
+            const os = agent.indexOf('Mac') ? 'mac' : 'win'
+            this.$store.commit('setCurOS', { os })
         },
     },
 }

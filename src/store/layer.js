@@ -4,6 +4,7 @@ import toast from '@/utils/toast'
 export default {
     mutations: {
         upComponent({ componentData, curComponentIndex }) {
+            // console.log()
             // 上移图层 index，表示元素在数组中越往后
             if (curComponentIndex < componentData.length - 1) {
                 swap(componentData, curComponentIndex, curComponentIndex + 1)
