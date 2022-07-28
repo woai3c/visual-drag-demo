@@ -33,6 +33,10 @@
                 <span>画布比例</span>
                 <input v-model="scale" @input="handleScaleChange"> %
             </div>
+            <div class="canvas-config canvas-bg">
+                <span>画布背景色</span>
+                <el-color-picker v-model="canvasStyleData.background"></el-color-picker>
+            </div>
         </div>
 
         <!-- 预览 -->
@@ -231,7 +235,7 @@ export default {
 
         input {
             width: 50px;
-            margin-left: 10px;
+            margin-left: 4px;
             outline: none;
             padding: 0 5px;
             border: 1px solid #ddd;
@@ -272,6 +276,15 @@ export default {
         &:hover {
             background-color: #ecf5ff;
             color: #3a8ee6;
+        }
+    }
+
+    .canvas-bg {
+        display: inline-flex;
+        align-items: center;
+
+        span {
+            margin-right: 4px;
         }
     }
 }

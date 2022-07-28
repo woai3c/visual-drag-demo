@@ -6,6 +6,7 @@
         :style="{
             width: changeStyleWithScale(canvasStyleData.width) + 'px',
             height: changeStyleWithScale(canvasStyleData.height) + 'px',
+            background: canvasStyleData.background,
         }"
         @contextmenu="handleContextMenu"
         @mousedown="handleMouseDown"
