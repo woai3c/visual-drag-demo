@@ -19,6 +19,7 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "element-ui": "^2.14.1",
+    "html-to-image": "^1.9.0",
     "mathjs": "^10.5.3",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",

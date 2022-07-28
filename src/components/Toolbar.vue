@@ -10,7 +10,7 @@
                 hidden
                 @change="handleFileChange"
             />
-            <el-button style="margin-left: 10px;" @click="preview">预览</el-button>
+            <el-button style="margin-left: 10px;" @click="preview(false)">预览</el-button>
             <el-button @click="save">保存</el-button>
             <el-button @click="clearCanvas">清空画布</el-button>
             <el-button :disabled="!areaData.components.length" @click="compose">组合</el-button>
@@ -23,6 +23,8 @@
 
             <el-button :disabled="!curComponent || curComponent.isLock" @click="lock">锁定</el-button>
             <el-button :disabled="!curComponent || !curComponent.isLock" @click="unlock">解锁</el-button>
+            <el-button @click="preview(true)">截图</el-button>
+
             <div class="canvas-config">
                 <span>画布大小</span>
                 <input v-model="canvasStyleData.width">
@@ -40,7 +42,7 @@
         </div>
 
         <!-- 预览 -->
-        <Preview v-model="isShowPreview" @change="handlePreviewChange" />
+        <Preview v-model="isShowPreview" :is-screenshot="isScreenshot" @change="handlePreviewChange" />
     </div>
 </template>
 
@@ -68,6 +70,7 @@ export default {
             ],
             scale: '100%',
             timer: null,
+            isScreenshot: false,
         }
     },
     computed: mapState([
@@ -195,7 +198,8 @@ export default {
             reader.readAsDataURL(file)
         },
 
-        preview() {
+        preview(isScreenshot) {
+            this.isScreenshot = isScreenshot
             this.isShowPreview = true
             this.$store.commit('setEditMode', 'preview')
         },
