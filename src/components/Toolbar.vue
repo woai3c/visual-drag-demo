@@ -37,7 +37,7 @@
             </div>
             <div class="canvas-config canvas-bg">
                 <span>画布背景色</span>
-                <el-color-picker v-model="canvasStyleData.background"></el-color-picker>
+                <el-color-picker v-model="canvasStyleData.background" show-alpha></el-color-picker>
             </div>
         </div>
 
