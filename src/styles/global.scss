@@ -1,0 +1,27 @@
+.home {
+    overflow: hidden;
+
+    .attr-list {
+        overflow: auto;
+        padding: 20px;
+        padding-top: 0;
+        height: 100%;
+    }
+}
+
+.el-tabs {
+    height: 100%;
+}
+
+.el-tabs__content {
+    height: calc(100% - 55px);
+    overflow: auto;
+}
+
+.el-tabs__nav-scroll {
+    padding-left: 20px;
+}
+
+.el-tag {
+    text-align: right;
+}
