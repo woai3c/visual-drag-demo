@@ -6,6 +6,7 @@
             <!-- 左侧组件列表 -->
             <section class="left">
                 <ComponentList />
+                <RealTimeComponentList />
             </section>
             <!-- 中间画布 -->
             <section class="center">
@@ -51,9 +52,10 @@ import { deepCopy } from '@/utils/utils'
 import { mapState } from 'vuex'
 import generateID from '@/utils/generateID'
 import { listenGlobalKeyDown } from '@/utils/shortcutKey'
+import RealTimeComponentList from '@/components/RealTimeComponentList'
 
 export default {
-    components: { Editor, ComponentList, AnimationList, EventList, Toolbar },
+    components: { Editor, ComponentList, AnimationList, EventList, Toolbar, RealTimeComponentList },
     data() {
         return {
             activeName: 'attr',
@@ -150,7 +152,14 @@ export default {
             width: 200px;
             left: 0;
             top: 0;
-            padding-top: 10px;
+
+            & > div {
+                overflow: auto;
+
+                &:first-child {
+                    border-bottom: 1px solid #ddd;
+                }
+            }
         }
 
         .right {

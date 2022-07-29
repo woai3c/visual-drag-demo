@@ -31,17 +31,18 @@ export default {
 
 <style lang="scss" scoped>
 .component-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    height: 65%;
     padding: 10px;
+    display: grid;
+    grid-gap: 10px 19px;
+    grid-template-columns: repeat(auto-fill, 80px);
+    grid-template-rows: repeat(auto-fill, 40px);
 
     .list {
-        width: 45%;
+        width: 80px;
         height: 40px;
         border: 1px solid #ddd;
         cursor: grab;
-        margin-bottom: 10px;
         text-align: center;
         color: #333;
         padding: 2px 5px;
