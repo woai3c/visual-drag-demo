@@ -1,6 +1,6 @@
 <template>
     <el-form>
-        <el-form-item v-for="({ key,label }, index) in styleKeys" :key="index" :label="label">
+        <el-form-item v-for="({ key, label }, index) in styleKeys" :key="index" :label="label">
             <el-color-picker v-if="isIncludesColor(key)" v-model="curComponent.style[key]" show-alpha></el-color-picker>
             <el-select v-else-if="selectKey.includes(key)" v-model="curComponent.style[key]">
                 <el-option
@@ -35,6 +35,7 @@ export default {
                 const curComponentStyleKeys = Object.keys(this.curComponent.style)
                 return this.styleData.filter(item => curComponentStyleKeys.includes(item.key))
             }
+
             return []
         },
         curComponent() {

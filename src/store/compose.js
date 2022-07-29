@@ -4,7 +4,7 @@ import eventBus from '@/utils/eventBus'
 import decomposeComponent from '@/utils/decomposeComponent'
 import { $ } from '@/utils/utils'
 import { commonStyle, commonAttr } from '@/custom-component/component-list'
-import createGroupStyle from '@/utils/createGroupStyle'
+import { createGroupStyle } from '@/utils/style'
 
 export default {
     state: {

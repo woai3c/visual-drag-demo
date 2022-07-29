@@ -21,7 +21,7 @@ const list = [
         style: {
             width: 200,
             height: 28,
-            fontSize: 14,
+            fontSize: '',
             fontWeight: 400,
             lineHeight: '',
             letterSpacing: 0,
@@ -40,7 +40,7 @@ const list = [
             borderWidth: 1,
             borderColor: '',
             borderRadius: '',
-            fontSize: 14,
+            fontSize: '',
             fontWeight: 400,
             lineHeight: '',
             letterSpacing: 0,
@@ -74,7 +74,7 @@ const list = [
         style: {
             width: 200,
             height: 200,
-            fontSize: 14,
+            fontSize: '',
             fontWeight: 400,
             lineHeight: '',
             letterSpacing: 0,
@@ -107,7 +107,7 @@ const list = [
         style: {
             width: 200,
             height: 200,
-            fontSize: 14,
+            fontSize: '',
             fontWeight: 400,
             lineHeight: '',
             letterSpacing: 0,
@@ -129,7 +129,7 @@ const list = [
         style: {
             width: 80,
             height: 80,
-            fontSize: 14,
+            fontSize: '',
             fontWeight: 400,
             lineHeight: '',
             letterSpacing: 0,
@@ -147,7 +147,7 @@ const list = [
         style: {
             width: 80,
             height: 80,
-            fontSize: 14,
+            fontSize: '',
             fontWeight: 400,
             lineHeight: '',
             letterSpacing: 0,

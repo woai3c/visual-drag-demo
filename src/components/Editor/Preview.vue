@@ -6,9 +6,9 @@
             <div
                 class="canvas"
                 :style="{
+                    ...getCanvasStyle(canvasStyleData),
                     width: changeStyleWithScale(canvasStyleData.width) + 'px',
                     height: changeStyleWithScale(canvasStyleData.height) + 'px',
-                    background: canvasStyleData.background,
                 }"
             >
                 <ComponentWrapper
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { getStyle } from '@/utils/style'
+import { getStyle, getCanvasStyle } from '@/utils/style'
 import { mapState } from 'vuex'
 import ComponentWrapper from './ComponentWrapper'
 import { changeStyleWithScale } from '@/utils/translate'
@@ -49,9 +49,9 @@ export default {
         'canvasStyleData',
     ]),
     methods: {
-        changeStyleWithScale,
-
         getStyle,
+        getCanvasStyle,
+        changeStyleWithScale,
 
         close() {
             this.$emit('change', false)

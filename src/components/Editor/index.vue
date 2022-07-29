@@ -4,9 +4,9 @@
         class="editor"
         :class="{ edit: isEdit }"
         :style="{
+            ...getCanvasStyle(canvasStyleData),
             width: changeStyleWithScale(canvasStyleData.width) + 'px',
             height: changeStyleWithScale(canvasStyleData.height) + 'px',
-            background: canvasStyleData.background,
         }"
         @contextmenu="handleContextMenu"
         @mousedown="handleMouseDown"
@@ -73,7 +73,7 @@
 <script>
 import { mapState } from 'vuex'
 import Shape from './Shape'
-import { getStyle, getComponentRotatedStyle, getShapeStyle, getSVGStyle } from '@/utils/style'
+import { getStyle, getComponentRotatedStyle, getShapeStyle, getSVGStyle, getCanvasStyle } from '@/utils/style'
 import { $, isPreventDrop } from '@/utils/utils'
 import ContextMenu from './ContextMenu'
 import MarkLine from './MarkLine'
@@ -119,8 +119,9 @@ export default {
         })
     },
     methods: {
-        changeStyleWithScale,
         getShapeStyle,
+        getCanvasStyle,
+        changeStyleWithScale,
 
         handleMouseDown(e) {
             // 如果没有选中组件 在画布上点击时需要调用 e.preventDefault() 防止触发 drop 事件
