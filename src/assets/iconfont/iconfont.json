@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "577357",
+      "name": "删除",
+      "font_class": "shanchu",
+      "unicode": "e74b",
+      "unicode_decimal": 59211
+    },
+    {
+      "icon_id": "5361031",
+      "name": "上移",
+      "font_class": "shangyi",
+      "unicode": "e7b5",
+      "unicode_decimal": 59317
+    },
+    {
+      "icon_id": "5361032",
+      "name": "下移",
+      "font_class": "xiayi",
+      "unicode": "e7b6",
+      "unicode_decimal": 59318
+    },
+    {
       "icon_id": "383678",
       "name": "空五角星",
       "font_class": "kongwujiaoxing",
