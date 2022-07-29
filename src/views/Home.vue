@@ -22,20 +22,18 @@
             </section>
             <!-- 右侧属性列表 -->
             <section class="right">
-                <el-tabs v-model="activeName">
+                <el-tabs v-if="curComponent" v-model="activeName">
                     <el-tab-pane label="属性" name="attr">
-                        <component :is="curComponent.component + 'Attr'" v-if="curComponent" />
-                        <p v-else class="placeholder">请选择组件</p>
+                        <component :is="curComponent.component + 'Attr'" />
                     </el-tab-pane>
                     <el-tab-pane label="动画" name="animation">
-                        <AnimationList v-if="curComponent" />
-                        <p v-else class="placeholder">请选择组件</p>
+                        <AnimationList />
                     </el-tab-pane>
                     <el-tab-pane label="事件" name="events">
-                        <EventList v-if="curComponent" />
-                        <p v-else class="placeholder">请选择组件</p>
+                        <EventList />
                     </el-tab-pane>
                 </el-tabs>
+                <CanvasAttr v-else></CanvasAttr>
             </section>
         </main>
     </div>
@@ -53,9 +51,10 @@ import { mapState } from 'vuex'
 import generateID from '@/utils/generateID'
 import { listenGlobalKeyDown } from '@/utils/shortcutKey'
 import RealTimeComponentList from '@/components/RealTimeComponentList'
+import CanvasAttr from '@/components/CanvasAttr'
 
 export default {
-    components: { Editor, ComponentList, AnimationList, EventList, Toolbar, RealTimeComponentList },
+    components: { Editor, ComponentList, AnimationList, EventList, Toolbar, RealTimeComponentList, CanvasAttr },
     data() {
         return {
             activeName: 'attr',
@@ -193,6 +192,10 @@ export default {
     .placeholder {
         text-align: center;
         color: #333;
+    }
+
+    .global-attr {
+        padding: 10px;
     }
 }
 </style>

@@ -35,10 +35,6 @@
                 <span>画布比例</span>
                 <input v-model="scale" @input="handleScaleChange"> %
             </div>
-            <div class="canvas-config canvas-bg">
-                <span>画布背景色</span>
-                <el-color-picker v-model="canvasStyleData.background" show-alpha></el-color-picker>
-            </div>
         </div>
 
         <!-- 预览 -->
@@ -106,6 +102,8 @@ export default {
                 componentData.forEach(component => {
                     Object.keys(component.style).forEach(key => {
                         if (this.needToChange.includes(key)) {
+                            if (key === 'fontSize' && component.style[key] === '') return
+
                             // 根据原来的比例获取样式原来的尺寸
                             // 再用原来的尺寸 * 现在的比例得出新的尺寸
                             component.style[key] = this.format(this.getOriginStyle(component.style[key]))
@@ -280,15 +278,6 @@ export default {
         &:hover {
             background-color: #ecf5ff;
             color: #3a8ee6;
-        }
-    }
-
-    .canvas-bg {
-        display: inline-flex;
-        align-items: center;
-
-        span {
-            margin-right: 4px;
         }
     }
 }

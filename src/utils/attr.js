@@ -16,7 +16,7 @@ export const styleData = [
     { key: 'letterSpacing', label: '字间距' },
     { key: 'textAlign', label: '左右对齐' },
     { key: 'verticalAlign', label: '上下对齐' },
-    { key: 'opacity', label: '透明度' },
+    { key: 'opacity', label: '不透明度' },
 ]
 
 export const textAlignOptions = [
