@@ -29,6 +29,7 @@
 <script>
 import { mapState } from 'vuex'
 import { keycodes } from '@/utils/shortcutKey.js'
+import request from '@/utils/request'
 
 export default {
     props: {
@@ -36,6 +37,10 @@ export default {
             type: String,
             require: true,
             default: '',
+        },
+        request: {
+            type: Object,
+            default: () => {},
         },
         element: {
             type: Object,
@@ -47,6 +52,7 @@ export default {
             canEdit: false,
             ctrlKey: 17,
             isCtrlDown: false,
+            cancelRequest: null,
         }
     },
     computed: {
@@ -54,7 +60,21 @@ export default {
             'editMode',
         ]),
     },
+    created() {
+        // 注意，修改时接口属性时不会发数据，在预览时才会发
+        // 如果要在修改接口属性的同时发请求，需要 watch 一下 request 的属性
+        this.sendRequest()
+    },
+    beforeDestroy() {
+        // 组件销毁时取消请求
+        this.cancelRequest()
+    },
     methods: {
+        sendRequest() {
+            // 第二个参数是要修改数据的父对象，第三个参数是修改数据的 key，第四个数据修改数据的类型
+            this.cancelRequest = request(this.request, this.element, 'propValue', 'string')
+        },
+
         handleInput(e) {
             this.$emit('input', this.element, e.target.innerHTML)
         },

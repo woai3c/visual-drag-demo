@@ -18,6 +18,15 @@ const list = [
         label: '文字',
         propValue: '双击编辑文字',
         icon: 'wenben',
+        request: {
+            method: 'GET',
+            data: [],
+            url: '',
+            series: false,
+            time: 1000,
+            paramType: '', // string object array
+            requestCount: 0, // 请求次数限制，0 为无限
+        },
         style: {
             width: 200,
             height: 28,
@@ -168,6 +177,15 @@ const list = [
             ],
             stripe: true,
             thBold: true,
+        },
+        request: {
+            method: 'GET',
+            data: [],
+            url: '',
+            series: false,
+            time: 1000,
+            paramType: '', // string object array
+            requestCount: 0, // 请求次数限制，0 为无限
         },
         style: {
             width: 600,

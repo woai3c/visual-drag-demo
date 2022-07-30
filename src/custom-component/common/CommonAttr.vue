@@ -1,7 +1,7 @@
 <template>
-    <div style="margin-bottom: 18px;">
+    <div style="margin-bottom: 18px;" class="v-common-attr">
         <el-collapse v-model="activeName" accordion>
-            <el-collapse-item title="通用样式" name="common">
+            <el-collapse-item title="通用样式" name="style">
                 <el-form style="padding: 10px; padding-top: 0;">
                     <el-form-item v-for="({ key, label }, index) in styleKeys" :key="index" :label="label">
                         <el-color-picker v-if="isIncludesColor(key)" v-model="curComponent.style[key]" show-alpha></el-color-picker>
@@ -17,14 +17,17 @@
                     </el-form-item>
                 </el-form>
             </el-collapse-item>
+            <Request v-if="curComponent.request"></Request>
         </el-collapse>
     </div>
 </template>
 
 <script>
 import { styleData, textAlignOptions, borderStyleOptions, verticalAlignOptions, selectKey, optionMap } from '@/utils/attr'
+import Request from '@/custom-component/common/Request'
 
 export default {
+    components: { Request },
     data() {
         return {
             optionMap,
@@ -33,7 +36,7 @@ export default {
             borderStyleOptions,
             verticalAlignOptions,
             selectKey,
-            activeName: 'common',
+            activeName: '',
         }
     },
     computed: {
@@ -56,3 +59,11 @@ export default {
     },
 }
 </script>
+
+<style lang="scss">
+.v-common-attr {
+    .el-input-group__prepend {
+        padding: 0 10px;
+    }
+}
+</style>
