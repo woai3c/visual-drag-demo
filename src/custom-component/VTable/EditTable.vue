@@ -79,11 +79,15 @@ export default {
         },
 
         addRow() {
-            this.tableData.push(new Array(this.tableData[0].length).fill(' '))
+            this.tableData.push(new Array(this.tableData[0]?.length || 1).fill(' '))
         },
 
         addCol() {
-            this.tableData.forEach(item => item.push(' '))
+            if (this.tableData.length) {
+                this.tableData.forEach(item => item.push(' '))
+            } else {
+                this.tableData.push([' '])
+            }
         },
 
         deleteCol() {
