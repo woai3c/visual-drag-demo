@@ -110,7 +110,6 @@ export function getCanvasStyle(canvasStyleData) {
     Object.keys(canvasStyleData).filter(key => !filterKeys.includes(key)).forEach(key => {
         result[key] = canvasStyleData[key]
         if (key === 'fontSize') {
-            console.log(result[key])
             result[key] += 'px'
         }
     })

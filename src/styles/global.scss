@@ -3,9 +3,19 @@
 
     .attr-list {
         overflow: auto;
-        padding: 20px;
+        padding: 10px 14px;
         padding-top: 0;
         height: 100%;
+    }
+
+    .title {
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .el-collapse-item__content {
+        padding-bottom: 0;
     }
 }
 
@@ -20,6 +30,10 @@
 
 .el-tabs__nav-scroll {
     padding-left: 20px;
+}
+
+.el-tabs__header {
+    margin: 0;
 }
 
 .el-tag {

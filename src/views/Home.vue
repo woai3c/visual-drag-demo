@@ -164,7 +164,7 @@ export default {
         .right {
             position: absolute;
             height: 100%;
-            width: 262px;
+            width: 288px;
             right: 0;
             top: 0;
 
@@ -175,7 +175,7 @@ export default {
 
         .center {
             margin-left: 200px;
-            margin-right: 262px;
+            margin-right: 288px;
             background: #f5f5f5;
             height: 100%;
             overflow: auto;
