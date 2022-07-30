@@ -33,6 +33,7 @@
                 class="component"
                 :prop-value="item.propValue"
                 :element="item"
+                :request="item.request"
             />
 
             <component
@@ -43,6 +44,7 @@
                 :style="getComponentStyle(item.style)"
                 :prop-value="item.propValue"
                 :element="item"
+                :request="item.request"
             />
 
             <component
@@ -53,6 +55,7 @@
                 :style="getComponentStyle(item.style)"
                 :prop-value="item.propValue"
                 :element="item"
+                :request="item.request"
                 @input="handleInput"
             />
         </Shape>

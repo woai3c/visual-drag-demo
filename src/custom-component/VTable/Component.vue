@@ -16,9 +16,15 @@
 </template>
 
 <script>
+import request from '@/utils/request'
+
 export default {
     props: {
         propValue: {
+            type: Object,
+            default: () => {},
+        },
+        request: {
             type: Object,
             default: () => {},
         },
@@ -26,6 +32,17 @@ export default {
             type: Object,
             default: () => {},
         },
+    },
+    data() {
+        return {
+            cancelRequest: null,
+        }
+    },
+    created() {
+        this.cancelRequest = request(this.request, this.propValue, 'data')
+    },
+    beforeDestroy() {
+        this.cancelRequest()
     },
 }
 </script>

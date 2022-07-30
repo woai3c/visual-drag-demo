@@ -1,5 +1,5 @@
 <template>
-    <div class="attr-list">
+    <div class="attr-list v-talbe-attr">
         <CommonAttr></CommonAttr>
         <EditTable></EditTable>
         <el-form>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import CommonAttr from '@/custom-component/common/CommonAttr.vue'
+import CommonAttr from '@/custom-component/common/CommonAttr'
 import EditTable from './EditTable'
 
 export default {
