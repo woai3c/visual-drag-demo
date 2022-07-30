@@ -118,7 +118,8 @@ export default {
     }
 
     .actived {
-        background: rgb(218, 235, 254) !important;
+        background: #ecf5ff;
+        color: #409eff;
     }
 }
 </style>

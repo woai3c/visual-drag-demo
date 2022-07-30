@@ -8,6 +8,7 @@ const components = [
     'Group',
     'RectShape',
     'LineShape',
+    'VTable',
 ]
 
 components.forEach(key => {

@@ -60,8 +60,12 @@ export default {
         }
 
         .icon-wenben,
-        .icon-tupian {
+        .icon-biaoge {
             font-size: 18px;
+        }
+
+        .icon-tupian {
+            font-size: 16px;
         }
     }
 }

@@ -157,6 +157,28 @@ const list = [
             backgroundColor: 'rgba(255, 255, 255, 1)',
         },
     },
+    {
+        component: 'VTable',
+        label: '表格',
+        icon: 'biaoge',
+        propValue: {
+            data: [
+                ['表头1', '表头2', '表头3'],
+                ['内容1', '内容2', '内容3'],
+            ],
+            stripe: true,
+            thBold: true,
+        },
+        style: {
+            width: 600,
+            height: 200,
+            fontSize: '',
+            fontWeight: 400,
+            textAlign: 'center',
+            color: '',
+            backgroundColor: 'rgba(255, 255, 255, 1)',
+        },
+    },
 ]
 
 for (let i = 0, len = list.length; i < len; i++) {
