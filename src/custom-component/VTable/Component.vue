@@ -39,10 +39,12 @@ export default {
         }
     },
     created() {
-        this.cancelRequest = request(this.request, this.propValue, 'data')
+        if (this.request) {
+            this.cancelRequest = request(this.request, this.propValue, 'data')
+        }
     },
     beforeDestroy() {
-        this.cancelRequest()
+        this.request && this.cancelRequest()
     },
 }
 </script>
