@@ -63,18 +63,16 @@ export default {
     created() {
         // 注意，修改时接口属性时不会发数据，在预览时才会发
         // 如果要在修改接口属性的同时发请求，需要 watch 一下 request 的属性
-        this.sendRequest()
+        if (this.request) {
+            // 第二个参数是要修改数据的父对象，第三个参数是修改数据的 key，第四个数据修改数据的类型
+            this.cancelRequest = request(this.request, this.element, 'propValue', 'string')
+        }
     },
     beforeDestroy() {
         // 组件销毁时取消请求
-        this.cancelRequest()
+        this.request && this.cancelRequest()
     },
     methods: {
-        sendRequest() {
-            // 第二个参数是要修改数据的父对象，第三个参数是修改数据的 key，第四个数据修改数据的类型
-            this.cancelRequest = request(this.request, this.element, 'propValue', 'string')
-        },
-
         handleInput(e) {
             this.$emit('input', this.element, e.target.innerHTML)
         },
