@@ -1,6 +1,6 @@
 <template>
     <el-collapse-item title="数据来源" name="data" class="request-container">
-        <el-form style="padding: 0 10px;">
+        <el-form>
             <el-form-item label="请求地址">
                 <el-input v-model.trim="request.url" @blur="validateURL">
                     <template slot="prepend">HTTPS://</template>
@@ -29,19 +29,22 @@
                 </el-select>
                 <div v-if="request.paramType === 'array'" class="param-container">
                     <p>数据项</p>
-                    <el-input
-                        v-for="(item, index) in request.data"
-                        :key="index"
-                        v-model="request.data[index]"
-                        placeholder="请输入参数值"
-                    ></el-input>
+                    <div v-for="(item, index) in request.data" :key="index" class="div-delete">
+                        <el-input
+                            v-model="request.data[index]"
+                            placeholder="请输入参数值"
+                        ></el-input>
+                        <el-button type="danger" @click="deleteData(index)">删除</el-button>
+                    </div>
+
                     <el-button @click="addArrayData">添加</el-button>
                 </div>
                 <div v-else-if="request.paramType === 'string' || request.paramType === 'object'" class="param-container">
                     <p>数据项</p>
                     <div v-for="(item, index) in request.data" :key="index" class="param-object-container">
-                        <el-input v-model="item[0]" placeholder="请输入参数名"></el-input>
-                        <el-input v-model="item[1]" placeholder="请输入参数值"></el-input>
+                        <el-input v-model="item[0]" placeholder="参数名"></el-input>
+                        <el-input v-model="item[1]" placeholder="参数值"></el-input>
+                        <el-button type="danger" @click="deleteData(index)">删除</el-button>
                     </div>
                     <el-button @click="addData">添加</el-button>
                 </div>
@@ -92,6 +95,10 @@ export default {
             this.request.data.push(['', ''])
         },
 
+        deleteData(index) {
+            this.request.data.splice(index, 1)
+        },
+
         onChnage() {
             if (this.request.paramType === 'array') {
                 this.request.data = ['']
@@ -119,20 +126,33 @@ export default {
             margin-top: 10px;
         }
 
-        .el-input {
-            margin-top: 4px;
-        }
-
         .param-object-container {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            margin-bottom: 4px;
 
             .el-input {
-                width: 48%;
+                width: 35%;
+            }
+
+            .el-button {
+                margin: 0;
+                margin-left: 8px;
+            }
+        }
+
+        .div-delete {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
+
+            .el-button {
+                margin: 0;
+                margin-left: 8px;
             }
         }
     }
 }
-
 </style>
