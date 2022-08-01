@@ -1,5 +1,5 @@
 <template>
-    <el-collapse-item title="数据来源" name="data" class="request-container">
+    <el-collapse-item title="数据来源" name="request" class="request-container">
         <el-form>
             <el-form-item label="请求地址">
                 <el-input v-model.trim="request.url" @blur="validateURL">
@@ -34,7 +34,7 @@
                             v-model="request.data[index]"
                             placeholder="请输入参数值"
                         ></el-input>
-                        <el-button type="danger" @click="deleteData(index)">删除</el-button>
+                        <span class="iconfont icon-shanchu" @click="deleteData(index)"></span>
                     </div>
 
                     <el-button @click="addArrayData">添加</el-button>
@@ -44,7 +44,7 @@
                     <div v-for="(item, index) in request.data" :key="index" class="param-object-container">
                         <el-input v-model="item[0]" placeholder="参数名"></el-input>
                         <el-input v-model="item[1]" placeholder="参数值"></el-input>
-                        <el-button type="danger" @click="deleteData(index)">删除</el-button>
+                        <span class="iconfont icon-shanchu" @click="deleteData(index)"></span>
                     </div>
                     <el-button @click="addData">添加</el-button>
                 </div>
@@ -52,7 +52,7 @@
             <el-form-item label="定时触发">
                 <el-switch v-model="request.series"></el-switch>
                 <template v-if="request.series">
-                    <p>触发间隔（ms）</p>
+                    <p>触发间隔（毫秒）</p>
                     <el-input v-model="request.time" type="number"></el-input>
                     <p>触发次数（0 为无限）</p>
                     <el-input v-model="request.requestCount" type="number"></el-input>
@@ -133,7 +133,7 @@ export default {
             margin-bottom: 4px;
 
             .el-input {
-                width: 35%;
+                width: 98px;
             }
 
             .el-button {
@@ -153,6 +153,11 @@ export default {
                 margin-left: 8px;
             }
         }
+    }
+
+    .icon-shanchu {
+        cursor: pointer;
+        margin-left: 10px;
     }
 }
 </style>

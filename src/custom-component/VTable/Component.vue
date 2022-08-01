@@ -17,8 +17,10 @@
 
 <script>
 import request from '@/utils/request'
+import OnEvent from '../common/OnEvent'
 
 export default {
+    extends: OnEvent,
     props: {
         propValue: {
             type: Object,

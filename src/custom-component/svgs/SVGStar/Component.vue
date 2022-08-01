@@ -18,11 +18,14 @@
 </template>
 
 <script>
+import OnEvent from '../../common/OnEvent'
+
 export default {
+    extends: OnEvent,
     props: {
         propValue: {
             type: String,
-            require: true,
+            required: true,
             default: '',
         },
         element: {

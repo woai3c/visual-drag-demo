@@ -38,7 +38,7 @@
         </div>
 
         <!-- 预览 -->
-        <Preview v-model="isShowPreview" :is-screenshot="isScreenshot" @change="handlePreviewChange" />
+        <Preview v-if="isShowPreview" :is-screenshot="isScreenshot" @close="handlePreviewChange" />
     </div>
 </template>
 
@@ -215,6 +215,7 @@ export default {
         },
 
         handlePreviewChange() {
+            this.isShowPreview = false
             this.$store.commit('setEditMode', 'edit')
         },
     },

@@ -1,8 +1,8 @@
 <template>
-    <div style="margin-bottom: 18px;" class="v-common-attr">
-        <el-collapse v-model="activeName" accordion>
+    <div class="v-common-attr">
+        <el-collapse v-model="activeName" accordion @change="onChange">
             <el-collapse-item title="通用样式" name="style">
-                <el-form style="padding: 10px; padding-top: 0;">
+                <el-form>
                     <el-form-item v-for="({ key, label }, index) in styleKeys" :key="index" :label="label">
                         <el-color-picker v-if="isIncludesColor(key)" v-model="curComponent.style[key]" show-alpha></el-color-picker>
                         <el-select v-else-if="selectKey.includes(key)" v-model="curComponent.style[key]">
@@ -18,16 +18,18 @@
                 </el-form>
             </el-collapse-item>
             <Request v-if="curComponent.request"></Request>
+            <Linkage v-if="curComponent.linkage"></Linkage>
         </el-collapse>
     </div>
 </template>
 
 <script>
 import { styleData, textAlignOptions, borderStyleOptions, verticalAlignOptions, selectKey, optionMap } from '@/utils/attr'
-import Request from '@/custom-component/common/Request'
+import Request from './Request'
+import Linkage from './Linkage'
 
 export default {
-    components: { Request },
+    components: { Request, Linkage },
     data() {
         return {
             optionMap,
@@ -52,7 +54,14 @@ export default {
             return this.$store.state.curComponent
         },
     },
+    created() {
+        this.activeName = this.curComponent.collapseName
+    },
     methods: {
+        onChange() {
+            this.curComponent.collapseName = this.activeName
+        },
+
         isIncludesColor(str) {
             return str.toLowerCase().includes('color')
         },
