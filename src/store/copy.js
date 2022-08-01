@@ -39,13 +39,6 @@ export default {
             }
 
             data.id = generateID()
-            // Group 的子组件根节点的 id 是通过组件的 id 生成的，必须重新生成 id，否则拆分 Group 的时候获取根节点不正确
-            if (data.component === 'Group') {
-                data.propValue.forEach(component => {
-                    component.id = generateID()
-                })
-            }
-
             store.commit('addComponent', { component: deepCopy(data) })
             if (state.isCut) {
                 state.copyData = null
@@ -73,7 +66,6 @@ function restorePreCutData(state) {
     if (state.isCut && state.copyData) {
         const data = deepCopy(state.copyData.data)
         const index = state.copyData.index
-        data.id = generateID()
         store.commit('addComponent', { component: data, index })
         if (state.curComponentIndex >= index) {
             // 如果当前组件索引大于等于插入索引，需要加一，因为当前组件往后移了一位

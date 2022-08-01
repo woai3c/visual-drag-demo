@@ -21,6 +21,7 @@
     "element-ui": "^2.14.1",
     "html-to-image": "^1.9.0",
     "mathjs": "^10.5.3",
+    "nanoid": "^4.0.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0"
