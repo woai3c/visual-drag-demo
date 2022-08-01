@@ -1,5 +1,5 @@
 <template>
-    <el-collapse-item title="组件联动" name="linkage" class="linkage-container">
+    <el-collapse-item title="组件联动（预览生效）" name="linkage" class="linkage-container">
         <el-form>
             <div v-for="(item, index) in linkage.data" :key="index" class="linkage-component">
                 <div class="div-guanbi" @click="deleteLinkageData(index)">
