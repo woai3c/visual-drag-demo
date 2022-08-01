@@ -50,6 +50,8 @@ export default {
             const groupComponent = {
                 id: generateID(),
                 component: 'Group',
+                label: '组合',
+                icon: 'zuhe',
                 ...commonAttr,
                 style: {
                     ...commonStyle,
