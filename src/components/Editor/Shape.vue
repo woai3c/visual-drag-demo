@@ -34,17 +34,17 @@ export default {
             default: false,
         },
         element: {
-            require: true,
+            required: true,
             type: Object,
             default: () => {},
         },
         defaultStyle: {
-            require: true,
+            required: true,
             type: Object,
             default: () => {},
         },
         index: {
-            require: true,
+            required: true,
             type: [Number, String],
             default: 0,
         },

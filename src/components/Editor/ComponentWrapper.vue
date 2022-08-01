@@ -1,5 +1,5 @@
 <template>
-    <div @click="handleClick">
+    <div @click="onClick" @mouseenter="onMouseEnter">
         <component
             :is="config.component"
             v-if="config.component.startsWith('SVG')"
@@ -8,7 +8,8 @@
             :style="getSVGStyle(config.style)"
             :prop-value="config.propValue"
             :element="config"
-            :request="item.request"
+            :request="config.request"
+            :linkage="config.linkage"
         />
 
         <component
@@ -20,6 +21,7 @@
             :prop-value="config.propValue"
             :element="config"
             :request="config.request"
+            :linkage="config.linkage"
         />
     </div>
 </template>
@@ -28,13 +30,14 @@
 import { getStyle, getSVGStyle } from '@/utils/style'
 import runAnimation from '@/utils/runAnimation'
 import { mixins } from '@/utils/events'
+import eventBus from '@/utils/eventBus'
 
 export default {
     mixins: [mixins],
     props: {
         config: {
             type: Object,
-            require: true,
+            required: true,
             default: () => {},
         },
     },
@@ -45,11 +48,17 @@ export default {
         getStyle,
         getSVGStyle,
 
-        handleClick() {
+        onClick() {
             const events = this.config.events
             Object.keys(events).forEach(event => {
                 this[event](events[event])
             })
+
+            eventBus.$emit('v-click', this.config.id)
+        },
+
+        onMouseEnter() {
+            eventBus.$emit('v-hover', this.config.id)
         },
     },
 }

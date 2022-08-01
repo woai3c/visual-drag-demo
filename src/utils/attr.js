@@ -19,6 +19,27 @@ export const styleData = [
     { key: 'opacity', label: '不透明度' },
 ]
 
+export const styleMap = {
+    left: 'x 坐标',
+    top: 'y 坐标',
+    rotate: '旋转角度',
+    width: '宽',
+    height: '高',
+    color: '颜色',
+    backgroundColor: '背景色',
+    borderWidth: '边框宽度',
+    borderStyle: '边框风格',
+    borderColor: '边框颜色',
+    borderRadius: '边框半径',
+    fontSize: '字体大小',
+    fontWeight: '字体粗细',
+    lineHeight: '行高',
+    letterSpacing: '字间距',
+    textAlign: '左右对齐',
+    verticalAlign: '上下对齐',
+    opacity: '不透明度',
+}
+
 export const textAlignOptions = [
     {
         label: '左对齐',

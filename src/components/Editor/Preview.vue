@@ -1,5 +1,5 @@
 <template>
-    <div v-if="show" ref="container" class="bg">
+    <div ref="container" class="bg">
         <el-button v-if="!isScreenshot" class="close" @click="close">关闭</el-button>
         <el-button v-else class="close" @click="htmlToImage">确定</el-button>
         <div class="canvas-container">
@@ -12,7 +12,7 @@
                 }"
             >
                 <ComponentWrapper
-                    v-for="(item, index) in componentData"
+                    v-for="(item, index) in copyData"
                     :key="index"
                     :config="item"
                 />
@@ -27,34 +27,35 @@ import { mapState } from 'vuex'
 import ComponentWrapper from './ComponentWrapper'
 import { changeStyleWithScale } from '@/utils/translate'
 import { toPng } from 'html-to-image'
+import { deepCopy } from '@/utils/utils'
 
 export default {
     components: { ComponentWrapper },
-    model: {
-        prop: 'show',
-        event: 'change',
-    },
     props: {
-        show: {
-            type: Boolean,
-            default: false,
-        },
         isScreenshot: {
             type: Boolean,
             default: false,
         },
     },
+    data() {
+        return {
+            copyData: [],
+        }
+    },
     computed: mapState([
         'componentData',
         'canvasStyleData',
     ]),
+    created() {
+        this.$set(this, 'copyData', deepCopy(this.componentData))
+    },
     methods: {
         getStyle,
         getCanvasStyle,
         changeStyleWithScale,
 
         close() {
-            this.$emit('change', false)
+            this.$emit('close')
         },
 
         htmlToImage() {

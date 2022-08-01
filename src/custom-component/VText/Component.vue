@@ -30,12 +30,14 @@
 import { mapState } from 'vuex'
 import { keycodes } from '@/utils/shortcutKey.js'
 import request from '@/utils/request'
+import OnEvent from '../common/OnEvent'
 
 export default {
+    extends: OnEvent,
     props: {
         propValue: {
             type: String,
-            require: true,
+            required: true,
             default: '',
         },
         request: {
@@ -43,6 +45,10 @@ export default {
             default: () => {},
         },
         element: {
+            type: Object,
+            default: () => {},
+        },
+        linkage: {
             type: Object,
             default: () => {},
         },

@@ -17,6 +17,15 @@
     .el-collapse-item__content {
         padding-bottom: 0;
     }
+
+    .v-common-attr {
+        margin-bottom: 18px;
+
+        .el-form {
+            padding: 10px;
+            padding-top: 0;
+        }
+    }
 }
 
 .el-tabs {
