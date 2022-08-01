@@ -1,5 +1,5 @@
 <template>
-    <el-collapse-item title="数据来源" name="request" class="request-container">
+    <el-collapse-item title="数据来源（预览生效）" name="request" class="request-container">
         <el-form>
             <el-form-item label="请求地址">
                 <el-input v-model.trim="request.url" @blur="validateURL">
