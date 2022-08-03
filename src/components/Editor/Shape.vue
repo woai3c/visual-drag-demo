@@ -194,6 +194,7 @@ export default {
             pointList.forEach(point => {
                 const angle = mod360(initialAngle[point] + rotate)
                 const len = angleToCursor.length
+                // eslint-disable-next-line no-constant-condition
                 while (true) {
                     lastMatchIndex = (lastMatchIndex + 1) % len
                     const angleLimit = angleToCursor[lastMatchIndex]
