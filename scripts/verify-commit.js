@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const chalk = require('chalk')
 
-const msgPath = process.env.HUSKY_GIT_PARAMS
+const msgPath = process.argv[2]
 const msg = require('fs')
 .readFileSync(msgPath, 'utf-8')
 .trim()

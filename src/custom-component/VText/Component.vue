@@ -10,7 +10,7 @@
         <div
             ref="text"
             :contenteditable="canEdit"
-            :class="{ canEdit }"
+            :class="{ 'can-edit': canEdit }"
             :tabindex="element.id"
             :style="{ verticalAlign: element.style.verticalAlign }"
             @dblclick="setEdit"
@@ -168,7 +168,7 @@ export default {
         padding: 4px;
     }
 
-    .canEdit {
+    .can-edit {
         cursor: text;
         height: 100%;
     }
