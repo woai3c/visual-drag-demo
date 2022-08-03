@@ -8,19 +8,16 @@ module.exports = {
         '@vue/airbnb',
     ],
     parserOptions: {
-        ecmaFeatures: {
-            legacyDecorators: true
-        },
-        parser: 'babel-eslint',
+        parser: '@babel/eslint-parser',
     },
     rules: {
         'no-console': 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'array-element-newline': ['error', 'consistent'],
-        'indent': ['error', 4, { 'MemberExpression': 0, 'SwitchCase': 1, 'ignoredNodes': ['TemplateLiteral'] }],
-        'quotes': ['error', 'single'],
+        indent: ['error', 4, { MemberExpression: 0, SwitchCase: 1, ignoredNodes: ['TemplateLiteral'] }],
+        quotes: ['error', 'single'],
         'comma-dangle': ['error', 'always-multiline'],
-        'semi': ['error', 'never'],
+        semi: ['error', 'never'],
         'object-curly-spacing': ['error', 'always'],
         'max-len': ['error', 140],
         'no-new': 'off',
@@ -31,7 +28,7 @@ module.exports = {
         'no-unused-vars': 'warn',
         'import/no-cycle': 'off',
         'arrow-parens': 'off',
-        'eqeqeq': 'off',
+        eqeqeq: 'off',
         'no-param-reassign': 'off',
         'import/prefer-default-export': 'off',
         'no-use-before-define': 'off',
@@ -52,31 +49,36 @@ module.exports = {
         'import/order': 'off',
         'no-trailing-spaces': 'off',
         'func-names': 'off',
-        'radix': 'off',
+        radix: 'off',
         'no-unused-expressions': 'off',
         'no-underscore-dangle': 'off',
         'no-nested-ternary': 'off',
         'no-restricted-syntax': 'off',
         'no-mixed-operators': 'off',
         'no-await-in-loop': 'off',
-        'template-curly-spacing' : 'off',
+        'template-curly-spacing': 'off',
         'vue/html-indent': ['error', 4, {
             attribute: 1,
             baseIndent: 1,
             closeBracket: 0,
             alignAttributesVertically: true,
-            ignores: []
+            ignores: [],
         }],
         'vue/html-self-closing': 'off',
         'vue/singleline-html-element-content-newline': 'off',
         'vue/max-attributes-per-line': ['error', {
             singleline: {
-              max: 3,
+                max: 3,
             },
             multiline: {
-              max: 1,
-            }
+                max: 1,
+            },
         }],
-        'no-return-assign': 'off'
+        'no-return-assign': 'off',
+        'vue/multi-word-component-names': 'off',
+        'vuejs-accessibility/click-events-have-key-events': 'off',
+        'vuejs-accessibility/mouse-events-have-key-events': 'off',
+        'vuejs-accessibility/alt-text': 'off',
+        'vue/no-mutating-props': 'off',
     },
-};
+}
