@@ -11,13 +11,13 @@ export const commonAttr = {
     isLock: false, // 是否锁定组件
     collapseName: '', // 编辑组件时记录当前使用的是哪个折叠面板，再次回来时恢复上次打开的折叠面板，优化用户体验
     linkage: {
-        duration: 0,
+        duration: 0, // 过渡持续时间
         data: [ // 组件联动
             {
-                id: '',
-                label: '',
-                event: '',
-                style: [{ key: '', value: '' }],
+                id: '', // 联动的组件 id
+                label: '', // 联动的组件名称
+                event: '', // 监听事件
+                style: [{ key: '', value: '' }], // 监听的事件触发时，需要改变的属性
             },
         ],
     },
