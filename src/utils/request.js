@@ -62,7 +62,7 @@ export function getURL(url) {
  * @param {object} obj 需要修改的数据的父对象
  * @param {string} key 需要修改的数据在父对象中对应的 key
  * @param {string} responseType 需要修改的数据对应的类型
- * @returns
+ * @returns {function} 可以取消请求的函数
  */
 export default function requestWarpper(options, obj, key, responseType = 'object') {
     let count = 0
