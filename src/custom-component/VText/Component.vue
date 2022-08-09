@@ -11,7 +11,7 @@
             ref="text"
             :contenteditable="canEdit"
             :class="{ 'can-edit': canEdit }"
-            :tabindex="element.id"
+            tabindex="0"
             :style="{ verticalAlign: element.style.verticalAlign }"
             @dblclick="setEdit"
             @paste="clearStyle"
