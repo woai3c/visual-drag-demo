@@ -302,7 +302,7 @@ export default {
                 lineHeight = 1.5
             }
 
-            const newHeight = (text.split('<br>').length - 1) * lineHeight * fontSize
+            const newHeight = (text.split('<br>').length - 1) * lineHeight * (fontSize || this.canvasStyleData.fontSize)
             return height > newHeight ? height : newHeight
         },
     },
