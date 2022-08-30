@@ -216,6 +216,9 @@ export default {
         },
 
         handleMouseDownOnShape(e) {
+            // 将当前点击组件的事件传播出去，目前的消费是 VText 组件 https://github.com/woai3c/visual-drag-demo/issues/90
+            this.$nextTick(() => eventBus.$emit('componentClick'))
+
             this.$store.commit('setInEditorStatus', true)
             this.$store.commit('setClickComponentStatus', true)
             if (isPreventDrop(this.element.component)) {

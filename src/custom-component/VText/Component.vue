@@ -31,6 +31,7 @@ import { mapState } from 'vuex'
 import { keycodes } from '@/utils/shortcutKey.js'
 import request from '@/utils/request'
 import OnEvent from '../common/OnEvent'
+import eventBus from '@/utils/eventBus'
 
 export default {
     extends: OnEvent,
@@ -64,6 +65,7 @@ export default {
     computed: {
         ...mapState([
             'editMode',
+            'curComponent',
         ]),
     },
     created() {
@@ -73,12 +75,22 @@ export default {
             // 第二个参数是要修改数据的父对象，第三个参数是修改数据的 key，第四个数据修改数据的类型
             this.cancelRequest = request(this.request, this.element, 'propValue', 'string')
         }
+
+        eventBus.$on('componentClick', this.onComponentClick)
     },
     beforeDestroy() {
         // 组件销毁时取消请求
         this.request && this.cancelRequest()
+        eventBus.$off('componentClick', this.onComponentClick)
     },
     methods: {
+        onComponentClick() {
+            // 如果当前点击的组件 id 和 VText 不是同一个，需要设为不允许编辑 https://github.com/woai3c/visual-drag-demo/issues/90
+            if (this.curComponent.id !== this.element.id) {
+                this.canEdit = false
+            }
+        },
+
         handleInput(e) {
             this.$emit('input', this.element, e.target.innerHTML)
         },
