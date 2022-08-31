@@ -52,6 +52,7 @@ import generateID from '@/utils/generateID'
 import { listenGlobalKeyDown } from '@/utils/shortcutKey'
 import RealTimeComponentList from '@/components/RealTimeComponentList'
 import CanvasAttr from '@/components/CanvasAttr'
+import { changeComponentSizeWithScale } from '@/utils/changeComponentsSizeWithScale'
 
 export default {
     components: { Editor, ComponentList, AnimationList, EventList, Toolbar, RealTimeComponentList, CanvasAttr },
@@ -88,6 +89,7 @@ export default {
         handleDrop(e) {
             e.preventDefault()
             e.stopPropagation()
+
             const index = e.dataTransfer.getData('index')
             const rectInfo = this.editor.getBoundingClientRect()
             if (index) {
@@ -95,6 +97,10 @@ export default {
                 component.style.top = e.clientY - rectInfo.y
                 component.style.left = e.clientX - rectInfo.x
                 component.id = generateID()
+
+                // 根据画面比例修改组件样式比例 https://github.com/woai3c/visual-drag-demo/issues/91
+                changeComponentSizeWithScale(component)
+
                 this.$store.commit('addComponent', { component })
                 this.$store.commit('recordSnapshot')
             }
