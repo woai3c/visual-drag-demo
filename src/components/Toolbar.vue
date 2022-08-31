@@ -12,7 +12,7 @@
                     @change="handleFileChange"
                 />
             </label>
-            
+
             <el-button style="margin-left: 10px;" @click="preview(false)">预览</el-button>
             <el-button @click="save">保存</el-button>
             <el-button @click="clearCanvas">清空画布</el-button>
@@ -52,24 +52,17 @@ import { mapState } from 'vuex'
 import Preview from '@/components/Editor/Preview'
 import { commonStyle, commonAttr } from '@/custom-component/component-list'
 import eventBus from '@/utils/eventBus'
-import { deepCopy, $ } from '@/utils/utils'
-import { divide, multiply } from 'mathjs'
+import { $ } from '@/utils/utils'
+import changeComponentsSizeWithScale, { changeComponentSizeWithScale } from '@/utils/changeComponentsSizeWithScale'
 
 export default {
     components: { Preview },
     data() {
         return {
             isShowPreview: false,
-            needToChange: [
-                'top',
-                'left',
-                'width',
-                'height',
-                'fontSize',
-            ],
-            scale: '100%',
             timer: null,
             isScreenshot: false,
+            scale: 100,
         }
     },
     computed: mapState([
@@ -87,40 +80,13 @@ export default {
         this.scale = this.canvasStyleData.scale
     },
     methods: {
-        format(value) {
-            return multiply(value, divide(parseFloat(this.scale), 100))
-        },
-
-        getOriginStyle(value) {
-            return divide(value, divide(parseFloat(this.canvasStyleData.scale), 100))
-        },
-
         handleScaleChange() {
             clearTimeout(this.timer)
             this.timer = setTimeout(() => {
                 // 画布比例设一个最小值，不能为 0
                 // eslint-disable-next-line no-bitwise
                 this.scale = (~~this.scale) || 1
-                const componentData = deepCopy(this.componentData)
-                componentData.forEach(component => {
-                    Object.keys(component.style).forEach(key => {
-                        if (this.needToChange.includes(key)) {
-                            if (key === 'fontSize' && component.style[key] === '') return
-
-                            // 根据原来的比例获取样式原来的尺寸
-                            // 再用原来的尺寸 * 现在的比例得出新的尺寸
-                            component.style[key] = this.format(this.getOriginStyle(component.style[key]))
-                        }
-                    })
-                })
-
-                this.$store.commit('setComponentData', componentData)
-                // 更新画布数组后，需要重新设置当前组件，否则在改变比例后，直接拖动圆点改变组件大小不会生效 https://github.com/woai3c/visual-drag-demo/issues/74
-                this.$store.commit('setCurComponent', { component: componentData[this.curComponentIndex], index: this.curComponentIndex })
-                this.$store.commit('setCanvasStyle', {
-                    ...this.canvasStyleData,
-                    scale: this.scale,
-                })
+                changeComponentsSizeWithScale(this.scale)
             }, 1000)
         },
 
@@ -162,30 +128,32 @@ export default {
                 const fileResult = res.target.result
                 const img = new Image()
                 img.onload = () => {
-                    this.$store.commit('addComponent', {
-                        component: {
-                            ...commonAttr,
-                            id: generateID(),
-                            component: 'Picture',
-                            label: '图片',
-                            icon: '',
-                            propValue: {
-                                url: fileResult,
-                                flip: {
-                                    horizontal: false,
-                                    vertical: false,
-                                },
-                            },
-                            style: {
-                                ...commonStyle,
-                                top: 0,
-                                left: 0,
-                                width: img.width,
-                                height: img.height,
+                    const component = {
+                        ...commonAttr,
+                        id: generateID(),
+                        component: 'Picture',
+                        label: '图片',
+                        icon: '',
+                        propValue: {
+                            url: fileResult,
+                            flip: {
+                                horizontal: false,
+                                vertical: false,
                             },
                         },
-                    })
+                        style: {
+                            ...commonStyle,
+                            top: 0,
+                            left: 0,
+                            width: img.width,
+                            height: img.height,
+                        },
+                    }
 
+                    // 根据画面比例修改组件样式比例 https://github.com/woai3c/visual-drag-demo/issues/91
+                    changeComponentSizeWithScale(component)
+
+                    this.$store.commit('addComponent', { component })
                     this.$store.commit('recordSnapshot')
 
                     // 修复重复上传同一文件，@change 不触发的问题
