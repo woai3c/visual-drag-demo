@@ -53,6 +53,7 @@ import { listenGlobalKeyDown } from '@/utils/shortcutKey'
 import RealTimeComponentList from '@/components/RealTimeComponentList'
 import CanvasAttr from '@/components/CanvasAttr'
 import { changeComponentSizeWithScale } from '@/utils/changeComponentsSizeWithScale'
+import { setDefaultcomponentData } from '@/store/snapshot'
 
 export default {
     components: { Editor, ComponentList, AnimationList, EventList, Toolbar, RealTimeComponentList, CanvasAttr },
@@ -78,6 +79,7 @@ export default {
         restore() {
             // 用保存的数据恢复画布
             if (localStorage.getItem('canvasData')) {
+                setDefaultcomponentData(JSON.parse(localStorage.getItem('canvasData')))
                 this.$store.commit('setComponentData', JSON.parse(localStorage.getItem('canvasData')))
             }
 
