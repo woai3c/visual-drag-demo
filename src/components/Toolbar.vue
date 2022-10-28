@@ -1,6 +1,7 @@
 <template>
     <div>
         <div class="toolbar">
+            <el-button @click="handleAceEditorChange">JSON</el-button>
             <el-button @click="undo">撤消</el-button>
             <el-button @click="redo">重做</el-button>
             <label for="input" class="insert">
@@ -42,6 +43,7 @@
 
         <!-- 预览 -->
         <Preview v-if="isShowPreview" :is-screenshot="isScreenshot" @close="handlePreviewChange" />
+        <AceEditor v-if="isShowAceEditor" @closeEditor="closeEditor"/>
     </div>
 </template>
 
@@ -50,16 +52,18 @@ import generateID from '@/utils/generateID'
 import toast from '@/utils/toast'
 import { mapState } from 'vuex'
 import Preview from '@/components/Editor/Preview'
+import AceEditor from '@/components/Editor/AceEditor.vue'
 import { commonStyle, commonAttr } from '@/custom-component/component-list'
 import eventBus from '@/utils/eventBus'
 import { $ } from '@/utils/utils'
 import changeComponentsSizeWithScale, { changeComponentSizeWithScale } from '@/utils/changeComponentsSizeWithScale'
 
 export default {
-    components: { Preview },
+    components: { Preview, AceEditor },
     data() {
         return {
             isShowPreview: false,
+            isShowAceEditor: false,
             timer: null,
             isScreenshot: false,
             scale: 100,
@@ -88,6 +92,14 @@ export default {
                 this.scale = (~~this.scale) || 1
                 changeComponentsSizeWithScale(this.scale)
             }, 1000)
+        },
+
+        handleAceEditorChange() {
+            this.isShowAceEditor = !this.isShowAceEditor
+        },
+        
+        closeEditor() {
+            this.handleAceEditorChange()
         },
 
         lock() {
