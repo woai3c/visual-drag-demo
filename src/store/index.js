@@ -50,11 +50,11 @@ const data = {
         ...snapshot.mutations,
         ...lock.mutations,
 
-        acesetCanvasData(state, value) {
+        aceSetCanvasData(state, value) {
             state.canvasStyleData = value
         },
 
-        acesetcurComponent(state, value) {
+        aceSetcurComponent(state, value) {
             for (let i = 0; i < state.componentData.length; i++) {
                 if (state.componentData[i].id === value.id) {
                     state.componentData.splice(i, 1)
