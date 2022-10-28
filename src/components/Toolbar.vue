@@ -43,7 +43,7 @@
 
         <!-- 预览 -->
         <Preview v-if="isShowPreview" :is-screenshot="isScreenshot" @close="handlePreviewChange" />
-        <AceEditor v-if="isShowAceEditor"/>
+        <AceEditor v-if="isShowAceEditor" @closeEditor="closeEditor"/>
     </div>
 </template>
 
@@ -96,6 +96,10 @@ export default {
 
         handleAceEditorChange() {
             this.isShowAceEditor = !this.isShowAceEditor
+        },
+        
+        closeEditor() {
+            this.handleAceEditorChange()
         },
 
         lock() {

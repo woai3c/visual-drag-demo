@@ -1,36 +1,25 @@
 <template>
     <div class="ace">
-        <el-col :span="18">
-            <el-dropdown trigger="click">
-                <span class="el-dropdown-link">
-                    更换风格<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown">
-                    <div
-                        @click="updateEditorTheme('ace/theme/github')">
-                        <el-dropdown-item>GitHub</el-dropdown-item>
-                    </div>
-                    <div 
-                        @click="updateEditorTheme('ace/theme/kuroir')">
-                        <el-dropdown-item>Kuroir</el-dropdown-item>
-                    </div>
-                    <div
-                        @click="updateEditorTheme('ace/theme/one_dark')">
-                        <el-dropdown-item>Dark</el-dropdown-item>
-                    </div>
-                </el-dropdown-menu>
-            </el-dropdown>
-        </el-col>
         <el-button
             @click="openSearchBox"
-            style="margin-left: 80px;"
+            class="btn"
+            style="margin-left: 380px;"
+            icon="el-icon-search"
         >查找</el-button>
-        <div ref="ace" class="ace-editor"/>
+        <el-button 
+            @click="closeEditor"
+            class="btn"
+            style="margin-left: 10px;"
+            icon="el-icon-close"
+        >关闭</el-button>
+        <div class="ace-editor">
+            <div ref="ace" class="editor"/>
+        </div>
         <el-button
             type="primary"
             style="margin-left: 360px;"
             @click="setCode"
-        >更新代码</el-button>
+        >重置代码</el-button>
         <el-button
             type="success"
             style="margin-left: 20px;"
@@ -41,9 +30,7 @@
 
 <script>
 import ace from 'ace-builds'
-import 'ace-builds/src-min-noconflict/theme-github'
 import 'ace-builds/src-min-noconflict/theme-one_dark'
-import 'ace-builds/src-min-noconflict/theme-kuroir'
 import 'ace-builds/src-min-noconflict/ext-searchbox'
 import 'ace-builds/src-min-noconflict/mode-json5'
 import 'ace-builds/src-min-noconflict/ext-language_tools'
@@ -72,10 +59,10 @@ export default {
     mounted() {
         ace.config.set('basePath', 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/')
         this.editor = ace.edit(this.$refs.ace, {
-            maxLines: 36,
-            minLines: 36,
+            maxLines: 35,
+            minLines: 35,
             fontSize: 14,
-            theme: 'ace/theme/github',
+            theme: 'ace/theme/one_dark',
             mode: 'ace/mode/json5',
             tabSize: 4,
             readOnly: false,
@@ -101,12 +88,17 @@ export default {
                 this.$store.commit('acesetcurComponent', JSON.parse(str))
             }
         },
+
         updateEditorTheme(theme) {
             this.editor.setTheme(theme)
         },
 
         openSearchBox() {
             this.editor.execCommand('find')
+        },
+
+        closeEditor() {
+            this.$emit('closeEditor')
         },
     },
 }
@@ -118,8 +110,22 @@ export default {
     height: calc(100% - 80px);
     width: 550px;
     top: 63px;
-    background-color: #E0F2F1;
+    background-color: #2D2D2D;
     border: 1px solid #ddd;
     z-index: 100;
+}
+
+.editor {
+    margin: 5px;
+}
+.btn {
+    margin-top:5px;
+    background-color: #343434;
+    color: #FFFFF5;
+    border: 1px solid #151515;
+}
+
+.btn:hover {
+    background-color: #5D5D5D;
 }
 </style>
