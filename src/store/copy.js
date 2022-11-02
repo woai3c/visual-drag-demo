@@ -38,8 +38,7 @@ export default {
                 data.style.left += 10
             }
 
-            data.id = generateID()
-            store.commit('addComponent', { component: deepCopy(data) })
+            store.commit('addComponent', { component: deepCopyHelper(data) })
             if (state.isCut) {
                 state.copyData = null
             }
@@ -79,4 +78,16 @@ function copyData(state) {
         data: deepCopy(state.curComponent),
         index: state.curComponentIndex,
     }
+}
+
+function deepCopyHelper(data) {
+    const result = deepCopy(data)
+    result.id = generateID()
+    if (result.component === 'Group') {
+        result.propValue.forEach((component, i) => {
+            result.propValue[i] = deepCopyHelper(component)
+        })
+    }
+
+    return result
 }
