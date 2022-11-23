@@ -212,7 +212,7 @@ const list = [
     {
         component: 'VChart',
         label: '图表',
-        icon: 'biaoge',
+        icon: 'el-icon-data-analysis',
         propValue: {
             chart: 'VChart',
             option: {

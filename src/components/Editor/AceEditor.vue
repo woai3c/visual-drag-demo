@@ -67,8 +67,8 @@ export default {
     mounted() {
         ace.config.set('basePath', 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/')
         this.editor = ace.edit(this.$refs.ace, {
-            maxLines: 35,
-            minLines: 35,
+            maxLines: 34,
+            minLines: 34,
             fontSize: 14,
             theme: 'ace/theme/one_dark',
             mode: 'ace/mode/json5',
