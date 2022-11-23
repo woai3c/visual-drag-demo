@@ -1,30 +1,38 @@
 <template>
     <div class="ace">
         <el-button
-            @click="openSearchBox"
             class="btn"
             style="margin-left: 380px;"
             icon="el-icon-search"
-        >查找</el-button>
-        <el-button 
-            @click="closeEditor"
+            @click="openSearchBox"
+        >
+            查找
+        </el-button>
+        <el-button
             class="btn"
             style="margin-left: 10px;"
             icon="el-icon-close"
-        >关闭</el-button>
+            @click="closeEditor"
+        >
+            关闭
+        </el-button>
         <div class="ace-editor">
-            <div ref="ace" class="editor"/>
+            <div ref="ace" class="editor" />
         </div>
         <el-button
             type="primary"
             style="margin-left: 360px;"
             @click="setCode"
-        >重置代码</el-button>
+        >
+            重置代码
+        </el-button>
         <el-button
             type="success"
             style="margin-left: 20px;"
             @click="getCode"
-        >保存提交</el-button>
+        >
+            保存提交
+        </el-button>
     </div>
 </template>
 
@@ -83,9 +91,9 @@ export default {
         getCode() {
             let str = this.editor.getValue()
             if (!this.curComponent) {
-                this.$store.commit('acesetCanvasData', JSON.parse(str))
+                this.$store.commit('aceSetCanvasData', JSON.parse(str))
             } else {
-                this.$store.commit('acesetcurComponent', JSON.parse(str))
+                this.$store.commit('aceSetcurComponent', JSON.parse(str))
             }
         },
 
@@ -110,22 +118,15 @@ export default {
     height: calc(100% - 80px);
     width: 550px;
     top: 63px;
-    background-color: #2D2D2D;
+    background-color: #fff;
     border: 1px solid #ddd;
     z-index: 100;
 }
 
 .editor {
-    margin: 4px;
+    margin: 10px 5px;
 }
 .btn {
-    margin-top:5px;
-    background-color: #343434;
-    color: #FFFFF5;
-    border: 1px solid #151515;
-}
-
-.btn:hover {
-    background-color: #5D5D5D;
+    margin-top: 5px;
 }
 </style>

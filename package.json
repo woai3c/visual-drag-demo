@@ -16,13 +16,16 @@
   "dependencies": {
     "ace-builds": "^1.12.3",
     "core-js": "^3.8.3",
+    "echarts": "^5.4.0",
     "element-ui": "^2.14.1",
     "html-to-image": "^1.9.0",
+    "less-loader": "^11.1.0",
     "mathjs": "^10.5.3",
     "nanoid": "^4.0.0",
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "winbox": "^0.2.6"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
