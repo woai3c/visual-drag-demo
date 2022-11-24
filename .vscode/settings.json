@@ -1,0 +1,19 @@
+{
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    },
+    "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+    "stylelint.validate": [
+        "css",
+        "less",
+        "postcss",
+        "scss",
+        "sass",
+        "vue"
+    ],
+    "files.eol": "\n",
+    "editor.quickSuggestions": {
+        "strings": true
+    },
+    "eslint.format.enable": true
+}
