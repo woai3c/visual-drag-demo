@@ -26,6 +26,7 @@ export default {
         },
     },
     watch: {
+        // 监听组件修改的内容，响应式修改数据
         curComponent: {
             deep: true,
             handler() {
@@ -34,7 +35,7 @@ export default {
         },
     },
     mounted() {
-        // 初始化echarts实例
+        // 初始化echarts，渲染大小
         this.echart = this.$echarts.init(this.$refs.EChart, null, {
             width: this.element.style.width,
             height: this.element.style.height,

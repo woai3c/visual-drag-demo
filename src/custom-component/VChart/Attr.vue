@@ -36,15 +36,9 @@
                         更换图表类型<i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                        <div @click="selectchart('bar')">
-                            <el-dropdown-item>柱状图</el-dropdown-item>
-                        </div>
-                        <div @click="selectchart('scatter')">
-                            <el-dropdown-item>散点图</el-dropdown-item>
-                        </div>
-                        <div @click="selectchart('line')">
-                            <el-dropdown-item>折线图</el-dropdown-item>
-                        </div>
+                        <span v-for="(chart, index) in charts" :key="index" @click="selectchart(chart.title)">
+                            <el-dropdown-item>{{ chart.name }}</el-dropdown-item>
+                        </span>
                     </el-dropdown-menu>
                 </el-dropdown>
             </el-form-item>
@@ -54,9 +48,7 @@
         </el-form>
         <div style="display: none">
             <div id="staticData">
-                <div class="ace">
-                    <div ref="ace"></div>
-                </div>
+                <div class="ace" ref="ace"></div>
                 <el-button class="btn" @click="updatedata">
                     更新数据
                 </el-button>
@@ -74,6 +66,24 @@ import CommonAttr from '@/custom-component/common/CommonAttr.vue'
 
 export default {
     components: { CommonAttr },
+    data() {
+        return {
+            charts: [
+                {
+                    title: 'bar',
+                    name: '柱状图',
+                },
+                {
+                    title: 'scatter',
+                    name: '散点图',
+                },
+                {
+                    title: 'line',
+                    name: '折线图',
+                },
+            ],
+        }
+    },
     mounted() {
         ace.config.set('basePath', 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/')
         this.editor = ace.edit(this.$refs.ace, {
@@ -88,6 +98,7 @@ export default {
             enableLiveAutocompletion: true,
             enableSnippets: true,
         })
+        // 初始化图表数据在editor中
         let data = JSON.stringify(this.curComponent.propValue.option.series.data)
         let xAxis = JSON.stringify(this.curComponent.propValue.option.xAxis.data)
         this.editor.setValue(data + '\n' + xAxis)
@@ -101,6 +112,7 @@ export default {
         },
     },
     methods: {
+        // 打开一个Winbox弹出框
         openStaticWinbox() {
             new WinBox('Static Data', {
                 background: '#04A9F5',
@@ -113,10 +125,12 @@ export default {
             })
         },
         
-        findstring(str, ch1, ch2) {
+        // 寻找数组[]
+        findstring(str, ch1, ch2) { 
             return str.substr(str.indexOf(ch1), str.indexOf(ch2) + 1)
         },
 
+        // 更新数据editor中的数据修改
         updatedata() {
             let str = this.editor.getValue()
             let Arrdata = this.findstring(str, '[', ']')
@@ -125,6 +139,7 @@ export default {
             this.curComponent.propValue.option.xAxis.data = JSON.parse(ArrXAxis)
         },
 
+        // 更换表格类型
         selectchart(chart) {
             this.curComponent.propValue.option.series.type = chart
         },
