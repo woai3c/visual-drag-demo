@@ -54,7 +54,7 @@
         </el-form>
         <div style="display: none">
             <div id="staticData">
-                <div class="modal-form-item dark-theme">
+                <div class="ace">
                     <div ref="ace"></div>
                 </div>
                 <el-button class="btn" @click="updatedata">
@@ -88,7 +88,9 @@ export default {
             enableLiveAutocompletion: true,
             enableSnippets: true,
         })
-        this.editor.setValue(JSON.stringify(this.curComponent.propValue.option.series.data) + '\n' +JSON.stringify(this.curComponent.propValue.option.xAxis.data))
+        let data = JSON.stringify(this.curComponent.propValue.option.series.data)
+        let xAxis = JSON.stringify(this.curComponent.propValue.option.xAxis.data)
+        this.editor.setValue(data + '\n' + xAxis)
     },
     computed: {
         curComponent() {
@@ -111,14 +113,14 @@ export default {
             })
         },
         
-        findstring(str,ch1,ch2) {
-            return str.substr(str.indexOf(ch1),str.indexOf(ch2) + 1)
+        findstring(str, ch1, ch2) {
+            return str.substr(str.indexOf(ch1), str.indexOf(ch2) + 1)
         },
 
         updatedata() {
             let str = this.editor.getValue()
-            let Arrdata = this.findstring(str,'[',']')
-            let ArrXAxis = this.findstring(str.substr(str.indexOf(']') + 1) ,'[',']')
+            let Arrdata = this.findstring(str, '[', ']')
+            let ArrXAxis = this.findstring(str.substr(str.indexOf(']') + 1), '[', ']')
             this.curComponent.propValue.option.series.data = JSON.parse(Arrdata)
             this.curComponent.propValue.option.xAxis.data = JSON.parse(ArrXAxis)
         },
@@ -129,44 +131,14 @@ export default {
     },
 }
 </script>
-<style lang="less">
-@import '~winbox/src/css/themes/modern.less';
-@import '~winbox/src/css/winbox.less';
-
-.chart-data-option {
-  .fullscreen {
-    z-index: 99;
-    cursor: pointer;
-    position: absolute;
-    bottom: 25px;
-    right: 45px;
-    font-size: 20px;
-  }
-}
-
-.winbox.modern {
-  z-index: 99 !important;
-  animation: none !important;
-  background: var(--color-primary);
-
-  .wb-body {
-    padding: 5px;
-    background-color: #FFFFFF;
-  }
-}
-
-.modal-form-item {
-  display: flex;
-  flex-direction: column;
-
-  .label {
-    margin: 15px 0 10px;
-  }
+<style>
+@import url(https://rawcdn.githack.com/nextapps-de/winbox/0.2.6/src/css/winbox.css);
+.ace {
+    margin: 5px;
 }
 .btn {
     float: right;
-    margin-left: 10px;
     margin-right: 10px;
-    margin-top: 5px;
+    margin-top: 2px;
 }
 </style>
