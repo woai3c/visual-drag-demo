@@ -30,6 +30,24 @@
                     active-text="显示横坐标">
                 </el-switch>
             </el-form-item>
+            <el-form-item>
+                <el-dropdown>
+                    <span class="el-dropdown-link">
+                        更换图表类型<i class="el-icon-arrow-down el-icon--right"></i>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <div @click="selectchart('bar')">
+                            <el-dropdown-item>柱状图</el-dropdown-item>
+                        </div>
+                        <div @click="selectchart('scatter')">
+                            <el-dropdown-item>散点图</el-dropdown-item>
+                        </div>
+                        <div @click="selectchart('line')">
+                            <el-dropdown-item>折线图</el-dropdown-item>
+                        </div>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </el-form-item>
             <el-form-item label="静态数据源">
                 <el-button @click="openStaticWinbox">修改数据</el-button>
             </el-form-item>
@@ -96,6 +114,10 @@ export default {
         updatedata() {
             let str = this.editor.getValue()
             this.curComponent.propValue.option.series.data = JSON.parse(str)
+        },
+
+        selectchart(chart) {
+            this.curComponent.propValue.option.series.type = chart
         },
     },
 }
