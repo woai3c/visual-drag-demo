@@ -88,7 +88,7 @@ export default {
             enableLiveAutocompletion: true,
             enableSnippets: true,
         })
-        this.editor.setValue(JSON.stringify(this.curComponent.propValue.option.series.data))
+        this.editor.setValue(JSON.stringify(this.curComponent.propValue.option.series.data) + '\n' +JSON.stringify(this.curComponent.propValue.option.xAxis.data))
     },
     computed: {
         curComponent() {
@@ -111,9 +111,16 @@ export default {
             })
         },
         
+        findstring(str,ch1,ch2) {
+            return str.substr(str.indexOf(ch1),str.indexOf(ch2) + 1)
+        },
+
         updatedata() {
             let str = this.editor.getValue()
-            this.curComponent.propValue.option.series.data = JSON.parse(str)
+            let Arrdata = this.findstring(str,'[',']')
+            let ArrXAxis = this.findstring(str.substr(str.indexOf(']') + 1) ,'[',']')
+            this.curComponent.propValue.option.series.data = JSON.parse(Arrdata)
+            this.curComponent.propValue.option.xAxis.data = JSON.parse(ArrXAxis)
         },
 
         selectchart(chart) {
