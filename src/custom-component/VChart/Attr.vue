@@ -5,29 +5,34 @@
             <el-form-item label="标题">
                 <el-switch
                     v-model="option.title.show"
-                    active-text="显示标题">
+                    active-text="显示标题"
+                >
                 </el-switch>
-                <el-input 
+                <el-input
                     v-model="option.title.text"
-                    placeholder="请输入内容">
+                    placeholder="请输入内容"
+                >
                 </el-input>
             </el-form-item>
             <el-form-item label="工具提示">
                 <el-switch
                     v-model="option.tooltip.show"
-                    active-text="显示提示">
+                    active-text="显示提示"
+                >
                 </el-switch>
             </el-form-item>
             <el-form-item label="图例">
                 <el-switch
                     v-model="option.legend.show"
-                    active-text="显示图例">
+                    active-text="显示图例"
+                >
                 </el-switch>
             </el-form-item>
             <el-form-item label="横坐标">
                 <el-switch
                     v-model="option.xAxis.show"
-                    active-text="显示横坐标">
+                    active-text="显示横坐标"
+                >
                 </el-switch>
             </el-form-item>
             <el-form-item>
@@ -50,8 +55,9 @@
         <el-dialog
             title="数据修改"
             :visible.sync="dialogVisible"
-            width="75%">
-            <div class="ace" ref="ace"></div>
+            width="75%"
+        >
+            <div ref="ace" class="ace"></div>
             <span slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="updatedata">更新数据</el-button>
             </span>
@@ -119,7 +125,7 @@ export default {
         },
 
         // 寻找数组[]
-        findstring(str, ch1, ch2) { 
+        findstring(str, ch1, ch2) {
             return str.substr(str.indexOf(ch1), str.indexOf(ch2) + 1)
         },
 
@@ -141,6 +147,7 @@ export default {
     },
 }
 </script>
+
 <style>
 .ace {
     margin: 5px;
@@ -148,6 +155,7 @@ export default {
     height: 600px;
     width: 1100px;
 }
+
 .attr {
     margin: 13px;
 }
