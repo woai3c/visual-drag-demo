@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="attr">
         <CommonAttr></CommonAttr>
         <el-form>
             <el-form-item label="标题">
@@ -147,7 +147,7 @@ export default {
 }
 </script>
 <style>
-@import url(https://rawcdn.githack.com/nextapps-de/winbox/0.2.6/src/css/winbox.css);
+@import '@/styles/winbox.css';
 .ace {
     margin: 5px;
 }
@@ -155,5 +155,8 @@ export default {
     float: right;
     margin-right: 10px;
     margin-top: 2px;
+}
+.attr {
+    margin: 13px;
 }
 </style>
