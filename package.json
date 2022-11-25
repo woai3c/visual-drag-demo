@@ -10,8 +10,8 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx}": "eslint",
-    "src/**/*.{vue,scss,css,sass}": "stylelint --allow-empty-input"
+    "src/**/*.{js,jsx}": "eslint --fix",
+    "src/**/*.{vue,scss,css,sass}": "stylelint --fix"
   },
   "dependencies": {
     "ace-builds": "^1.12.3",
