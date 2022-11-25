@@ -7,7 +7,8 @@
             draggable
             :data-index="index"
         >
-            <span class="iconfont" :class="'icon-' + item.icon"></span>
+            <span v-if="item.icon.substr(0,2) === 'el'" :class="item.icon"></span>
+            <span v-else class="iconfont" :class="'icon-' + item.icon"></span>
         </div>
     </div>
 </template>
