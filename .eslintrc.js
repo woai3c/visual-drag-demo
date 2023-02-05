@@ -3,6 +3,7 @@ module.exports = {
     env: {
         node: true,
     },
+    ignorePatterns: ['iconfont.js'],
     extends: [
         'plugin:vue/recommended',
         '@vue/airbnb',
