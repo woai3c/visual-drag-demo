@@ -10,8 +10,8 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx}": "eslint --fix",
-    "src/**/*.{vue,scss,css,sass}": "stylelint --fix"
+    "src/**/*.{js,jsx}": ["eslint --fix", "git add"],
+    "src/**/*.{vue,scss,css,sass}": ["stylelint --fix", "git add"]
   },
   "dependencies": {
     "ace-builds": "^1.12.3",
