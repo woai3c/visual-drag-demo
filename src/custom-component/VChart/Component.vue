@@ -30,7 +30,7 @@ export default {
         curComponent: {
             deep: true,
             handler() {
-                if (this.element.id === this.curComponent) {
+                if (this.element.id === (this.curComponent && this.curComponent.id)) {
                     this.render()
                 }
             },
