@@ -153,7 +153,7 @@ export default {
     margin: 5px;
     margin-top: -20px;
     height: 600px;
-    width: 1100px;
+    width: 100%;
 }
 
 .attr {
