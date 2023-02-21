@@ -1,13 +1,30 @@
 <template>
-    <div>
-        <div ref="EChart"></div>
-    </div>
+    <v-chart ref="chart" class="chart" :option="propValue.option" />
 </template>
 
 <script>
+import { use } from 'echarts/core'
+import { CanvasRenderer } from 'echarts/renderers'
+import { ScatterChart, BarChart, LineChart } from 'echarts/charts'
 import OnEvent from '../common/OnEvent'
+import { TitleComponent, TooltipComponent, LegendComponent, GridComponent } from 'echarts/components'
+import VChart from 'vue-echarts'
+
+use([
+    CanvasRenderer,
+    ScatterChart,
+    TitleComponent,
+    TooltipComponent,
+    LegendComponent,
+    GridComponent,
+    BarChart,
+    LineChart,
+])
 
 export default {
+    components: {
+        VChart,
+    },
     extends: OnEvent,
     props: {
         propValue: {
@@ -20,47 +37,11 @@ export default {
             default: () => {},
         },
     },
-    computed: {
-        curComponent() {
-            return this.$store.state.curComponent
-        },
-    },
-    watch: {
-        // 监听组件修改的内容，响应式修改数据
-        curComponent: {
-            deep: true,
-            handler() {
-                this.render()
-            },
-        },
-    },
-    mounted() {
-        // 初始化echarts，渲染大小
-        this.echart = this.$echarts.init(this.$refs.EChart, null, {
-            width: this.element.style.width,
-            height: this.element.style.height,
-        })
-        this.render()
-    },
-    methods: {
-        render() {
-            let EChart = this.echart
-            let option = this.propValue.option
-            // 设置参数
-            let config = {
-                ...option,
-            }
-            // 更新大小
-            this.echart.resize({
-                width: this.element.style.width, 
-                height: this.element.style.height,
-            })
-            // 配置参数
-            EChart.setOption(config)
-        },
-    },
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+.chart {
+    height: 400px;
+}
 </style>

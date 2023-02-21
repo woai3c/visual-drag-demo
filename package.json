@@ -10,18 +10,25 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx}": ["eslint --fix", "git add"],
-    "src/**/*.{vue,scss,css,sass}": ["stylelint --fix", "git add"]
+    "src/**/*.{js,jsx,vue}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "src/**/*.{vue,scss,css,sass}": [
+      "stylelint --fix",
+      "git add"
+    ]
   },
   "dependencies": {
     "ace-builds": "^1.12.3",
     "core-js": "^3.8.3",
-    "echarts": "^5.4.0",
+    "echarts": "^5.4.1",
     "element-ui": "^2.14.1",
     "html-to-image": "^1.9.0",
     "mathjs": "^10.5.3",
     "nanoid": "^4.0.0",
-    "vue": "^2.6.14",
+    "vue": "^2.7.14",
+    "vue-echarts": "^6.5.4",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"
   },
