@@ -27,12 +27,10 @@ export default {
     },
     watch: {
         // 监听组件修改的内容，响应式修改数据
-        curComponent: {
+        element: {
             deep: true,
             handler() {
-                if (this.element.id === (this.curComponent && this.curComponent.id)) {
-                    this.render()
-                }
+                this.render()
             },
         },
     },
