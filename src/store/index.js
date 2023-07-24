@@ -86,8 +86,8 @@ const data = {
         },
 
         setShapeStyle({ curComponent }, { top, left, width, height, rotate }) {
-            if (top) curComponent.style.top = Math.round(top)
-            if (left) curComponent.style.left = Math.round(left)
+            if (top !== undefined) curComponent.style.top = Math.round(top)
+            if (left !== undefined) curComponent.style.left = Math.round(left)
             if (width) curComponent.style.width = Math.round(width)
             if (height) curComponent.style.height = Math.round(height)
             if (rotate) curComponent.style.rotate = Math.round(rotate)
