@@ -57,6 +57,11 @@ export default {
     created() {
         this.activeName = this.curComponent.collapseName
     },
+    watch: {
+        curComponent(){
+            this.activeName = this.curComponent.collapseName
+        }
+    },
     methods: {
         onChange() {
             this.curComponent.collapseName = this.activeName
