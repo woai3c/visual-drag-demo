@@ -1,5 +1,10 @@
 <template>
-    <v-chart ref="chart" class="chart" :option="propValue.option" />
+    <v-chart 
+        ref="chart" 
+        class="chart" 
+        :option="propValue.option"
+        autoresize
+    />
 </template>
 
 <script>
