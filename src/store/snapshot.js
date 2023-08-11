@@ -4,7 +4,7 @@ import { deepCopy } from '@/utils/utils'
 // 设置画布默认数据 https://github.com/woai3c/visual-drag-demo/issues/92
 let defaultcomponentData = []
 function getDefaultcomponentData() {
-    return defaultcomponentData
+    return JSON.parse(JSON.stringify(defaultcomponentData))
 }
 
 export function setDefaultcomponentData(data = []) {

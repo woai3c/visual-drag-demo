@@ -164,6 +164,7 @@ export default {
             width: 288px;
             right: 0;
             top: 0;
+
             .el-select {
                 width: 100%;
             }
