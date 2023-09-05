@@ -48,3 +48,23 @@
 .el-tag {
     text-align: right;
 }
+
+.el-switch {
+    margin-left: 40px;
+
+    .el-switch__label--left {
+        margin-right: 2px !important;
+
+        .el-icon-sunny::before {
+            color: #817f7f;
+        }
+    }
+
+    .el-switch__label--right {
+        margin-left: 2px !important;
+
+        .el-icon-moon::before {
+            color: #ddd;
+        }
+    }
+}

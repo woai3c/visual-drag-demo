@@ -79,6 +79,7 @@ export default {
     computed: mapState([
         'curComponent',
         'editor',
+        'showRight',
     ]),
     mounted() {
         // 用于 Group 组件
@@ -277,6 +278,10 @@ export default {
             e.stopPropagation()
             e.preventDefault()
             this.$store.commit('hideContextMenu')
+            // 打开右侧组件列表
+            if (!this.$store.state.rightList) {
+                this.$store.commit('isShowRightList')
+            }
         },
 
         handleMouseDownOnPoint(point, e) {
@@ -300,7 +305,7 @@ export default {
             const editorRectInfo = this.editor.getBoundingClientRect()
 
             // 获取 point 与实际拖动基准点的差值 @justJokee
-            // fix https://github.com/woai3c/visual-drag-demo/issues/26#issue-937686285
+            // fix https://github.com/woai3c/visual-drag-demo/issues/26#issue-937686285 
             const pointRect = e.target.getBoundingClientRect()
             // 当前点击圆点相对于画布的中心坐标
             const curPoint = {

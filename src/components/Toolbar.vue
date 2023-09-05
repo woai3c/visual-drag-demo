@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="toolbar">
-            <el-button @click="handleAceEditorChange">JSON</el-button>
-            <el-button @click="undo">撤消</el-button>
-            <el-button @click="redo">重做</el-button>
+            <el-button :type="!isDarkMode ? '' : 'info'" @click="handleAceEditorChange">JSON</el-button>
+            <el-button :type="!isDarkMode ? '' : 'info'" @click="undo">撤消</el-button>
+            <el-button :type="!isDarkMode ? '' : 'info'" @click="redo">重做</el-button>
             <label for="input" class="insert">
                 插入图片
                 <input
@@ -14,20 +14,21 @@
                 />
             </label>
 
-            <el-button style="margin-left: 10px;" @click="preview(false)">预览</el-button>
-            <el-button @click="save">保存</el-button>
-            <el-button @click="clearCanvas">清空画布</el-button>
-            <el-button :disabled="!areaData.components.length" @click="compose">组合</el-button>
+            <el-button style="margin-left: 10px;" :type="!isDarkMode ? '' : 'info'" @click="preview(false)">预览</el-button>
+            <el-button :type="!isDarkMode ? '' : 'info'" @click="save">保存</el-button>
+            <el-button :type="!isDarkMode ? '' : 'info'" @click="clearCanvas">清空画布</el-button>
+            <el-button :type="!isDarkMode ? '' : 'info'" :disabled="!areaData.components.length" @click="compose">组合</el-button>
             <el-button
+                :type="!isDarkMode ? '' : 'info'"
                 :disabled="!curComponent || curComponent.isLock || curComponent.component != 'Group'"
                 @click="decompose"
             >
                 拆分
             </el-button>
 
-            <el-button :disabled="!curComponent || curComponent.isLock" @click="lock">锁定</el-button>
-            <el-button :disabled="!curComponent || !curComponent.isLock" @click="unlock">解锁</el-button>
-            <el-button @click="preview(true)">截图</el-button>
+            <el-button :type="!isDarkMode ? '' : 'info'" :disabled="!curComponent || curComponent.isLock" @click="lock">锁定</el-button>
+            <el-button :type="!isDarkMode ? '' : 'info'" :disabled="!curComponent || !curComponent.isLock" @click="unlock">解锁</el-button>
+            <el-button :type="!isDarkMode ? '' : 'info'" @click="preview(true)">截图</el-button>
 
             <div class="canvas-config">
                 <span>画布大小</span>
@@ -39,6 +40,14 @@
                 <span>画布比例</span>
                 <input v-model="scale" @input="handleScaleChange"> %
             </div>
+            <el-switch
+                v-model="isDarkMode"
+                active-icon-class="el-icon-moon"
+                inactive-icon-class="el-icon-sunny"
+                active-color="#000"
+                @change="toggleDarkMode"
+            >
+            </el-switch>
         </div>
 
         <!-- 预览 -->
@@ -67,6 +76,7 @@ export default {
             timer: null,
             isScreenshot: false,
             scale: 100,
+            isDarkMode: false,
         }
     },
     computed: mapState([
@@ -75,6 +85,7 @@ export default {
         'areaData',
         'curComponent',
         'curComponentIndex',
+        'isDarkMode',
     ]),
     created() {
         eventBus.$on('preview', this.preview)
@@ -200,6 +211,10 @@ export default {
         handlePreviewChange() {
             this.isShowPreview = false
             this.$store.commit('setEditMode', 'edit')
+        },
+
+        toggleDarkMode() {
+            this.$store.commit('toggleDarkMode', this.isDarkMode)
         },
     },
 }

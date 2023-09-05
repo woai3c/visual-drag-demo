@@ -39,6 +39,8 @@ const data = {
         // 点击画布时是否点中组件，主要用于取消选中组件用。
         // 如果没点中组件，并且在画布空白处弹起鼠标，则取消当前组件的选中状态
         isClickComponent: false,
+        rightList: false,
+        isDarkMode: false,
     },
     mutations: {
         ...animation.mutations,
@@ -54,6 +56,7 @@ const data = {
             state.canvasStyleData = value
         },
 
+        // 通过json设置组件
         aceSetcurComponent(state, value) {
             for (let i = 0; i < state.componentData.length; i++) {
                 if (state.componentData[i].id === value.id) {
@@ -66,6 +69,15 @@ const data = {
 
         setClickComponentStatus(state, status) {
             state.isClickComponent = status
+        },
+
+        isShowRightList(state) {
+            state.rightList = !state.rightList
+        },
+
+        toggleDarkMode(state, sateus) {
+            state.isDarkMode = sateus
+            localStorage.setItem('isDarkMode', state.isDarkMode.toString())
         },
 
         setEditMode(state, mode) {
@@ -85,12 +97,11 @@ const data = {
             state.curComponentIndex = index
         },
 
-        setShapeStyle({ curComponent }, { top, left, width, height, rotate }) {
-            if (top !== undefined) curComponent.style.top = Math.round(top)
-            if (left !== undefined) curComponent.style.left = Math.round(left)
+        setShapeStyle({ curComponent }, { top, left, width, height }) {
+            if (top) curComponent.style.top = Math.round(top)
+            if (left) curComponent.style.left = Math.round(left)
             if (width) curComponent.style.width = Math.round(width)
             if (height) curComponent.style.height = Math.round(height)
-            if (rotate) curComponent.style.rotate = Math.round(rotate)
         },
 
         setShapeSingleStyle({ curComponent }, { key, value }) {
