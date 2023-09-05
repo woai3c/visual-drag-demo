@@ -1,5 +1,5 @@
 <template>
-    <div class="component-list" @dragstart="handleDragStart">
+    <div v-if="flag" class="component-list" @dragstart="handleDragStart">
         <div
             v-for="(item, index) in componentList"
             :key="index"
@@ -19,6 +19,7 @@ import componentList from '@/custom-component/component-list'
 export default {
     data() {
         return {
+            flag: true,
             componentList,
         }
     },
@@ -32,12 +33,15 @@ export default {
 
 <style lang="scss" scoped>
 .component-list {
+    opacity: 1;
     height: 65%;
-    padding: 10px;
+    padding: 8px;
     display: grid;
+    position: relative;
     grid-gap: 10px 19px;
     grid-template-columns: repeat(auto-fill, 80px);
     grid-template-rows: repeat(auto-fill, 40px);
+    transition: opacity .5s .5s;
 
     .list {
         width: 80px;
@@ -45,7 +49,7 @@ export default {
         border: 1px solid #ddd;
         cursor: grab;
         text-align: center;
-        color: #333;
+        color: #ccc;
         padding: 2px 5px;
         display: flex;
         align-items: center;

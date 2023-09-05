@@ -1,15 +1,22 @@
 <template>
-    <div class="home">
+    <div :class="!isDarkMode? 'home' : 'home dark'">
         <Toolbar />
 
         <main>
             <!-- 左侧组件列表 -->
-            <section class="left">
+            <section :class="leftList ? 'left active' : 'left inactive'">
                 <ComponentList />
                 <RealTimeComponentList />
             </section>
+            <el-button
+                title="show-list-btn"
+                class="btn show-list left-btn"
+                :icon="leftList ? 'el-icon-arrow-left' : 'el-icon-arrow-right'"
+                @click="isShowLeft"
+            >
+            </el-button>
             <!-- 中间画布 -->
-            <section class="center">
+            <section class="center" :style="rightList ? 'margin-right:288px' : 'margin-right:10px'">
                 <div
                     class="content"
                     @drop="handleDrop"
@@ -21,7 +28,7 @@
                 </div>
             </section>
             <!-- 右侧属性列表 -->
-            <section class="right">
+            <section :class="rightList ? 'right active' : 'right inactive'">
                 <el-tabs v-if="curComponent" v-model="activeName">
                     <el-tab-pane label="属性" name="attr">
                         <component :is="curComponent.component + 'Attr'" />
@@ -35,6 +42,13 @@
                 </el-tabs>
                 <CanvasAttr v-else></CanvasAttr>
             </section>
+            <el-button
+                title="show-list-btn"
+                class="btn show-list right-btn"
+                :icon="rightList ? 'el-icon-arrow-right' : 'el-icon-arrow-left'"
+                @click="isShowRight"
+            >
+            </el-button>
         </main>
     </div>
 </template>
@@ -61,19 +75,20 @@ export default {
         return {
             activeName: 'attr',
             reSelectAnimateIndex: undefined,
+            leftList: false,
         }
     },
-    computed: mapState([
-        'componentData',
-        'curComponent',
-        'isClickComponent',
-        'canvasStyleData',
-        'editor',
-    ]),
+    computed: mapState(['componentData', 'curComponent', 'isClickComponent', 'canvasStyleData', 'editor', 'rightList', 'isDarkMode']),
     created() {
         this.restore()
         // 全局监听按键事件
         listenGlobalKeyDown()
+        const savedMode = localStorage.getItem('isDarkMode')
+        if (savedMode !== null) {
+            this.$store.commit('toggleDarkMode', JSON.parse(savedMode))
+        } else {
+            this.$store.isDarkMode = false
+        }
     },
     methods: {
         restore() {
@@ -100,7 +115,7 @@ export default {
                 component.style.left = e.clientX - rectInfo.x
                 component.id = generateID()
 
-                // 根据画面比例修改组件样式比例 https://github.com/woai3c/visual-drag-demo/issues/91
+                // 根据画面比例修改组件样式比例
                 changeComponentSizeWithScale(component)
 
                 this.$store.commit('addComponent', { component })
@@ -129,6 +144,13 @@ export default {
                 this.$store.commit('hideContextMenu')
             }
         },
+        isShowLeft() {
+            let newleftList = !this.leftList
+            this.leftList = newleftList
+        },
+        isShowRight() {
+            this.$store.commit('isShowRightList')
+        },
     },
 }
 </script>
@@ -141,6 +163,31 @@ export default {
     main {
         height: calc(100% - 64px);
         position: relative;
+        background: #f5f5f5;
+
+        .show-list {
+            position: absolute;
+            z-index: 9;
+            top: 40%;
+            transition: all .3s;
+        }
+
+        .left-btn {
+            margin-left: 200px;
+            border-radius: 0 50% 50% 0;
+            padding: 9px 4px 9px 2px;
+            color: #ccc;
+            border: 1px;
+        }
+
+        .right-btn {
+            right: 0;
+            margin-right: 288px;
+            border-radius: 50% 0 0 50%;
+            padding: 9px 2px 9px 4px;
+            color: #ccc;
+            border: 1px;
+        }
 
         .left {
             position: absolute;
@@ -148,6 +195,12 @@ export default {
             width: 200px;
             left: 0;
             top: 0;
+            transition: all .3s;
+            background: #fff;
+
+            .component-list .list {
+                color: #606266;
+            }
 
             & > div {
                 overflow: auto;
@@ -158,16 +211,45 @@ export default {
             }
         }
 
+        .left.inactive {
+            width: 10px;
+            overflow: hidden;
+
+            div {
+                opacity: 0;
+            }
+        }
+
+        .left.inactive ~ .center,
+        .left.inactive ~ .btn.left-btn {
+            margin-left: 10px;
+        }
+
         .right {
             position: absolute;
             height: 100%;
             width: 288px;
             right: 0;
             top: 0;
+            transition: all .3s;
+            background-color: #fff;
 
             .el-select {
                 width: 100%;
             }
+        }
+
+        .right.inactive {
+            width: 10px;
+            overflow: hidden;
+
+            div {
+                opacity: 0;
+            }
+        }
+
+        .right.inactive ~ .btn.right-btn {
+            margin-right: 10px;
         }
 
         .center {
@@ -177,6 +259,7 @@ export default {
             height: 100%;
             overflow: auto;
             padding: 20px;
+            transition: all .3s;
 
             .content {
                 width: 100%;
@@ -195,4 +278,89 @@ export default {
         padding: 10px;
     }
 }
+
+.home.dark {
+    .left-btn,
+    .right-btn {
+        background: #3c3c3c;
+    }
+
+    .right,
+    .left {
+        background-color: #2e2e2e;
+
+        .real-time-component-list .list,
+        .component-list .list {
+            color: #ccc;
+        }
+
+        .attr {
+            background-color: #2e2e2e;
+        }
+
+        .real-time-component-list .actived {
+            background-color: #c8c9cc;
+            color: #3c3b3b;
+        }
+
+        .animation-list .el-tabs,
+        .fadeInLeft.modal {
+            height: 100%;
+            background-color: #2e2e2e;
+        }
+    }
+
+    .center {
+        background: #1e1e1e;
+    }
+
+    .toolbar {
+        background: #3c3c3c;
+        border-color: #1e1e1e;
+
+        .insert {
+            background: #909399;
+            border: 1px solid #909399;
+            color: #fff;
+
+            &:active {
+                background: #a6a9ad;
+                border-color: #a6a9ad;
+                color: #fff;
+            }
+
+            &:hover {
+                background: #a6a9ad;
+                border-color: #a6a9ad;
+                color: #fff;
+            }
+        }
+    }
+
+    .ace {
+        background: #1e1e1e;
+        border-color: #1e1e1e;
+    }
+
+    .el-collapse-item__header,
+    .el-collapse-item__wrap {
+        background-color: #2e2e2e;
+        color: #ccc;
+    }
+
+    .el-tabs__item {
+        color: #ccc;
+    }
+
+    .animation-list {
+        .el-tabs.el-tabs--top {
+            background-color: #2e2e2e;
+        }
+
+        .el-scrollbar__view {
+            margin-top: 30px;
+        }
+    }
+}
+
 </style>
