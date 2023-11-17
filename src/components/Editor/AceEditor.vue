@@ -126,6 +126,7 @@ export default {
 .editor {
     margin: 10px 5px;
 }
+
 .btn {
     margin-top: 5px;
 }

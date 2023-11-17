@@ -12,7 +12,7 @@
         @mousedown="handleMouseDown"
     >
         <!-- 网格线 -->
-        <Grid />
+        <Grid :is-dark-mode="isDarkMode" />
 
         <!--页面组件列表展示-->
         <Shape
@@ -112,6 +112,7 @@ export default {
         'curComponent',
         'canvasStyleData',
         'editor',
+        'isDarkMode',
     ]),
     mounted() {
         // 获取编辑器元素

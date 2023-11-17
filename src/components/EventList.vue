@@ -22,7 +22,7 @@
                     :key="item.key"
                     :label="item.label"
                     :name="item.key"
-                    style="padding: 0 20px;"
+                    style="padding: 40px 20px 0;"
                 >
                     <el-input
                         v-if="item.key == 'redirect'"
