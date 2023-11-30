@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="toolbar">
+        <div :class="isDarkMode ? 'dark toolbar' : 'toolbar'">
             <el-button @click="handleAceEditorChange">JSON</el-button>
             <el-button @click="undo">撤消</el-button>
             <el-button @click="redo">重做</el-button>
@@ -19,6 +19,7 @@
             <el-button @click="clearCanvas">清空画布</el-button>
             <el-button :disabled="!areaData.components.length" @click="compose">组合</el-button>
             <el-button
+                
                 :disabled="!curComponent || curComponent.isLock || curComponent.component != 'Group'"
                 @click="decompose"
             >
@@ -31,14 +32,23 @@
 
             <div class="canvas-config">
                 <span>画布大小</span>
-                <input v-model="canvasStyleData.width">
+                <input v-model="canvasStyleData.width" />
                 <span>*</span>
-                <input v-model="canvasStyleData.height">
+                <input v-model="canvasStyleData.height" />
             </div>
             <div class="canvas-config">
                 <span>画布比例</span>
-                <input v-model="scale" @input="handleScaleChange"> %
+                <input v-model="scale" @input="handleScaleChange" /> %
             </div>
+            <el-switch
+                v-model="switchValue"
+                class="dark-mode-switch"
+                active-icon-class="el-icon-sunny"
+                inactive-icon-class="el-icon-moon"
+                active-color="#000"
+                @change="handleToggleDarkMode"
+            >
+            </el-switch>
         </div>
 
         <!-- 预览 -->
@@ -67,29 +77,35 @@ export default {
             timer: null,
             isScreenshot: false,
             scale: 100,
+            switchValue: false,
         }
     },
-    computed: mapState([
-        'componentData',
-        'canvasStyleData',
-        'areaData',
-        'curComponent',
-        'curComponentIndex',
-    ]),
+    computed: mapState(['componentData', 'canvasStyleData', 'areaData', 'curComponent', 'curComponentIndex', 'isDarkMode']),
+
     created() {
         eventBus.$on('preview', this.preview)
         eventBus.$on('save', this.save)
         eventBus.$on('clearCanvas', this.clearCanvas)
 
         this.scale = this.canvasStyleData.scale
+        const savedMode = JSON.parse(localStorage.getItem('isDarkMode'))
+        if (savedMode) {
+            this.handleToggleDarkMode(savedMode)
+        }
     },
     methods: {
+        handleToggleDarkMode(value) {
+            if (value !== null) {
+                this.$store.commit('toggleDarkMode', value)
+                this.switchValue = value
+            }
+        },
         handleScaleChange() {
             clearTimeout(this.timer)
             this.timer = setTimeout(() => {
                 // 画布比例设一个最小值，不能为 0
                 // eslint-disable-next-line no-bitwise
-                this.scale = (~~this.scale) || 1
+                this.scale = ~~this.scale || 1
                 changeComponentsSizeWithScale(this.scale)
             }, 1000)
         },
@@ -97,7 +113,7 @@ export default {
         handleAceEditorChange() {
             this.isShowAceEditor = !this.isShowAceEditor
         },
-        
+
         closeEditor() {
             this.handleAceEditorChange()
         },
@@ -210,21 +226,22 @@ export default {
     padding: 15px 10px;
     white-space: nowrap;
     overflow-x: auto;
-    background: #fff;
-    border-bottom: 1px solid #ddd;
+    background: var(--main-bg-color);
+    border-color: var(--ace-bg-color);
+    border-bottom: 1px solid var(--border-color);
 
     .canvas-config {
         display: inline-block;
         margin-left: 10px;
         font-size: 14px;
-        color: #606266;
+        color: var(--text-color);
 
         input {
             width: 50px;
             margin-left: 4px;
             outline: none;
             padding: 0 5px;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             color: #606266;
         }
 
@@ -233,14 +250,25 @@ export default {
         }
     }
 
+    .el-button--small {
+        background: var(--main-bg-color);
+        border: 1px solid var(--toolbar-border-color);
+        color: var(--button-text-color);
+    }
+
+    .el-button--small:hover {
+        background: var(--button-active-text-color);
+        border-color: var(--actived-bg-color);
+        color: var(--main-bg-color);
+    }
+
     .insert {
         display: inline-block;
         line-height: 1;
         white-space: nowrap;
         cursor: pointer;
-        background: #fff;
-        border: 1px solid #dcdfe6;
-        color: #606266;
+        border: 1px solid var(--toolbar-border-color);
+        color: var(--text-color);
         appearance: none;
         text-align: center;
         box-sizing: border-box;
@@ -252,16 +280,33 @@ export default {
         font-size: 12px;
         border-radius: 3px;
         margin-left: 10px;
+    }
+
+    .insert {
+        background: var(--main-bg-color);
+        border: 1px solid var(--toolbar-border-color);
+        color: var(--button-text-color);
 
         &:active {
-            color: #3a8ee6;
-            border-color: #3a8ee6;
-            outline: 0;
+            background: var(--button-active-text-color);
+            border-color: var(--actived-bg-color);
+            color: var(--main-bg-color);
         }
 
         &:hover {
-            background-color: #ecf5ff;
-            color: #3a8ee6;
+            background: var(--button-active-text-color);
+            border-color: var(--actived-bg-color);
+            color: var(--main-bg-color);
+        }
+    }
+
+    .el-button.is-disabled {
+        color: var(--disable-text-color);
+        border-color: var(--disable-border-color);
+        background: var(--main-bg-color);
+
+        &:hover {
+            background: var(--main-bg-color);
         }
     }
 }

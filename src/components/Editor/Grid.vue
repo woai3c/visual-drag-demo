@@ -15,7 +15,7 @@
                 <path 
                     d="M 7.236328125 0 L 0 0 0 7.236328125" 
                     fill="none" 
-                    stroke="rgba(207, 207, 207, 0.3)" 
+                    :stroke="isDarkMode ? 'rgba(207, 207, 207, 0.5)' : 'rgba(207, 207, 207, 0.3)'" 
                     stroke-width="1"
                 >
                 </path>
@@ -30,7 +30,7 @@
                 <path 
                     d="M 36.181640625 0 L 0 0 0 36.181640625" 
                     fill="none" 
-                    stroke="rgba(186, 186, 186, 0.5)" 
+                    :stroke="isDarkMode ? 'rgba(186, 186, 186)' : 'rgba(186, 186, 186, 0.5)'" 
                     stroke-width="1"
                 >
                 </path>
@@ -39,6 +39,14 @@
         <rect width="100%" height="100%" fill="url(#grid)"></rect>
     </svg>
 </template>
+
+<script>
+export default {
+    props: {
+        isDarkMode: Boolean,
+    },
+}
+</script>
 
 <style lang="scss" scoped>
 .grid {

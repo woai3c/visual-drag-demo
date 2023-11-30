@@ -42,7 +42,7 @@ export default {
 
     .modal {
         width: 400px;
-        background: #fff;
+        background: var(--main-bg-color);
         height: 100%;
     }
 }

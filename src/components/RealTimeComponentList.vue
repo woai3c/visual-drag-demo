@@ -37,6 +37,9 @@ export default {
         },
 
         onClick(index) {
+            if (!this.$store.state.rightList) {
+                this.$store.commit('isShowRightList')
+            }
             this.setCurComponent(index)
         },
 
@@ -83,6 +86,7 @@ export default {
         padding: 0 10px;
         position: relative;
         user-select: none;
+        opacity: 1;
 
         &:active {
             cursor: grabbing;

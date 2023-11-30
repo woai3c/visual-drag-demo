@@ -10,6 +10,7 @@ import '@/styles/animate.scss'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/styles/reset.css'
 import '@/styles/global.scss'
+import '@/styles/dark.scss'
 
 Vue.use(ElementUI, { size: 'small' })
 Vue.config.productionTip = false

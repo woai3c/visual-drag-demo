@@ -32,12 +32,15 @@ export default {
 
 <style lang="scss" scoped>
 .component-list {
+    opacity: 1;
     height: 65%;
-    padding: 10px;
+    padding: 8px;
     display: grid;
+    position: relative;
     grid-gap: 10px 19px;
     grid-template-columns: repeat(auto-fill, 80px);
     grid-template-rows: repeat(auto-fill, 40px);
+    transition: opacity .5s .5s;
 
     .list {
         width: 80px;
@@ -45,7 +48,6 @@ export default {
         border: 1px solid #ddd;
         cursor: grab;
         text-align: center;
-        color: #333;
         padding: 2px 5px;
         display: flex;
         align-items: center;
