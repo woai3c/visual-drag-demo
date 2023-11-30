@@ -45,7 +45,7 @@ export default {
         border-bottom: 2px solid #e4e7ed;
         font-size: 14px;
         font-weight: 500;
-        color: #303133;
+        color: var(--text-color);
     }
 }
 </style>
