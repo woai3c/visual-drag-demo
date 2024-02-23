@@ -1,7 +1,9 @@
 <template>
     <div>
         <div :class="isDarkMode ? 'dark toolbar' : 'toolbar'">
-            <el-button @click="handleAceEditorChange">JSON</el-button>
+            <el-button @click="onAceEditorChange">JSON</el-button>
+            <el-button @click="onImportJSON">导入</el-button>
+            <el-button @click="onExportJSON">导出</el-button>
             <el-button @click="undo">撤消</el-button>
             <el-button @click="redo">重做</el-button>
             <label for="input" class="insert">
@@ -19,7 +21,6 @@
             <el-button @click="clearCanvas">清空画布</el-button>
             <el-button :disabled="!areaData.components.length" @click="compose">组合</el-button>
             <el-button
-                
                 :disabled="!curComponent || curComponent.isLock || curComponent.component != 'Group'"
                 @click="decompose"
             >
@@ -54,6 +55,35 @@
         <!-- 预览 -->
         <Preview v-if="isShowPreview" :is-screenshot="isScreenshot" @close="handlePreviewChange" />
         <AceEditor v-if="isShowAceEditor" @closeEditor="closeEditor" />
+
+        <el-dialog
+            :title="isExport ? '导出数据' : '导入数据'"
+            :visible.sync="isShowDialog"
+            :close-on-press-escape="false"
+            :close-on-click-modal="false"
+            width="600"
+        >
+            <el-input
+                v-model="jsonData"
+                type="textarea"
+                :rows="20"
+                placeholder="请输入 JSON 数据"
+            >
+            </el-input>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="isShowDialog = false">取 消</el-button>
+                <el-upload
+                    v-show="!isExport"
+                    action="/"
+                    :before-upload="beforeUpload"
+                    :show-file-list="false"
+                    accept="application/json"
+                >
+                    <el-button type="primary">选择 JSON 文件</el-button>
+                </el-upload>
+                <el-button type="primary" @click="processJSON">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -78,10 +108,12 @@ export default {
             isScreenshot: false,
             scale: 100,
             switchValue: false,
+            isShowDialog: false,
+            jsonData: '',
+            isExport: false,
         }
     },
     computed: mapState(['componentData', 'canvasStyleData', 'areaData', 'curComponent', 'curComponentIndex', 'isDarkMode']),
-
     created() {
         eventBus.$on('preview', this.preview)
         eventBus.$on('save', this.save)
@@ -110,12 +142,12 @@ export default {
             }, 1000)
         },
 
-        handleAceEditorChange() {
+        onAceEditorChange() {
             this.isShowAceEditor = !this.isShowAceEditor
         },
 
         closeEditor() {
-            this.handleAceEditorChange()
+            this.onAceEditorChange()
         },
 
         lock() {
@@ -217,6 +249,65 @@ export default {
             this.isShowPreview = false
             this.$store.commit('setEditMode', 'edit')
         },
+
+        onImportJSON() {
+            this.jsonData = ''
+            this.isExport = false
+            this.isShowDialog = true
+        },
+
+        processJSON() {
+            try {
+                const data = JSON.parse(this.jsonData)
+                if (!Array.isArray(data)) {
+                    this.$message.error('数据格式错误，组件数据必须是一个数组')  
+                    return
+                }
+                
+                if (this.isExport) {
+                    this.downloadFileUtil(this.jsonData, 'application/json', 'data.json')
+                } else {
+                    this.$store.commit('setComponentData', data)
+                }
+                
+                this.isShowDialog = false
+            } catch (error) {
+                this.$message.error('数据格式错误，请传入合法的 JSON 格式数据')            
+            }
+        },
+
+        onExportJSON() {
+            this.isShowDialog = true
+            this.isExport = true
+            this.jsonData = JSON.stringify(this.componentData, null, 4)
+        },
+
+        downloadFileUtil(data, type, fileName = '') {
+            const url = window.URL.createObjectURL(new Blob([data], { type }))
+            const link = document.createElement('a')
+
+            link.style.display = 'none'
+            link.href = url
+            link.setAttribute('download', fileName)
+            document.body.appendChild(link)
+            link.click()
+
+            document.body.removeChild(link)
+            window.URL.revokeObjectURL(url)
+        },
+
+        beforeUpload(e) {
+            // 通过json文件导入
+            const reader = new FileReader()
+            reader.readAsText(e)
+            const self = this
+            reader.onload = function () {
+                self.jsonData = this.result
+                console.log(this.result)
+            }
+
+            return false
+        },
     },
 }
 </script>
@@ -308,6 +399,15 @@ export default {
         &:hover {
             background: var(--main-bg-color);
         }
+    }
+}
+
+.dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+
+    & > * {
+        margin-left: 10px;
     }
 }
 </style>
