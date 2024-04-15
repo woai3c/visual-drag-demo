@@ -42,12 +42,13 @@ const list = [
         style: {
             width: 200,
             height: 28,
-            fontSize: '',
+            fontSize: 14,
             fontWeight: 400,
             lineHeight: '',
             letterSpacing: 0,
             textAlign: '',
             color: '',
+            padding: 4,
         },
     },
     {

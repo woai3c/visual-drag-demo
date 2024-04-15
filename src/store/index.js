@@ -21,7 +21,7 @@ const data = {
         ...layer.state,
         ...snapshot.state,
         ...lock.state,
-
+        lastScale: 100, // 记录快照上次的缩放比例，用于判断是否需要更新快照
         editMode: 'edit', // 编辑器模式 edit preview
         canvasStyleData: { // 页面全局数据
             width: 1200,
@@ -55,7 +55,9 @@ const data = {
         aceSetCanvasData(state, value) {
             state.canvasStyleData = value
         },
-
+        setLastScale(state, value) {
+            state.lastScale = value
+        },
         // 通过json设置组件
         aceSetcurComponent(state, value) {
             for (let i = 0; i < state.componentData.length; i++) {
@@ -98,10 +100,11 @@ const data = {
             state.curComponentIndex = index
         },
 
-        setShapeStyle({ curComponent }, { top, left, width, height, rotate }) {
+        setShapeStyle({ curComponent }, { top, left, width, height, rotate, padding }) {
             if (top !== undefined) curComponent.style.top = Math.round(top)
             if (left !== undefined) curComponent.style.left = Math.round(left)
             if (width) curComponent.style.width = Math.round(width)
+            if (padding) curComponent.style.padding = Math.round(padding)
             if (height) curComponent.style.height = Math.round(height)
             if (rotate) curComponent.style.rotate = Math.round(rotate)
         },
