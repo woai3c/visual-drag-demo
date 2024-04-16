@@ -48,7 +48,7 @@ export default {
 
         recordSnapshot(state) {
             // 添加新的快照
-            let copyData = JSON.parse(JSON.stringify(state.componentData))
+            let copyData = deepCopy(state.componentData)
             copyData.forEach(v => v.lastScale = state.lastScale)
             state.snapshotData[++state.snapshotIndex] = copyData
             // 在 undo 过程中，添加新的快照时，要将它后面的快照清理掉

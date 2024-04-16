@@ -132,7 +132,7 @@ export default {
                 this.switchValue = value
             }
         },
-        handleScaleChange(e) {
+        handleScaleChange() {
             clearTimeout(this.timer)
             this.$store.commit('setLastScale', this.scale)
             this.timer = setTimeout(() => {
