@@ -72,23 +72,14 @@ export default {
             this.initialStyle = JSON.parse(JSON.stringify(style))
         },
         setFontSize() {
-            // 获取当前组件与初始样式的字体大小比例
             const proportion = this.curComponent.style.fontSize / this.initialStyle.fontSize
-
-            // 使用比例来更新组件的宽度、高度和内边距
             const updatedStyle = {
                 width: (proportion * this.initialStyle.width).toFixed(4),
                 height: (proportion * this.initialStyle.height).toFixed(4),
                 padding: (proportion * this.initialStyle.padding).toFixed(4),
             }
-
-            // 更新当前组件的样式
             this.curComponent.style = { ...this.curComponent.style, ...updatedStyle }
-
-            // 提交更新后的样式到store
             this.$store.commit('setShapeStyle', this.curComponent.style)
-
-            // 记录快照
             this.$store.commit('recordSnapshot')
         },
         onChange() {
