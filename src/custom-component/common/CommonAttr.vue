@@ -17,7 +17,7 @@
                             v-else
                             v-model.number="curComponent.style[key]"
                             type="number"
-                            @input="setFontSize"
+                            @input="setFontSize(label)"
                         />
                     </el-form-item>
                 </el-form>
@@ -71,7 +71,8 @@ export default {
         setInitial(style) {
             this.initialStyle = JSON.parse(JSON.stringify(style))
         },
-        setFontSize() {
+        setFontSize(label) {
+            if (label !== '字体大小') return
             const proportion = this.curComponent.style.fontSize / this.initialStyle.fontSize
             const updatedStyle = {
                 width: (proportion * this.initialStyle.width).toFixed(4),
