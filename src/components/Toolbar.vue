@@ -134,6 +134,7 @@ export default {
         },
         handleScaleChange() {
             clearTimeout(this.timer)
+            this.$store.commit('setLastScale', this.scale)
             this.timer = setTimeout(() => {
                 // 画布比例设一个最小值，不能为 0
                 // eslint-disable-next-line no-bitwise
