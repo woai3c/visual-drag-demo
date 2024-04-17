@@ -14,10 +14,15 @@
                             ></el-option>
                         </el-select>
                         <el-input 
+                            v-else-if="key=='fontSize'"
+                            v-model.number="curComponent.style[key]"
+                            type="number"
+                            @input="setFontSize"
+                        />
+                        <el-input 
                             v-else
                             v-model.number="curComponent.style[key]"
                             type="number"
-                            @input="setFontSize(label)"
                         />
                     </el-form-item>
                 </el-form>
@@ -71,8 +76,7 @@ export default {
         setInitial(style) {
             this.initialStyle = JSON.parse(JSON.stringify(style))
         },
-        setFontSize(label) {
-            if (label !== '字体大小') return
+        setFontSize() {
             const proportion = this.curComponent.style.fontSize / this.initialStyle.fontSize
             const updatedStyle = {
                 width: (proportion * this.initialStyle.width).toFixed(4),
