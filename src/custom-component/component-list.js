@@ -62,7 +62,7 @@ const list = [
             borderWidth: 1,
             borderColor: '',
             borderRadius: '',
-            fontSize: '',
+            fontSize: 14,
             fontWeight: 400,
             lineHeight: '',
             letterSpacing: 0,

@@ -14,10 +14,10 @@
                             ></el-option>
                         </el-select>
                         <el-input 
-                            v-else-if="key=='fontSize'"
+                            v-else-if="key=='fontSize'&&curComponent.component!='VText'"
                             v-model.number="curComponent.style[key]"
                             type="number"
-                            @input="setFontSize"
+                            @input="setFontSize(curComponent)"
                         />
                         <el-input 
                             v-else
@@ -77,6 +77,7 @@ export default {
             this.initialStyle = JSON.parse(JSON.stringify(style))
         },
         setFontSize() {
+            console.log(this.curComponent)
             const proportion = this.curComponent.style.fontSize / this.initialStyle.fontSize
             const updatedStyle = {
                 width: (proportion * this.initialStyle.width).toFixed(4),
