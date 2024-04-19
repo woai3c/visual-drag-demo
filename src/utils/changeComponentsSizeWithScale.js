@@ -17,6 +17,7 @@ export default function changeComponentsSizeWithScale(scale, snapshotData = null
                     // 否则根据当前画布的比例计算新的属性值
                     newKey = ((component.style[key] / store.state.canvasStyleData.scale) * scale).toFixed(4) - 0
                 }  
+                
                 if (key == 'top' || key == 'left') {  
                     component.style[key] = newKey
                 } else {  
@@ -25,9 +26,11 @@ export default function changeComponentsSizeWithScale(scale, snapshotData = null
             }  
         })  
     })  
+    
     if (snapshotData) {  
         return componentData  
     }  
+    
     store.commit('setComponentData', componentData) 
     // 更新后的组件数据
     store.commit('setCurComponent', {   
@@ -41,6 +44,7 @@ export default function changeComponentsSizeWithScale(scale, snapshotData = null
         scale,  
     }) 
 }
+
 const needToChangeAttrs2 = ['width', 'height', 'fontSize', 'padding']
 export function changeComponentSizeWithScale(component) {
     Object.keys(component.style).forEach(key => {
