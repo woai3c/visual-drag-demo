@@ -1,5 +1,5 @@
 <template>
-    <div class="v-common-attr">
+    <div class="v-common-attr" @mousedown="setInitial(curComponent.style)">
         <el-collapse v-model="activeName" accordion @change="onChange">
             <el-collapse-item title="通用样式" name="style">
                 <el-form>
@@ -13,7 +13,17 @@
                                 :value="item.value"
                             ></el-option>
                         </el-select>
-                        <el-input v-else v-model.number="curComponent.style[key]" type="number" />
+                        <el-input 
+                            v-else-if="key=='fontSize' && curComponent.component=='VText'"
+                            v-model.number="curComponent.style[key]"
+                            type="number"
+                            @input="setFontSize(curComponent)"
+                        />
+                        <el-input 
+                            v-else
+                            v-model.number="curComponent.style[key]"
+                            type="number"
+                        />
                     </el-form-item>
                 </el-form>
             </el-collapse-item>
@@ -63,10 +73,24 @@ export default {
         this.activeName = this.curComponent.collapseName
     },
     methods: {
+        setInitial(style) {
+            this.initialStyle = JSON.parse(JSON.stringify(style))
+        },
+        setFontSize() {
+            const proportion = this.curComponent.style.fontSize / this.initialStyle.fontSize
+            const updatedStyle = {
+                width: (proportion * this.initialStyle.width).toFixed(4),
+                height: (proportion * this.initialStyle.height).toFixed(4),
+                padding: (proportion * this.initialStyle.padding).toFixed(4),
+            }
+            this.curComponent.style = { ...this.curComponent.style, ...updatedStyle }
+            this.$store.commit('setShapeStyle', this.curComponent.style)
+            this.$store.commit('recordSnapshot')
+        },
         onChange() {
             this.curComponent.collapseName = this.activeName
         },
-
+    
         isIncludesColor(str) {
             return str.toLowerCase().includes('color')
         },

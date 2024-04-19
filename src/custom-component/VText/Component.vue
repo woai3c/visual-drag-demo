@@ -12,7 +12,7 @@
             :contenteditable="canEdit"
             :class="{ 'can-edit': canEdit }"
             tabindex="0"
-            :style="{ verticalAlign: element.style.verticalAlign }"
+            :style="{ verticalAlign: element.style.verticalAlign, padding:element.style.padding + 'px' }"
             @dblclick="setEdit"
             @paste="clearStyle"
             @mousedown="handleMousedown"
@@ -22,7 +22,7 @@
         ></div>
     </div>
     <div v-else class="v-text preview">
-        <div :style="{ verticalAlign: element.style.verticalAlign }" v-html="element.propValue"></div>
+        <div :style="{ verticalAlign: element.style.verticalAlign, padding:element.style.padding + 'px' }" v-html="element.propValue"></div>
     </div>
 </template>
 

@@ -42,12 +42,13 @@ const list = [
         style: {
             width: 200,
             height: 28,
-            fontSize: '',
+            fontSize: 14,
             fontWeight: 400,
             lineHeight: '',
             letterSpacing: 0,
             textAlign: '',
             color: '',
+            padding: 4,
         },
     },
     {
@@ -61,7 +62,7 @@ const list = [
             borderWidth: 1,
             borderColor: '',
             borderRadius: '',
-            fontSize: '',
+            fontSize: 14,
             fontWeight: 400,
             lineHeight: '',
             letterSpacing: 0,
@@ -95,7 +96,7 @@ const list = [
         style: {
             width: 200,
             height: 200,
-            fontSize: '',
+            fontSize: 14,
             fontWeight: 400,
             lineHeight: '',
             letterSpacing: 0,
@@ -128,7 +129,7 @@ const list = [
         style: {
             width: 200,
             height: 200,
-            fontSize: '',
+            fontSize: 14,
             fontWeight: 400,
             lineHeight: '',
             letterSpacing: 0,
@@ -150,7 +151,7 @@ const list = [
         style: {
             width: 80,
             height: 80,
-            fontSize: '',
+            fontSize: 14,
             fontWeight: 400,
             lineHeight: '',
             letterSpacing: 0,
@@ -168,7 +169,7 @@ const list = [
         style: {
             width: 80,
             height: 80,
-            fontSize: '',
+            fontSize: 14,
             fontWeight: 400,
             lineHeight: '',
             letterSpacing: 0,
@@ -202,7 +203,7 @@ const list = [
         style: {
             width: 600,
             height: 200,
-            fontSize: '',
+            fontSize: 14,
             fontWeight: 400,
             textAlign: 'center',
             color: '',
