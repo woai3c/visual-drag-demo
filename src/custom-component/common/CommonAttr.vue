@@ -14,7 +14,7 @@
                             ></el-option>
                         </el-select>
                         <el-input 
-                            v-else-if="key=='fontSize'&&curComponent.component!='VText'"
+                            v-else-if="key=='fontSize'"
                             v-model.number="curComponent.style[key]"
                             type="number"
                             @input="setFontSize(curComponent)"
