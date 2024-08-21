@@ -87,7 +87,7 @@ export default {
                 })
             } else {
                 let rotatedStyle = getComponentRotatedStyle(state.curComponent.style)
-                let newTop = rotatedStyle.top
+                let newTop = state.curComponent.style.top - rotatedStyle.top
                 changeAlign(state.curComponent, { top: newTop })
             }
         },
@@ -109,9 +109,9 @@ export default {
                 })
             } else {
                 let rotatedStyle = getComponentRotatedStyle(state.curComponent.style)
-                let maxBottom = rotatedStyle.bottom // 定义 maxBottom
-                let newTop = state.curComponent.style.top + (maxBottom - rotatedStyle.bottom)
-                changeAlign(state.curComponent, { top: newTop })
+                let newTop = state.curComponent.style.top - rotatedStyle.top
+                let top = state.canvasStyleData.height + newTop - rotatedStyle.height
+                changeAlign(state.curComponent, { top })
             }
         },
         middleAlign(state) {
