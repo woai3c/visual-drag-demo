@@ -141,6 +141,7 @@ import { $ } from '@/utils/utils'
 import changeComponentsSizeWithScale, {
     changeComponentSizeWithScale,
 } from '@/utils/changeComponentsSizeWithScale'
+import { getComponentRotatedStyle } from '@/utils/style'
 
 export default {
     components: { Preview, AceEditor },
@@ -223,6 +224,8 @@ export default {
     methods: {
         handleComponentAlign(command) {
             this.$store.commit(command)
+            // 每次对齐后记录一次快照
+            this.$store.commit('recordSnapshot')
         },
         handleToggleDarkMode(value) {
             if (value !== null) {

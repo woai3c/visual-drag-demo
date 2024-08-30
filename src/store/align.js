@@ -138,61 +138,47 @@ export default {
         },
         verticalSpacing(state) {
             const { components } = state.areaData
-        
             if (components.length > 2) {
-                // 获取所有组件旋转后的最顶和最底边界
-                let minTop = Math.min(...components.map(component => getComponentRotatedStyle(component.style).top))
-                let maxBottom = Math.max(...components.map(component => getComponentRotatedStyle(component.style).bottom))
-        
-                // 计算总间距，并计算每个组件之间的平均间距
-                let totalSpacing = maxBottom - minTop
-                let totalHeight = components.reduce((sum, component) => {
-                    let rotatedStyle = getComponentRotatedStyle(component.style)
-                    return sum + (rotatedStyle.bottom - rotatedStyle.top)
-                }, 0)
-                let spacing = (totalSpacing - totalHeight) / (components.length - 1)
-        
-                // 按照顺序排列组件，并调整每个组件的位置
-                let currentTop = minTop
-                components.sort((a, b) => a.style.top - b.style.top)
+                // 获取最上面的组件的 top 值和最下面的组件的 bottom 值
+                let totalHeight = 0
                 components.forEach((component, index) => {
-                    if (index > 0) {
-                        const prevRotatedStyle = getComponentRotatedStyle(components[index - 1].style)
-                        currentTop += spacing + (prevRotatedStyle.bottom - prevRotatedStyle.top)
-                    }
                     let rotatedStyle = getComponentRotatedStyle(component.style)
-                    let diffY = rotatedStyle.top - currentTop
-                    changeAlign(component, { top: component.style.top - diffY })
+                    totalHeight += rotatedStyle.height
+                }) // 获取所有组件的高度总和
+
+                const containerHeight = state.areaData.style.height // 获取容器高度
+                const availableSpace = containerHeight - totalHeight // 获取可用高度
+                const spacing = availableSpace / (components.length - 1) // 计算每个组件之间的间距
+
+                components.sort((a, b) => getComponentRotatedStyle(a.style).top - getComponentRotatedStyle(b.style).top) // 按照 top 值排序
+
+                let currentTop = 0
+                components.forEach(component => {
+                    changeAlign(component, { top: state.areaData.style.top + currentTop })
+                    currentTop += spacing + getComponentRotatedStyle(component.style).height
                 })
             }
         },
         horizontalSpacing(state) {
             const { components } = state.areaData
-        
             if (components.length > 2) {
-                // 获取所有组件旋转后的最左和最右边界
-                let minLeft = Math.min(...components.map(component => getComponentRotatedStyle(component.style).left))
-                let maxRight = Math.max(...components.map(component => getComponentRotatedStyle(component.style).right))
-        
-                // 计算总间距，并计算每个组件之间的平均间距
-                let totalSpacing = maxRight - minLeft
-                let totalWidth = components.reduce((sum, component) => {
+                // 获取所有组件的宽度总和
+                let totalWidth = 0
+                components.forEach(component => {
                     let rotatedStyle = getComponentRotatedStyle(component.style)
-                    return sum + (rotatedStyle.right - rotatedStyle.left)
-                }, 0)
-                let spacing = (totalSpacing - totalWidth) / (components.length - 1)
+                    totalWidth += rotatedStyle.width
+                })
         
-                // 按照顺序排列组件，并调整每个组件的位置
-                let currentLeft = minLeft
-                components.sort((a, b) => a.style.left - b.style.left)
-                components.forEach((component, index) => {
-                    if (index > 0) {
-                        const prevRotatedStyle = getComponentRotatedStyle(components[index - 1].style)
-                        currentLeft += spacing + (prevRotatedStyle.right - prevRotatedStyle.left)
-                    }
-                    let rotatedStyle = getComponentRotatedStyle(component.style)
-                    let diffX = rotatedStyle.left - currentLeft
-                    changeAlign(component, { left: component.style.left - diffX })
+                const containerWidth = state.areaData.style.width // 获取容器宽度
+                const availableSpace = containerWidth - totalWidth // 获取可用宽度
+                const spacing = availableSpace / (components.length - 1) // 计算每个组件之间的间距
+        
+                components.sort((a, b) => getComponentRotatedStyle(a.style).left - getComponentRotatedStyle(b.style).left) // 按照 left 值排序
+        
+                let currentLeft = 0
+                components.forEach(component => {
+                    component.style.left = state.areaData.style.left + currentLeft
+                    currentLeft += spacing + getComponentRotatedStyle(component.style).width
                 })
             }
         },
