@@ -148,7 +148,7 @@ export default {
 
                 const containerHeight = state.areaData.style.height // 获取容器高度
                 const availableSpace = containerHeight - totalHeight // 获取可用高度
-                const spacing = availableSpace / (components.length - 1) // 计算每个组件之间的间距
+                const spacing = Math.floor(availableSpace / (components.length - 1)) // 去除小数点后取整
 
                 components.sort((a, b) => getComponentRotatedStyle(a.style).top - getComponentRotatedStyle(b.style).top) // 按照 top 值排序
 
@@ -171,8 +171,7 @@ export default {
         
                 const containerWidth = state.areaData.style.width // 获取容器宽度
                 const availableSpace = containerWidth - totalWidth // 获取可用宽度
-                const spacing = availableSpace / (components.length - 1) // 计算每个组件之间的间距
-        
+                const spacing = Math.floor(availableSpace / (components.length - 1)) // 去除小数点后取整
                 components.sort((a, b) => getComponentRotatedStyle(a.style).left - getComponentRotatedStyle(b.style).left) // 按照 left 值排序
         
                 let currentLeft = 0

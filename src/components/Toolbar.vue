@@ -70,6 +70,7 @@
             ></el-switch>
             <el-dropdown
                 v-if="showComponentAlign"
+                :hide-on-click="false"
                 class="align-dropdown"
                 trigger="click"
                 @command="handleComponentAlign"
