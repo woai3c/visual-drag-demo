@@ -70,6 +70,8 @@
             :width="width"
             :height="height"
         />
+        <!-- 选择的组件包裹层 -->
+        <GroupComponentBox v-if="areaData?.components?.length" v-bind="areaData.style" />
     </div>
 </template>
 
@@ -81,12 +83,13 @@ import { $, isPreventDrop } from '@/utils/utils'
 import ContextMenu from './ContextMenu'
 import MarkLine from './MarkLine'
 import Area from './Area'
+import GroupComponentBox from './GroupComponentBox'
 import eventBus from '@/utils/eventBus'
 import Grid from './Grid'
 import { changeStyleWithScale } from '@/utils/translate'
 
 export default {
-    components: { Shape, ContextMenu, MarkLine, Area, Grid },
+    components: { Shape, ContextMenu, MarkLine, Area, Grid, GroupComponentBox },
     props: {
         isEdit: {
             type: Boolean,
@@ -113,6 +116,7 @@ export default {
         'canvasStyleData',
         'editor',
         'isDarkMode',
+        'areaData',
     ]),
     mounted() {
         // 获取编辑器元素
@@ -167,7 +171,6 @@ export default {
                     this.hideArea()
                     return
                 }
-
                 this.createGroup()
             }
 
@@ -176,7 +179,7 @@ export default {
         },
 
         hideArea() {
-            this.isShowArea = 0
+            this.isShowArea = false
             this.width = 0
             this.height = 0
 
@@ -243,6 +246,7 @@ export default {
                 },
                 components: areaData,
             })
+            this.isShowArea = false // 关闭选框
         },
 
         getSelectArea() {

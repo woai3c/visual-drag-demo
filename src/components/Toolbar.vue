@@ -226,6 +226,27 @@ export default {
             this.$store.commit(command)
             // 每次对齐后记录一次快照
             this.$store.commit('recordSnapshot')
+            // 如果是多组件对齐, 则需要重新计算选中区域的大小和位置
+            let top = Infinity, left = Infinity
+            let right = -Infinity, bottom = -Infinity
+            if (this.areaData.components.length > 1) {
+                this.areaData.components.forEach(component => {
+                    let style = getComponentRotatedStyle(component.style)
+                    if (style.left < left) left = style.left
+                    if (style.top < top) top = style.top
+                    if (style.right > right) right = style.right
+                    if (style.bottom > bottom) bottom = style.bottom
+                })
+                this.$store.commit('setAreaData', {
+                    style: {
+                        left,
+                        top,
+                        width: right - left,
+                        height: bottom - top,
+                    },
+                    components: this.areaData.components,
+                })
+            }
         },
         handleToggleDarkMode(value) {
             if (value !== null) {
