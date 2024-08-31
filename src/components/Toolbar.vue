@@ -16,19 +16,37 @@
                 />
             </label>
 
-            <el-button style="margin-left: 10px;" @click="preview(false)">预览</el-button>
+            <el-button style="margin-left: 10px;" @click="preview(false)">
+                预览
+            </el-button>
             <el-button @click="save">保存</el-button>
             <el-button @click="clearCanvas">清空画布</el-button>
-            <el-button :disabled="!areaData.components.length" @click="compose">组合</el-button>
+            <el-button :disabled="!areaData.components.length" @click="compose">
+                组合
+            </el-button>
             <el-button
-                :disabled="!curComponent || curComponent.isLock || curComponent.component != 'Group'"
+                :disabled="
+                    !curComponent ||
+                        curComponent.isLock ||
+                        curComponent.component != 'Group'
+                "
                 @click="decompose"
             >
                 拆分
             </el-button>
 
-            <el-button :disabled="!curComponent || curComponent.isLock" @click="lock">锁定</el-button>
-            <el-button :disabled="!curComponent || !curComponent.isLock" @click="unlock">解锁</el-button>
+            <el-button
+                :disabled="!curComponent || curComponent.isLock"
+                @click="lock"
+            >
+                锁定
+            </el-button>
+            <el-button
+                :disabled="!curComponent || !curComponent.isLock"
+                @click="unlock"
+            >
+                解锁
+            </el-button>
             <el-button @click="preview(true)">截图</el-button>
 
             <div class="canvas-config">
@@ -39,7 +57,8 @@
             </div>
             <div class="canvas-config">
                 <span>画布比例</span>
-                <input v-model="scale" @input="handleScaleChange" /> %
+                <input v-model="scale" @input="handleScaleChange" />
+                %
             </div>
             <el-switch
                 v-model="switchValue"
@@ -48,12 +67,37 @@
                 inactive-icon-class="el-icon-moon"
                 active-color="#000"
                 @change="handleToggleDarkMode"
+            ></el-switch>
+            <el-dropdown
+                v-if="showComponentAlign"
+                :hide-on-click="false"
+                class="align-dropdown"
+                trigger="click"
+                @command="handleComponentAlign"
             >
-            </el-switch>
+                <el-button type="primary">
+                    对齐方式
+                    <i class="el-icon-arrow-down el-icon--right"></i>
+                </el-button>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item
+                        v-for="item in alignList"
+                        :key="item.value"
+                        :command="item.value"
+                        :disabled="item.isDisabled? areaData.components.length < 3 : false"
+                    >
+                        {{ item.label }}
+                    </el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
         </div>
 
         <!-- 预览 -->
-        <Preview v-if="isShowPreview" :is-screenshot="isScreenshot" @close="handlePreviewChange" />
+        <Preview
+            v-if="isShowPreview"
+            :is-screenshot="isScreenshot"
+            @close="handlePreviewChange"
+        />
         <AceEditor v-if="isShowAceEditor" @closeEditor="closeEditor" />
 
         <el-dialog
@@ -68,8 +112,7 @@
                 type="textarea"
                 :rows="20"
                 placeholder="请输入 JSON 数据"
-            >
-            </el-input>
+            ></el-input>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="isShowDialog = false">取 消</el-button>
                 <el-upload
@@ -96,7 +139,10 @@ import AceEditor from '@/components/Editor/AceEditor.vue'
 import { commonStyle, commonAttr } from '@/custom-component/component-list'
 import eventBus from '@/utils/eventBus'
 import { $ } from '@/utils/utils'
-import changeComponentsSizeWithScale, { changeComponentSizeWithScale } from '@/utils/changeComponentsSizeWithScale'
+import changeComponentsSizeWithScale, {
+    changeComponentSizeWithScale,
+} from '@/utils/changeComponentsSizeWithScale'
+import { getComponentRotatedStyle } from '@/utils/style'
 
 export default {
     components: { Preview, AceEditor },
@@ -111,9 +157,60 @@ export default {
             isShowDialog: false,
             jsonData: '',
             isExport: false,
+            alignList: [
+                {
+                    label: '左对齐',
+                    value: 'leftAlign',
+                },
+                {
+                    label: '水平居中',
+                    value: 'centerAlign',
+                },
+                {
+                    label: '右对齐',
+                    value: 'rightAlign',
+                },
+                {
+                    label: '顶对齐',
+                    value: 'topAlign',
+                },
+                {
+                    label: '垂直居中',
+                    value: 'middleAlign',
+                },
+                {
+                    label: '底对齐',
+                    value: 'bottomAlign',
+                },
+                {
+                    label: '水平等间距',
+                    value: 'horizontalSpacing',
+                    isDisabled: true,
+                },
+                {
+                    label: '垂直等间距',
+                    value: 'verticalSpacing',
+                    isDisabled: true,
+                },
+            ],
         }
     },
-    computed: mapState(['componentData', 'canvasStyleData', 'areaData', 'curComponent', 'curComponentIndex', 'isDarkMode']),
+    computed: {
+        ...mapState([
+            'componentData',
+            'canvasStyleData',
+            'areaData',
+            'curComponent',
+            'curComponentIndex',
+            'isDarkMode',
+        ]),
+        showComponentAlign() {
+            return (
+                (this.curComponent && !this.curComponent.isLock) 
+                || this.areaData.components.length > 1
+            )
+        },
+    },
     created() {
         eventBus.$on('preview', this.preview)
         eventBus.$on('save', this.save)
@@ -126,6 +223,32 @@ export default {
         }
     },
     methods: {
+        handleComponentAlign(command) {
+            this.$store.commit(command)
+            // 每次对齐后记录一次快照
+            this.$store.commit('recordSnapshot')
+            // 如果是多组件对齐, 则需要重新计算选中区域的大小和位置
+            let top = Infinity, left = Infinity
+            let right = -Infinity, bottom = -Infinity
+            if (this.areaData.components.length > 1) {
+                this.areaData.components.forEach(component => {
+                    let style = getComponentRotatedStyle(component.style)
+                    if (style.left < left) left = style.left
+                    if (style.top < top) top = style.top
+                    if (style.right > right) right = style.right
+                    if (style.bottom > bottom) bottom = style.bottom
+                })
+                this.$store.commit('setAreaData', {
+                    style: {
+                        left,
+                        top,
+                        width: right - left,
+                        height: bottom - top,
+                    },
+                    components: this.areaData.components,
+                })
+            }
+        },
         handleToggleDarkMode(value) {
             if (value !== null) {
                 this.$store.commit('toggleDarkMode', value)
@@ -235,13 +358,22 @@ export default {
         },
 
         save() {
-            localStorage.setItem('canvasData', JSON.stringify(this.componentData))
-            localStorage.setItem('canvasStyle', JSON.stringify(this.canvasStyleData))
+            localStorage.setItem(
+                'canvasData',
+                JSON.stringify(this.componentData),
+            )
+            localStorage.setItem(
+                'canvasStyle',
+                JSON.stringify(this.canvasStyleData),
+            )
             this.$message.success('保存成功')
         },
 
         clearCanvas() {
-            this.$store.commit('setCurComponent', { component: null, index: null })
+            this.$store.commit('setCurComponent', {
+                component: null,
+                index: null,
+            })
             this.$store.commit('setComponentData', [])
             this.$store.commit('recordSnapshot')
         },
@@ -261,19 +393,23 @@ export default {
             try {
                 const data = JSON.parse(this.jsonData)
                 if (!Array.isArray(data)) {
-                    this.$message.error('数据格式错误，组件数据必须是一个数组')  
+                    this.$message.error('数据格式错误，组件数据必须是一个数组')
                     return
                 }
-                
+
                 if (this.isExport) {
-                    this.downloadFileUtil(this.jsonData, 'application/json', 'data.json')
+                    this.downloadFileUtil(
+                        this.jsonData,
+                        'application/json',
+                        'data.json',
+                    )
                 } else {
                     this.$store.commit('setComponentData', data)
                 }
-                
+
                 this.isShowDialog = false
             } catch (error) {
-                this.$message.error('数据格式错误，请传入合法的 JSON 格式数据')            
+                this.$message.error('数据格式错误，请传入合法的 JSON 格式数据')
             }
         },
 
@@ -321,6 +457,10 @@ export default {
     background: var(--main-bg-color);
     border-color: var(--ace-bg-color);
     border-bottom: 1px solid var(--border-color);
+
+    .align-dropdown {
+        margin-left: 10px;
+    }
 
     .canvas-config {
         display: inline-block;

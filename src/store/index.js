@@ -8,6 +8,7 @@ import event from './event'
 import layer from './layer'
 import snapshot from './snapshot'
 import lock from './lock'
+import align from './align'
 
 Vue.use(Vuex)
 
@@ -51,7 +52,7 @@ const data = {
         ...layer.mutations,
         ...snapshot.mutations,
         ...lock.mutations,
-
+        ...align.mutations,
         aceSetCanvasData(state, value) {
             state.canvasStyleData = value
         },
