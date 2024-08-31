@@ -7,16 +7,16 @@
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "format": "prettier --write \"**/*.{js,vue,json,md}\"",
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,vue}": [
+    "*.{js,jsx,vue}": [
       "eslint --fix",
-      "git add"
+      "prettier --write"
     ],
-    "src/**/*.{vue,scss,css,sass}": [
-      "stylelint --fix",
-      "git add"
+    "*.{json,md}": [
+      "prettier --write"
     ]
   },
   "dependencies": {
@@ -43,14 +43,17 @@
     "@vue/eslint-config-airbnb": "^6.0.0",
     "chalk": "^4.0.0",
     "compression-webpack-plugin": "^6.1.1",
-    "eslint": "^7.32.0",
+    "eslint": "^8.0.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-vue": "^8.0.3",
     "eslint-plugin-vuejs-accessibility": "^1.1.0",
     "husky": "^8.0.1",
     "lint-staged": "^11.0.0",
     "postcss-html": "^1.5.0",
     "postcss-scss": "^4.0.4",
+    "prettier": "npm:@btmills/prettier@^3.3.3",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
     "stylelint": "^14.9.1",

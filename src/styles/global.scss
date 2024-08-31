@@ -105,7 +105,7 @@
         position: relative;
         z-index: 99;
         left: 20px;
-        transition: all .5s ease-in-out;
+        transition: all 0.5s ease-in-out;
 
         .el-icon-moon::before {
             color: #fff;
@@ -126,7 +126,7 @@
         position: relative;
         z-index: 99;
         right: 20px;
-        transition: all .5s ease-in-out;
+        transition: all 0.5s ease-in-out;
 
         .el-icon-sunny::before {
             background: #00000069;

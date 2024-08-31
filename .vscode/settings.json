@@ -1,19 +1,7 @@
 {
-    "editor.codeActionsOnSave": {
-        "source.fixAll": "explicit"
-    },
-    "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
-    "stylelint.validate": [
-        "css",
-        "less",
-        "postcss",
-        "scss",
-        "sass",
-        "vue"
-    ],
-    "files.eol": "\n",
-    "editor.quickSuggestions": {
-        "strings": true
-    },
-    "eslint.format.enable": true
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

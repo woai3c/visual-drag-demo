@@ -1,10 +1,5 @@
 <template>
-    <v-chart 
-        ref="chart" 
-        class="chart" 
-        :option="propValue.option"
-        autoresize
-    />
+  <v-chart ref="chart" class="chart" :option="propValue.option" autoresize />
 </template>
 
 <script>
@@ -16,37 +11,37 @@ import { TitleComponent, TooltipComponent, LegendComponent, GridComponent } from
 import VChart from 'vue-echarts'
 
 use([
-    CanvasRenderer,
-    ScatterChart,
-    TitleComponent,
-    TooltipComponent,
-    LegendComponent,
-    GridComponent,
-    BarChart,
-    LineChart,
+  CanvasRenderer,
+  ScatterChart,
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+  GridComponent,
+  BarChart,
+  LineChart,
 ])
 
 export default {
-    components: {
-        VChart,
+  components: {
+    VChart,
+  },
+  extends: OnEvent,
+  props: {
+    propValue: {
+      type: Object,
+      require: true,
+      default: () => {},
     },
-    extends: OnEvent,
-    props: {
-        propValue: {
-            type: Object,
-            require: true,
-            default: () => {},
-        },
-        element: {
-            type: Object,
-            default: () => {},
-        },
+    element: {
+      type: Object,
+      default: () => {},
     },
+  },
 }
 </script>
 
 <style scoped>
 .chart {
-    height: 400px;
+  height: 400px;
 }
 </style>
