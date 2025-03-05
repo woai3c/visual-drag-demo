@@ -22,19 +22,12 @@ export default {
       if (state.snapshotIndex >= 0) {
         state.snapshotIndex--
         let componentData = deepCopy(state.snapshotData[state.snapshotIndex]) || getDefaultcomponentData()
-        if (state.curComponent) {
-          // 如果当前组件不在 componentData 中，则置空
-          const needClean = !componentData.find((component) => state.curComponent.id === component.id)
 
-          if (needClean) {
-            store.commit('setCurComponent', {
-              component: null,
-              index: null,
-            })
-          }
-        }
         componentData = changeComponentsSizeWithScale(state.lastScale, componentData)
         store.commit('setComponentData', componentData)
+        // 更新当前选中组件的引用
+        const curComponent = componentData.find((component) => component.id === state.curComponent?.id)
+        store.commit('setCurComponent', { component: curComponent, index: null })
       }
     },
 
