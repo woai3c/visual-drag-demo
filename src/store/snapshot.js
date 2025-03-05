@@ -27,7 +27,8 @@ export default {
         store.commit('setComponentData', componentData)
         // 更新当前选中组件的引用
         const curComponent = componentData.find((component) => component.id === state.curComponent?.id)
-        store.commit('setCurComponent', { component: curComponent, index: null })
+        const index = curComponent ? componentData.indexOf(curComponent) : null
+        store.commit('setCurComponent', { component: curComponent, index })
       }
     },
 
