@@ -262,21 +262,23 @@ export default {
       e.stopPropagation()
       e.preventDefault()
 
-      // 计算菜单相对于编辑器的位移
-      let target = e.target
-      let top = e.offsetY
-      let left = e.offsetX
-      while (target instanceof SVGElement) {
-        target = target.parentNode
-      }
+      // 获取旋转后的实际位置
+      // const targetRect = e.target.getBoundingClientRect();
+      let editor = document.querySelector('.editor')
 
-      while (!target.className.includes('editor')) {
-        left += target.offsetLeft
-        top += target.offsetTop
-        target = target.parentNode
-      }
+      let editorRect = editor.getBoundingClientRect()
 
-      this.$store.commit('showContextMenu', { top, left })
+      // 计算相对编辑器的精确位置（考虑旋转）
+      let left = e.clientX - editorRect.left
+      let top = e.clientY - editorRect.top
+
+      // 显示菜单（添加边界检查）
+      let menuWidth = 0 // 根据实际菜单宽度调整
+      let menuHeight = 0 // 根据实际菜单高度调整
+
+      let adjustedLeft = left + menuWidth > editorRect.width ? editorRect.width - menuWidth : left
+      let adjustedTop = top + menuHeight > editorRect.height ? editorRect.height - menuHeight : top
+      this.$store.commit('showContextMenu', { top: adjustedTop, left: adjustedLeft })
     },
 
     getComponentStyle(style) {
