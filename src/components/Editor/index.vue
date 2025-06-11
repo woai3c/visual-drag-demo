@@ -272,12 +272,8 @@ export default {
       let left = e.clientX - editorRect.left
       let top = e.clientY - editorRect.top
 
-      // 显示菜单（添加边界检查）
-      let menuWidth = 0 // 根据实际菜单宽度调整
-      let menuHeight = 0 // 根据实际菜单高度调整
-
-      let adjustedLeft = left + menuWidth > editorRect.width ? editorRect.width - menuWidth : left
-      let adjustedTop = top + menuHeight > editorRect.height ? editorRect.height - menuHeight : top
+      let adjustedLeft = left > editorRect.width ? editorRect.width : left
+      let adjustedTop = top > editorRect.height ? editorRect.height : top
       this.$store.commit('showContextMenu', { top: adjustedTop, left: adjustedLeft })
     },
 
