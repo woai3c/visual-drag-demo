@@ -344,15 +344,23 @@ export default {
     processJSON() {
       try {
         const data = JSON.parse(this.jsonData)
-        if (!Array.isArray(data)) {
-          this.$message.error('数据格式错误，组件数据必须是一个数组')
-          return
-        }
 
         if (this.isExport) {
           this.downloadFileUtil(this.jsonData, 'application/json', 'data.json')
-        } else {
+        } else if (Array.isArray(data)) {
+          // 兼容旧格式：纯数组，只包含组件数据
           this.$store.commit('setComponentData', data)
+        } else if (data && typeof data === 'object') {
+          // 新格式：包含 componentData 和 canvasStyleData
+          if (data.componentData && Array.isArray(data.componentData)) {
+            this.$store.commit('setComponentData', data.componentData)
+          }
+          if (data.canvasStyleData && typeof data.canvasStyleData === 'object') {
+            this.$store.commit('setCanvasStyle', data.canvasStyleData)
+          }
+        } else {
+          this.$message.error('数据格式错误，请传入合法的 JSON 格式数据')
+          return
         }
 
         this.isShowDialog = false
@@ -364,7 +372,12 @@ export default {
     onExportJSON() {
       this.isShowDialog = true
       this.isExport = true
-      this.jsonData = JSON.stringify(this.componentData, null, 4)
+      // 导出时包含组件数据和画布样式数据
+      const exportData = {
+        componentData: this.componentData,
+        canvasStyleData: this.canvasStyleData,
+      }
+      this.jsonData = JSON.stringify(exportData, null, 4)
     },
 
     downloadFileUtil(data, type, fileName = '') {
