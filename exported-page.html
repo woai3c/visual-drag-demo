@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>导出的页面</title>
+    <script src="https://lib.baomitu.com/echarts/5.4.2/echarts.min.js"></script>
+    <style>
+      /* 画布容器样式 */
+      .canvas-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+        box-sizing: border-box;
+        background: #f5f5f5;
+      }
+
+      /* 画布样式 */
+      .canvas {
+        position: relative;
+        width: 1200px;
+        height: 740px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        /* 同步编辑器默认属性 */
+        font-size: 14px;
+        color: #000;
+        opacity: 1;
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+
+      /* 组件通用样式 */
+      .component {
+        position: absolute;
+        box-sizing: border-box;
+        overflow: hidden; /* 防止内容溢出导致重叠 */
+      }
+
+      /* 文本组件样式 */
+      .v-text {
+        width: 100%;
+        height: 100%;
+        display: table;
+        outline: none;
+      }
+
+      .v-text div {
+        display: table-cell;
+        width: 100%;
+        height: 100%;
+        outline: none;
+        word-break: break-all;
+        box-sizing: border-box;
+        line-height: 1.5; /* 显式设置默认行高以防重叠 */
+      }
+
+      /* 按钮组件样式 */
+      .v-button {
+        display: inline-block;
+        line-height: 1;
+        white-space: nowrap;
+        cursor: pointer;
+        background: #fff;
+        border: 1px solid #dcdfe6;
+        color: #606266;
+        text-align: center;
+        box-sizing: border-box;
+        outline: 0;
+        margin: 0;
+        transition: 0.1s;
+        font-weight: 500;
+        width: 100%;
+        height: 100%;
+        font-size: 14px;
+        appearance: none;
+        padding: 12px 20px;
+      }
+
+      .v-button:hover {
+        background-color: #ecf5ff;
+        color: #3a8ee6;
+        border-color: #c6e2ff;
+      }
+
+      .v-button:active {
+        color: #3a8ee6;
+        border-color: #3a8ee6;
+        outline: 0;
+      }
+
+      /* 图片组件样式 */
+      .picture-container {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .picture-container img {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* 表格组件样式 */
+      .v-table {
+        width: 100%;
+        height: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        word-break: break-all;
+        word-wrap: break-word;
+      }
+
+      .v-table td {
+        border: 1px solid #ebeef5;
+        padding: 10px;
+        height: 40px;
+        width: 60px;
+      }
+
+      .v-table .bold {
+        font-weight: bold;
+      }
+
+      .v-table .stripe {
+        background-color: #fafafa;
+      }
+
+      /* 图表容器样式 */
+      .chart-container {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* 形状组件样式 */
+      .rect-shape {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .circle-shape {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+
+      .line-shape {
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+      }
+
+      /* SVG组件样式 */
+      .svg-shape {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* 组合组件样式 */
+      .group-container {
+        width: 100%;
+        height: 100%;
+      }
+
+      .group-container > div {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      .group-component {
+        position: absolute;
+      }
+
+      /* 动画通用类 */
+      .animated {
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+      }
+
+      .animated.infinite {
+        -webkit-animation-iteration-count: infinite;
+        animation-iteration-count: infinite;
+      }
+
+      /* 渐显动画 */
+      @-webkit-keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .fadeIn {
+        -webkit-animation-name: fadeIn;
+        animation-name: fadeIn;
+      }
+
+      /* 向右长距进入动画 */
+      @-webkit-keyframes fadeInRightBig {
+        from {
+          opacity: 0;
+          -webkit-transform: translate3d(2000px, 0, 0);
+          transform: translate3d(2000px, 0, 0);
+        }
+        to {
+          opacity: 1;
+          -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+        }
+      }
+
+      @keyframes fadeInRightBig {
+        from {
+          opacity: 0;
+          -webkit-transform: translate3d(2000px, 0, 0);
+          transform: translate3d(2000px, 0, 0);
+        }
+        to {
+          opacity: 1;
+          -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+        }
+      }
+
+      .fadeInRightBig {
+        -webkit-animation-name: fadeInRightBig;
+        animation-name: fadeInRightBig;
+      }
+
+      /* 组件 KisPlqqYsl95CukyloqLM 样式 */
+      .component-KisPlqqYsl95CukyloqLM {
+        position: absolute;
+        top: 66px;
+        left: 22px;
+        width: 359px;
+        height: 290px;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+
+      /* 组件 wK-YYJJA0WsP_v6vK-SUr 样式 */
+      .component-wK-YYJJA0WsP_v6vK-SUr {
+        position: absolute;
+        top: 65px;
+        left: 419px;
+        width: 230px;
+        height: 163px;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+
+      /* 组件 n_1kSAwGX8nf0Y0EF_q7Z 样式 */
+      .component-n_1kSAwGX8nf0Y0EF_q7Z {
+        position: absolute;
+        top: 64px;
+        left: 677px;
+        width: 219px;
+        height: 164px;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+
+      /* 组件 hO_dN_Rgo3QC1U9JhfUu2 样式 */
+      .component-hO_dN_Rgo3QC1U9JhfUu2 {
+        position: absolute;
+        top: 324px;
+        left: 419px;
+        width: 230px;
+        height: 163px;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+
+      /* 组件 N82YaQq3bTsXH9K5wWMJV 样式 */
+      .component-N82YaQq3bTsXH9K5wWMJV {
+        position: absolute;
+        top: 324px;
+        left: 677px;
+        width: 219px;
+        height: 164px;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+
+      /* 组件 sQbjTMNHGjsYs5ZM1ZtRk 样式 */
+      .component-sQbjTMNHGjsYs5ZM1ZtRk {
+        position: absolute;
+        top: 324px;
+        left: 920px;
+        width: 230px;
+        height: 164px;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+
+      /* 组件 _TlVdrfsJMjGtn7whFhUM 样式 */
+      .component-_TlVdrfsJMjGtn7whFhUM {
+        position: absolute;
+        top: 65px;
+        left: 920px;
+        width: 230px;
+        height: 163px;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+
+      /* 组件 RRWdSF_VkA8gWeGPHQNQF 样式 */
+      .component-RRWdSF_VkA8gWeGPHQNQF {
+        position: absolute;
+        top: 236px;
+        left: 419px;
+        width: 200px;
+        height: 27.999999999999996px;
+        font-size: 14px;
+        font-weight: 400;
+        padding: 4px;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+
+      /* 组件 ba9GIHHRUmPcvbIsHK5fS 样式 */
+      .component-ba9GIHHRUmPcvbIsHK5fS {
+        position: absolute;
+        top: 268px;
+        left: 419px;
+        width: 200px;
+        height: 27.999999999999996px;
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(146, 143, 143, 1);
+        padding: 4px;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+
+      /* 组件 9CGXfxmxY0Ef4xYu4vjGQ 样式 */
+      .component-9CGXfxmxY0Ef4xYu4vjGQ {
+        position: absolute;
+        top: 236px;
+        left: 677px;
+        width: 200px;
+        height: 27.999999999999996px;
+        font-size: 14px;
+        font-weight: 400;
+        padding: 4px;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+
+      /* 组件 gcsA8NqK5rHMTwdnRk9Yt 样式 */
+      .component-gcsA8NqK5rHMTwdnRk9Yt {
+        position: absolute;
+        top: 268px;
+        left: 677px;
+        width: 200px;
+        height: 27.999999999999996px;
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(146, 143, 143, 1);
+        padding: 4px;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+
+      /* 组件 QbHBxtGnNd3o1xEAk5Jnr 样式 */
+      .component-QbHBxtGnNd3o1xEAk5Jnr {
+        position: absolute;
+        top: 236px;
+        left: 920px;
+        width: 200px;
+        height: 27.999999999999996px;
+        font-size: 14px;
+        font-weight: 400;
+        padding: 4px;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+
+      /* 组件 JfIQNtTuaM9QQ9muhwIRt 样式 */
+      .component-JfIQNtTuaM9QQ9muhwIRt {
+        position: absolute;
+        top: 268px;
+        left: 920px;
+        width: 200px;
+        height: 27.999999999999996px;
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(146, 143, 143, 1);
+        padding: 4px;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+
+      /* 组件 Pu4SdEes6hrDO4Kh_EcaW 样式 */
+      .component-Pu4SdEes6hrDO4Kh_EcaW {
+        position: absolute;
+        top: 507px;
+        left: 419px;
+        width: 200px;
+        height: 27.999999999999996px;
+        font-size: 14px;
+        font-weight: 400;
+        padding: 4px;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+
+      /* 组件 peRa4ayOU9oM1K3kao_aN 样式 */
+      .component-peRa4ayOU9oM1K3kao_aN {
+        position: absolute;
+        top: 539px;
+        left: 419px;
+        width: 200px;
+        height: 27.999999999999996px;
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(146, 143, 143, 1);
+        padding: 4px;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+
+      /* 组件 y39fBjNc_zzEBXxfc8vxQ 样式 */
+      .component-y39fBjNc_zzEBXxfc8vxQ {
+        position: absolute;
+        top: 502px;
+        left: 677px;
+        width: 200px;
+        height: 27.999999999999996px;
+        font-size: 14px;
+        font-weight: 400;
+        padding: 4px;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+
+      /* 组件 xQiJHc4F2v2NxyA4Cl-Q_ 样式 */
+      .component-xQiJHc4F2v2NxyA4Cl-Q_ {
+        position: absolute;
+        top: 534px;
+        left: 677px;
+        width: 200px;
+        height: 27.999999999999996px;
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(146, 143, 143, 1);
+        padding: 4px;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+
+      /* 组件 OeCNX8yXZgdeo4o7wrBOq 样式 */
+      .component-OeCNX8yXZgdeo4o7wrBOq {
+        position: absolute;
+        top: 502px;
+        left: 920px;
+        width: 200px;
+        height: 27.999999999999996px;
+        font-size: 14px;
+        font-weight: 400;
+        padding: 4px;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+
+      /* 组件 A1H4nXlgj-THd_GTSU2Gs 样式 */
+      .component-A1H4nXlgj-THd_GTSU2Gs {
+        position: absolute;
+        top: 534px;
+        left: 920px;
+        width: 200px;
+        height: 27.999999999999996px;
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(146, 143, 143, 1);
+        padding: 4px;
+        opacity: 1;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="canvas-container">
+      <div class="canvas" style="width: 1200px; height: 740px; background-color: #fff">
+        <div
+          id="component-KisPlqqYsl95CukyloqLM"
+          class="component component-KisPlqqYsl95CukyloqLM"
+          data-component="Picture"
+        >
+          <div class="picture-container">
+            <img
+              id="img-KisPlqqYsl95CukyloqLM"
+              src="./assets/title.jpg"
+              alt="图片"
+              onerror="this.onerror=null;this.src='./assets/placeholder.png';"
+            />
+          </div>
+        </div>
+        <div
+          id="component-wK-YYJJA0WsP_v6vK-SUr"
+          class="component component-wK-YYJJA0WsP_v6vK-SUr"
+          data-component="Picture"
+        >
+          <div class="picture-container">
+            <img
+              id="img-wK-YYJJA0WsP_v6vK-SUr"
+              src="./assets/title.jpg"
+              alt="图片"
+              onerror="this.onerror=null;this.src='./assets/placeholder.png';"
+            />
+          </div>
+        </div>
+        <div
+          id="component-n_1kSAwGX8nf0Y0EF_q7Z"
+          class="component component-n_1kSAwGX8nf0Y0EF_q7Z"
+          data-component="Picture"
+        >
+          <div class="picture-container">
+            <img
+              id="img-n_1kSAwGX8nf0Y0EF_q7Z"
+              src="./assets/title.jpg"
+              alt="图片"
+              onerror="this.onerror=null;this.src='./assets/placeholder.png';"
+            />
+          </div>
+        </div>
+        <div
+          id="component-hO_dN_Rgo3QC1U9JhfUu2"
+          class="component component-hO_dN_Rgo3QC1U9JhfUu2"
+          data-component="Picture"
+        >
+          <div class="picture-container">
+            <img
+              id="img-hO_dN_Rgo3QC1U9JhfUu2"
+              src="./assets/title.jpg"
+              alt="图片"
+              onerror="this.onerror=null;this.src='./assets/placeholder.png';"
+            />
+          </div>
+        </div>
+        <div
+          id="component-N82YaQq3bTsXH9K5wWMJV"
+          class="component component-N82YaQq3bTsXH9K5wWMJV"
+          data-component="Picture"
+        >
+          <div class="picture-container">
+            <img
+              id="img-N82YaQq3bTsXH9K5wWMJV"
+              src="./assets/title.jpg"
+              alt="图片"
+              onerror="this.onerror=null;this.src='./assets/placeholder.png';"
+            />
+          </div>
+        </div>
+        <div
+          id="component-sQbjTMNHGjsYs5ZM1ZtRk"
+          class="component component-sQbjTMNHGjsYs5ZM1ZtRk"
+          data-component="Picture"
+        >
+          <div class="picture-container">
+            <img
+              id="img-sQbjTMNHGjsYs5ZM1ZtRk"
+              src="./assets/title.jpg"
+              alt="图片"
+              onerror="this.onerror=null;this.src='./assets/placeholder.png';"
+            />
+          </div>
+        </div>
+        <div
+          id="component-_TlVdrfsJMjGtn7whFhUM"
+          class="component component-_TlVdrfsJMjGtn7whFhUM"
+          data-component="Picture"
+        >
+          <div class="picture-container">
+            <img
+              id="img-_TlVdrfsJMjGtn7whFhUM"
+              src="./assets/title.jpg"
+              alt="图片"
+              onerror="this.onerror=null;this.src='./assets/placeholder.png';"
+            />
+          </div>
+        </div>
+        <div
+          id="component-RRWdSF_VkA8gWeGPHQNQF"
+          class="component component-RRWdSF_VkA8gWeGPHQNQF"
+          data-component="VText"
+        >
+          <div class="v-text">
+            <div style="padding: 4px; vertical-align: middle">这个视频主要是讲了...........</div>
+          </div>
+        </div>
+        <div
+          id="component-ba9GIHHRUmPcvbIsHK5fS"
+          class="component component-ba9GIHHRUmPcvbIsHK5fS"
+          data-component="VText"
+        >
+          <div class="v-text">
+            <div style="padding: 4px; vertical-align: middle">作者:xxxxxbbb</div>
+          </div>
+        </div>
+        <div
+          id="component-9CGXfxmxY0Ef4xYu4vjGQ"
+          class="component component-9CGXfxmxY0Ef4xYu4vjGQ"
+          data-component="VText"
+        >
+          <div class="v-text">
+            <div style="padding: 4px; vertical-align: middle">这个视频主要是讲了...........</div>
+          </div>
+        </div>
+        <div
+          id="component-gcsA8NqK5rHMTwdnRk9Yt"
+          class="component component-gcsA8NqK5rHMTwdnRk9Yt"
+          data-component="VText"
+        >
+          <div class="v-text">
+            <div style="padding: 4px; vertical-align: middle">作者:xxxxxbbb</div>
+          </div>
+        </div>
+        <div
+          id="component-QbHBxtGnNd3o1xEAk5Jnr"
+          class="component component-QbHBxtGnNd3o1xEAk5Jnr"
+          data-component="VText"
+        >
+          <div class="v-text">
+            <div style="padding: 4px; vertical-align: middle">这个视频主要是讲了...........</div>
+          </div>
+        </div>
+        <div
+          id="component-JfIQNtTuaM9QQ9muhwIRt"
+          class="component component-JfIQNtTuaM9QQ9muhwIRt"
+          data-component="VText"
+        >
+          <div class="v-text">
+            <div style="padding: 4px; vertical-align: middle">作者:xxxxxbbb</div>
+          </div>
+        </div>
+        <div
+          id="component-Pu4SdEes6hrDO4Kh_EcaW"
+          class="component component-Pu4SdEes6hrDO4Kh_EcaW"
+          data-component="VText"
+        >
+          <div class="v-text">
+            <div style="padding: 4px; vertical-align: middle">这个视频主要是讲了...........</div>
+          </div>
+        </div>
+        <div
+          id="component-peRa4ayOU9oM1K3kao_aN"
+          class="component component-peRa4ayOU9oM1K3kao_aN"
+          data-component="VText"
+        >
+          <div class="v-text">
+            <div style="padding: 4px; vertical-align: middle">作者:xxxxxbbb</div>
+          </div>
+        </div>
+        <div
+          id="component-y39fBjNc_zzEBXxfc8vxQ"
+          class="component component-y39fBjNc_zzEBXxfc8vxQ"
+          data-component="VText"
+        >
+          <div class="v-text">
+            <div style="padding: 4px; vertical-align: middle">这个视频主要是讲了...........</div>
+          </div>
+        </div>
+        <div
+          id="component-xQiJHc4F2v2NxyA4Cl-Q_"
+          class="component component-xQiJHc4F2v2NxyA4Cl-Q_"
+          data-component="VText"
+        >
+          <div class="v-text">
+            <div style="padding: 4px; vertical-align: middle">作者:xxxxxbbb</div>
+          </div>
+        </div>
+        <div
+          id="component-OeCNX8yXZgdeo4o7wrBOq"
+          class="component component-OeCNX8yXZgdeo4o7wrBOq"
+          data-component="VText"
+        >
+          <div class="v-text">
+            <div style="padding: 4px; vertical-align: middle">这个视频主要是讲了...........</div>
+          </div>
+        </div>
+        <div
+          id="component-A1H4nXlgj-THd_GTSU2Gs"
+          class="component component-A1H4nXlgj-THd_GTSU2Gs"
+          data-component="VText"
+        >
+          <div class="v-text">
+            <div style="padding: 4px; vertical-align: middle">作者:xxxxxbbb</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 页面加载完成后的初始化
+      document.addEventListener('DOMContentLoaded', function () {
+        // 初始化所有图表
+        initCharts()
+
+        // 初始化动画
+        initAnimations()
+
+        // 添加按钮点击事件
+        const buttons = document.querySelectorAll('.v-button')
+        buttons.forEach((button) => {
+          button.addEventListener('click', function () {
+            console.log('按钮被点击了:', this)
+            // 这里可以添加更多自定义逻辑
+          })
+        })
+
+        // 添加图片翻转功能
+        initImageFlip()
+      })
+
+      // 初始化动画
+      function initAnimations() {}
+
+      // 初始化所有图表
+      function initCharts() {}
+
+      // 初始化图片翻转功能
+      function initImageFlip() {}
+    </script>
+  </body>
+</html>

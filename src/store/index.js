@@ -32,6 +32,7 @@ const data = {
       color: '#000',
       opacity: 1,
       background: '#fff',
+      backgroundColor: '#fff', // 添加backgroundColor属性以兼容CanvasAttr组件
       fontSize: 14,
     },
     isInEdiotr: false, // 是否在编辑器中，用于判断复制、粘贴组件时是否生效，如果在编辑器外，则无视这些操作
@@ -95,6 +96,12 @@ const data = {
 
     setCanvasStyle(state, style) {
       state.canvasStyleData = style
+      // 确保background和backgroundColor保持同步
+      if (style.background && !style.backgroundColor) {
+        state.canvasStyleData.backgroundColor = style.background
+      } else if (style.backgroundColor && !style.background) {
+        state.canvasStyleData.background = style.backgroundColor
+      }
     },
 
     setCurComponent(state, { component, index }) {

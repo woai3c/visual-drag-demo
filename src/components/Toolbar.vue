@@ -3,7 +3,14 @@
     <div :class="isDarkMode ? 'dark toolbar' : 'toolbar'">
       <el-button @click="onAceEditorChange">JSON</el-button>
       <el-button @click="onImportJSON">导入</el-button>
-      <el-button @click="onExportJSON">导出</el-button>
+      <el-dropdown @command="handleExportCommand">
+        <el-button> 导出<i class="el-icon-arrow-down el-icon--right"></i> </el-button>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="json">导出JSON</el-dropdown-item>
+          <el-dropdown-item command="html">导出HTML</el-dropdown-item>
+          <el-dropdown-item command="vue">导出Vue文件</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
       <el-button @click="undo">撤消</el-button>
       <el-button @click="redo">重做</el-button>
       <label for="input" class="insert">
@@ -108,7 +115,9 @@ import { commonStyle, commonAttr } from '@/custom-component/component-list'
 import eventBus from '@/utils/eventBus'
 import { $ } from '@/utils/utils'
 import changeComponentsSizeWithScale, { changeComponentSizeWithScale } from '@/utils/changeComponentsSizeWithScale'
+
 import { getComponentRotatedStyle } from '@/utils/style'
+import { generateHTML, generateVueComponent } from '@/utils/exportUtils'
 
 export default {
   components: { Preview, AceEditor },
@@ -344,15 +353,19 @@ export default {
     processJSON() {
       try {
         const data = JSON.parse(this.jsonData)
-        if (!Array.isArray(data)) {
-          this.$message.error('数据格式错误，组件数据必须是一个数组')
-          return
-        }
-
         if (this.isExport) {
           this.downloadFileUtil(this.jsonData, 'application/json', 'data.json')
-        } else {
+        } else if (data.componentData && data.canvasStyleData) {
+          // 检查是否是新的数据格式（包含componentData和canvasStyleData）
+          // 新的格式，同时包含组件数据和画布样式数据
+          this.$store.commit('setComponentData', data.componentData)
+          this.$store.commit('setCanvasStyle', data.canvasStyleData)
+        } else if (Array.isArray(data)) {
+          // 旧的格式，只有组件数据
           this.$store.commit('setComponentData', data)
+        } else {
+          this.$message.error('数据格式错误，请确保数据是组件数组或包含componentData和canvasStyleData的对象')
+          return
         }
 
         this.isShowDialog = false
@@ -364,7 +377,34 @@ export default {
     onExportJSON() {
       this.isShowDialog = true
       this.isExport = true
-      this.jsonData = JSON.stringify(this.componentData, null, 4)
+      // 创建一个包含组件数据和画布样式数据的完整数据对象
+      const exportData = {
+        componentData: this.componentData,
+        canvasStyleData: this.canvasStyleData,
+      }
+      this.jsonData = JSON.stringify(exportData, null, 4)
+    },
+
+    onExportHTML() {
+      try {
+        const htmlContent = generateHTML(this.componentData, this.canvasStyleData)
+        this.downloadFileUtil(htmlContent, 'text/html', 'exported-page.html')
+        this.$message.success('HTML文件导出成功')
+      } catch (error) {
+        console.error('导出HTML失败:', error)
+        this.$message.error('导出HTML文件失败，请检查控制台')
+      }
+    },
+
+    onExportVue() {
+      try {
+        const vueContent = generateVueComponent(this.componentData, this.canvasStyleData)
+        this.downloadFileUtil(vueContent, 'text/plain', 'ExportedPage.vue')
+        this.$message.success('Vue文件导出成功')
+      } catch (error) {
+        console.error('导出Vue失败:', error)
+        this.$message.error('导出Vue文件失败，请检查控制台')
+      }
     },
 
     downloadFileUtil(data, type, fileName = '') {
@@ -379,6 +419,22 @@ export default {
 
       document.body.removeChild(link)
       window.URL.revokeObjectURL(url)
+    },
+
+    handleExportCommand(command) {
+      switch (command) {
+        case 'json':
+          this.onExportJSON()
+          break
+        case 'html':
+          this.onExportHTML()
+          break
+        case 'vue':
+          this.onExportVue()
+          break
+        default:
+          this.onExportJSON()
+      }
     },
 
     beforeUpload(e) {

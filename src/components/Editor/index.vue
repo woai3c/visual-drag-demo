@@ -249,7 +249,8 @@ export default {
         if (component.isLock) return
 
         const { left, top, width, height } = getComponentRotatedStyle(component.style)
-        if (x <= left && y <= top && left + width <= x + this.width && top + height <= y + this.height) {
+        // 修改为相交逻辑：只要组件与选中区域有重叠即可选中
+        if (x < left + width && x + this.width > left && y < top + height && y + this.height > top) {
           result.push(component)
         }
       })
